@@ -1,0 +1,25 @@
+# Environment files - NEVER push these
+.env
+.env.local
+.env.production
+
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+
+# Upload folder
+server/uploads/
+
+# Audio files
+*.mp3
+*.wav
+*.webm
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build files
+client/dist/
+client/build/
