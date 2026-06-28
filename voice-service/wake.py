@@ -6,16 +6,15 @@ import time
 import io
 import wave
 import pyaudio
+import keyboard
 
 # ============================================
 # CONFIGURATION
 # ============================================
 SAMPLE_RATE = 16000
-CLAP_THRESHOLD = 0.075
+CLAP_THRESHOLD = 0.25      # High threshold — only loud intentional claps
 CLAP_WINDOW = 1.5
-WAKE_WORDS = ['hey jarvis', 'jarvis', 'ok jarvis', 'wake up jarvis',
-              'hey jar', 'jar vis', 'hi jarvis', 'hello jarvis']
-
+HOTKEY = 'ctrl+space'      # Keyboard shortcut to activate Jarvis
 SERVER_URL = 'http://localhost:5000/api/chat'
 SPEAK_URL = 'http://127.0.0.1:5001/speak'
 WAKE_URL = 'http://localhost:5000/api/chat/wake'
@@ -29,7 +28,29 @@ is_activated = False
 noise_floor = []
 
 # ============================================
-# RECORD AUDIO
+# SPEAK
+# ============================================
+def speak(text):
+    try:
+        requests.post(SPEAK_URL, json={'text': text}, timeout=30)
+    except Exception as e:
+        print(f"Speak error: {e}")
+
+# ============================================
+# NOTIFY BROWSER UI
+# ============================================
+def notify_ui(trigger, message='', reply=''):
+    try:
+        requests.post(WAKE_URL, json={
+            'trigger': trigger,
+            'message': message,
+            'reply': reply
+        }, timeout=3)
+    except:
+        pass
+
+# ============================================
+# RECORD COMMAND
 # ============================================
 def record_command(duration=5):
     print("🎤 Recording your command...")
@@ -59,7 +80,7 @@ def record_command(duration=5):
     return wav_buffer
 
 # ============================================
-# TRANSCRIBE AUDIO
+# TRANSCRIBE
 # ============================================
 def transcribe(audio_buffer):
     try:
@@ -73,9 +94,7 @@ def transcribe(audio_buffer):
             text = res.json().get('text', '').strip()
             print(f"📝 You said: {text}")
             return text
-        else:
-            print(f"Transcription failed: {res.text}")
-            return ''
+        return ''
     except Exception as e:
         print(f"Transcription error: {e}")
         return ''
@@ -100,28 +119,6 @@ def get_response(text):
         return ''
 
 # ============================================
-# SPEAK RESPONSE
-# ============================================
-def speak(text):
-    try:
-        requests.post(SPEAK_URL, json={'text': text}, timeout=30)
-    except Exception as e:
-        print(f"Speak error: {e}")
-
-# ============================================
-# NOTIFY BROWSER UI
-# ============================================
-def notify_ui(trigger, message='', reply=''):
-    try:
-        requests.post(WAKE_URL, json={
-            'trigger': trigger,
-            'message': message,
-            'reply': reply
-        }, timeout=3)
-    except:
-        pass
-
-# ============================================
 # HANDLE ACTIVATION
 # ============================================
 def handle_activation(trigger_type):
@@ -131,35 +128,34 @@ def handle_activation(trigger_type):
     is_activated = True
 
     print(f"\n🟢 JARVIS ACTIVATED via {trigger_type}!")
-
-    # Notify browser UI
     notify_ui(trigger_type)
-
-    # Play activation sound
     speak("Yes sir, I'm listening")
 
-    # Record command
     audio_buffer = record_command(duration=5)
-
-    # Transcribe
     text = transcribe(audio_buffer)
 
     if text and len(text) > 2:
-        # Update UI with user message
         notify_ui('message', message=text)
-
-        # Get AI response
         reply = get_response(text)
-
         if reply:
-            # Update UI with reply
             notify_ui('reply', reply=reply)
     else:
         speak("Sorry sir, I didn't catch that. Please try again.")
 
-    print("👂 Back to listening...")
-    time.sleep(2)
+    print("👂 Ready. Press Ctrl+Space or double clap...")
+    time.sleep(1)
     is_activated = False
+
+# ============================================
+# KEYBOARD SHORTCUT
+# ============================================
+def setup_hotkey():
+    print(f"⌨️  Hotkey activated: {HOTKEY.upper()}")
+    keyboard.add_hotkey(HOTKEY, lambda: threading.Thread(
+        target=handle_activation,
+        args=('keyboard_shortcut',),
+        daemon=True
+    ).start())
 
 # ============================================
 # CLAP DETECTION
@@ -197,125 +193,40 @@ def audio_callback(indata, frames, time_info, status):
             last_clap_time = current_time
 
 def start_clap_detection():
-    print("👏 Clap detection started...")
+    print("👏 Clap detection started (loud claps only)...")
     with sd.InputStream(
         callback=audio_callback,
         channels=1,
-        samplerate=SAMPLE_RATE,
+        samplerate=44100,
         blocksize=1024
     ):
         while True:
             time.sleep(0.1)
 
 # ============================================
-# WAKE WORD DETECTION
-# ============================================
-def record_audio_chunk(duration=3):
-    p = pyaudio.PyAudio()
-    stream = p.open(
-        format=pyaudio.paInt16,
-        channels=1,
-        rate=SAMPLE_RATE,
-        input=True,
-        frames_per_buffer=1024
-    )
-    frames = []
-    for _ in range(0, int(SAMPLE_RATE / 1024 * duration)):
-        data = stream.read(1024, exception_on_overflow=False)
-        frames.append(data)
-    stream.stop_stream()
-    stream.close()
-    p.terminate()
-
-    wav_buffer = io.BytesIO()
-    with wave.open(wav_buffer, 'wb') as wf:
-        wf.setnchannels(1)
-        wf.setsampwidth(2)
-        wf.setframerate(SAMPLE_RATE)
-        wf.writeframes(b''.join(frames))
-    wav_buffer.seek(0)
-    return wav_buffer
-
-def transcribe_wake(audio_buffer):
-    try:
-        files = {'audio': ('wake.wav', audio_buffer, 'audio/wav')}
-        res = requests.post(
-            f'{SERVER_URL}/transcribe',
-            files=files,
-            timeout=10
-        )
-        if res.status_code == 200:
-            return res.json().get('text', '').lower().strip()
-        return ''
-    except:
-        return ''
-
-def start_wake_word_detection():
-    print("🎤 Wake word detection started...")
-    print(f"Say one of: {WAKE_WORDS}")
-
-    while True:
-        try:
-            if is_activated:
-                time.sleep(0.5)
-                continue
-
-            audio_buffer = record_audio_chunk(duration=3)
-            text = transcribe_wake(audio_buffer)
-
-            if text:
-                print(f"Heard: {text}")
-                if len(text.split()) <= 6 and any(wake in text for wake in WAKE_WORDS):
-                    print(f"✅ Wake word confirmed: {text}")
-                    threading.Thread(
-                        target=handle_activation,
-                        args=('wake_word',),
-                        daemon=True
-                    ).start()
-                else:
-                    if text:
-                        print(f"Ignored: {text}")
-
-        except Exception as e:
-            print(f"Wake word error: {e}")
-            time.sleep(1)
-
-# ============================================
-# UPDATE BROWSER UI VIA SOCKET
-# ============================================
-def update_browser_ui(message, reply):
-    try:
-        requests.post(WAKE_URL, json={
-            'trigger': 'conversation',
-            'message': message,
-            'reply': reply
-        }, timeout=3)
-    except:
-        pass
-
-# ============================================
 # MAIN
 # ============================================
 if __name__ == '__main__':
     print("=" * 50)
-    print("  J.A.R.V.I.S Wake Service v2")
-    print("  Fully autonomous - no browser needed!")
+    print("  J.A.R.V.I.S Wake Service v3")
     print("=" * 50)
 
-    clap_thread = threading.Thread(target=start_clap_detection, daemon=True)
-    wake_thread = threading.Thread(target=start_wake_word_detection, daemon=True)
+    # Setup keyboard shortcut
+    setup_hotkey()
 
+    # Start clap detection in background
+    clap_thread = threading.Thread(
+        target=start_clap_detection,
+        daemon=True
+    )
     clap_thread.start()
-    wake_thread.start()
 
-    print("\n✅ Both detectors running!")
-    print("👏 Double clap to activate")
-    print("🎤 Say 'Hey Jarvis' to activate")
-    print("🤖 Fully autonomous mode - speaks directly!")
+    print("\n✅ Jarvis is ready!")
+    print(f"⌨️  Press {HOTKEY.upper()} to activate")
+    print("👏 Or double clap loudly to activate")
     print("\nPress Ctrl+C to stop\n")
 
     try:
-        while True:
-            time.sleep(1)
+        keyboard.wait()
     except KeyboardInterrupt:
         print("\n👋 Wake service stopped")
