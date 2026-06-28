@@ -297,4 +297,13 @@ router.post('/transcribe', upload.single('audio'), async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+router.post('/wake', (req, res) => {
+  const { trigger, message, reply } = req.body;
+  console.log(`🟢 Jarvis: ${trigger}`);
+
+  if (global.wakeCallback) {
+    global.wakeCallback({ trigger, message, reply });
+  }
+  res.json({ status: 'ok' });
+});
 module.exports = router;

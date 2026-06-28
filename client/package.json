@@ -13,7 +13,8 @@
     "axios": "^1.18.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
-    "recorder-js": "^1.0.7"
+    "recorder-js": "^1.0.7",
+    "socket.io-client": "^4.8.3"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

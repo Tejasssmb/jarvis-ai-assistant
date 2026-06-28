@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import axios from 'axios'
 import './Chat.css'
-
+import { io } from 'socket.io-client'
 function Chat() {
   const [messages, setMessages] = useState([
     { role: 'assistant', content: 'Hello! I am Jarvis. How can I assist you today?' }
@@ -19,7 +19,39 @@ function Chat() {
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
+  useEffect(() => {
+  const socket = io('http://localhost:5000')
 
+  socket.on('jarvis_wake', (data) => {
+    console.log('Wake event:', data)
+
+    if (data.trigger === 'wake_word' || data.trigger === 'double_clap') {
+      // Show activation in chat
+      setMessages(prev => [...prev, {
+        role: 'assistant',
+        content: "Yes sir, I'm listening..."
+      }])
+    }
+
+    if (data.message) {
+      // Show user message from wake service
+      setMessages(prev => [...prev, {
+        role: 'user',
+        content: data.message
+      }])
+    }
+
+    if (data.reply) {
+      // Show Jarvis reply from wake service
+      setMessages(prev => [...prev, {
+        role: 'assistant',
+        content: data.reply
+      }])
+    }
+  })
+
+  return () => socket.disconnect()
+}, [])
   const startListening = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
