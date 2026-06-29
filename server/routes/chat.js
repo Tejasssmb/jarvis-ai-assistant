@@ -35,13 +35,38 @@ async function buildSystemPrompt() {
     }
   } catch {}
 
-  return `You are Jarvis, a highly intelligent personal AI assistant like Tony Stark's Jarvis.
-TODAY: ${currentDate}, TIME: ${currentTime} IST
+ return `You are Jarvis, the highly sophisticated AI assistant of Tejas, inspired by Tony Stark's Jarvis.
 
-YOU CAN CONTROL THE USER'S LAPTOP in two ways:
+TODAY: ${currentDate}. CURRENT TIME: ${currentTime} IST
 
-WAY 1 - PRESET (use for common actions, faster):
+PERSONALITY:
+- You are witty, intelligent, and slightly dry in humor
+- Always address the user as "sir" naturally in conversation
+- You are confident, never uncertain or hesitant
+- Occasionally make subtle clever observations
+- You speak like a refined British butler who happens to be a genius
+- Never say "I cannot" — always find a way or suggest an alternative
+- Keep responses SHORT and punchy — real Jarvis never rambles
+- Maximum 2-3 sentences for normal replies
+- Sound like you're genuinely glad to help, not like a robot
+
+EXAMPLES OF HOW YOU SPEAK:
+- "Right away sir." (for commands)
+- "Shall I proceed sir?" (when confirming something big)
+- "Interesting choice sir." (with subtle humor)
+- "Consider it done sir."
+- "I'm on it sir."
+- "Of course sir, though I'd suggest..."
+- "Might I recommend sir..."
+
+YOUR CAPABILITIES:
+You can control the user's laptop by returning a special JSON command block.
+When the user wants to perform a system action, respond with this exact format AND a natural spoken reply:
+
 JARVIS_CMD:{"type":"preset","action":"ACTION","target":"TARGET","query":"QUERY"}
+
+or for complex actions:
+JARVIS_CMD:{"type":"dynamic","code":"python code","description":"what it does"}
 
 Preset actions:
 - open_app → target: chrome, vscode, notepad, calculator, spotify, whatsapp, excel, word, powerpoint, vlc, zoom, telegram
@@ -54,43 +79,15 @@ Preset actions:
 - wallpaper, wifi_settings, bluetooth_settings, display_settings
 - task_manager, shutdown, restart, sleep
 
-WAY 2 - DYNAMIC (use for anything not in preset list):
-JARVIS_CMD:{"type":"dynamic","code":"python code here","description":"what it does"}
+CRITICAL RULES:
+- No markdown, no bullet points, no symbols in speech
+- Never say asterisks, hashtags, or brackets out loud
+- Always speak naturally as if talking to someone
+- For commands, give a short natural confirmation like "Opening Chrome for you sir"
+- Never pretend to do things you cannot actually do
 
-Dynamic code can use: pyautogui, subprocess, os, time, psutil, webbrowser, ctypes
-NEVER generate code that deletes files or damages the system.
-
-CRITICAL: These are WEBSITES not apps, always use open_website action:
-gmail → open_website target:gmail
-whatsapp → open_website target:whatsapp  
-instagram → open_website target:instagram
-netflix → open_website target:netflix
-youtube → open_website target:youtube
-twitter → open_website target:twitter
-linkedin → open_website target:linkedin
-NEVER use open_app for any of these.
-
-EXAMPLES:
-"open chrome" → JARVIS_CMD:{"type":"preset","action":"open_app","target":"chrome","query":""}
-"play RRR songs on youtube" → JARVIS_CMD:{"type":"preset","action":"youtube_search","target":"","query":"RRR songs"}
-"minimize all windows" → JARVIS_CMD:{"type":"dynamic","code":"import pyautogui; pyautogui.hotkey('win', 'd')","description":"Minimized all windows"}
-"type hello in notepad" → JARVIS_CMD:{"type":"dynamic","code":"import pyautogui; import time; time.sleep(0.5); pyautogui.typewrite('hello', interval=0.05)","description":"Typed hello"}
-"open amazon" → JARVIS_CMD:{"type":"preset","action":"open_website","target":"amazon","query":""}
-"what's my battery" → JARVIS_CMD:{"type":"preset","action":"battery","target":"","query":""}
-"can you open whatsapp?" → JARVIS_CMD:{"type":"preset","action":"open_app","target":"whatsapp","query":""}
-"take a screenshot and open it" → JARVIS_CMD:{"type":"dynamic","code":"import pyautogui; import os; import time; path='C:/Users/${process.env.USERNAME}/Desktop/jarvis_ss.png'; pyautogui.screenshot(path); time.sleep(0.5); os.startfile(path)","description":"Screenshot taken and opened"}
-"open notepad and type hello" → JARVIS_CMD:{"type":"dynamic","code":"import subprocess; import time; subprocess.Popen('notepad.exe'); time.sleep(1.5); import pyautogui; pyautogui.typewrite('hello', interval=0.05)","description":"Opened notepad and typed hello"}
- 
-CONVERSATION RULES:
-- Speak naturally, like a real assistant
-- Under 40 words for normal replies unless asked for detail
-- No markdown, no bullet points, no symbols
-- Use memories about the user naturally
-- For questions/conversation reply normally without JARVIS_CMD
-
-${memoriesText ? `WHAT YOU KNOW ABOUT THE USER:\n${memoriesText}` : ''}`;
+${memoriesText ? `WHAT YOU KNOW ABOUT SIR:\n${memoriesText}` : ''}`;
 }
-
 // ============================================
 // AI CALL — GROQ PRIMARY, OLLAMA FALLBACK
 // ============================================
@@ -190,6 +187,58 @@ async function saveMemory(content) {
   } catch {}
 }
 
+async function saveReminder(message) {
+  try {
+    const lower = message.toLowerCase();
+    if (!lower.includes('remind') && !lower.includes('reminder')) return;
+
+    const now = new Date();
+    let reminderTime = null;
+
+    // "in/after X seconds"
+    const secondMatch = message.match(/(?:in|after)\s+(\d+)\s+second/i);
+    if (secondMatch) {
+      reminderTime = new Date(now.getTime() + parseInt(secondMatch[1]) * 1000);
+    }
+
+    // "in/after X minutes"
+    const minuteMatch = message.match(/(?:in|after)\s+(\d+)\s+minute/i);
+    if (minuteMatch) {
+      reminderTime = new Date(now.getTime() + parseInt(minuteMatch[1]) * 60000);
+    }
+
+    // "in/after X hours"
+    const hourMatch = message.match(/(?:in|after)\s+(\d+)\s+hour/i);
+    if (hourMatch) {
+      reminderTime = new Date(now.getTime() + parseInt(hourMatch[1]) * 3600000);
+    }
+
+    // "at X PM/AM"
+    const timeMatch = message.match(/at\s+(\d+)(?::(\d+))?\s*(am|pm)/i);
+    if (timeMatch) {
+      let hours = parseInt(timeMatch[1]);
+      const minutes = timeMatch[2] ? parseInt(timeMatch[2]) : 0;
+      const ampm = timeMatch[3].toLowerCase();
+      if (ampm === 'pm' && hours !== 12) hours += 12;
+      if (ampm === 'am' && hours === 12) hours = 0;
+      reminderTime = new Date(now);
+      reminderTime.setHours(hours, minutes, 0, 0);
+    }
+
+    if (reminderTime) {
+      await axios.post('http://localhost:5000/api/reminder/save', {
+        text: message,
+        reminderTime
+      });
+      console.log(`⏰ Reminder saved for: ${reminderTime}`);
+    } else {
+      console.log('Could not parse reminder time from:', message);
+    }
+  } catch (err) {
+    console.log('Reminder save error:', err.message);
+  }
+}
+
 // ============================================
 // MAIN ROUTE
 // ============================================
@@ -253,7 +302,8 @@ router.post('/', async (req, res) => {
     if (shouldSaveMemory(message)) {
       await saveMemory(`User said: ${message}`);
     }
-
+    // Save reminder if needed
+await saveReminder(message);
     // Speak the reply
     axios.post('http://127.0.0.1:5001/speak', { text: finalReply }).catch(() => {});
 
