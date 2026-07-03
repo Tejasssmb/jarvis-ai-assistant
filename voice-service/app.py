@@ -52,14 +52,20 @@ WEBSITES = {
     'youtube': 'https://youtube.com',
     'google': 'https://google.com',
     'github': 'https://github.com',
-    'gmail': 'https://gmail.com',
+    'gmail': 'https://mail.google.com',
     'instagram': 'https://instagram.com',
+    'whatsapp': 'https://web.whatsapp.com',
     'whatsapp web': 'https://web.whatsapp.com',
     'netflix': 'https://netflix.com',
     'twitter': 'https://twitter.com',
     'linkedin': 'https://linkedin.com',
     'chatgpt': 'https://chat.openai.com',
     'claude': 'https://claude.ai',
+    'amazon': 'https://amazon.in',
+    'flipkart': 'https://flipkart.com',
+    'hotstar': 'https://hotstar.com',
+    'reddit': 'https://reddit.com',
+    'facebook': 'https://facebook.com',
 }
 
 # ============================================
@@ -168,6 +174,15 @@ def execute():
     try:
         # Open App
         if action == 'open_app':
+            # If target is actually a website, redirect to open_website
+            website_targets = ['youtube', 'gmail', 'instagram', 'netflix', 
+                               'twitter', 'linkedin', 'whatsapp', 'facebook',
+                               'reddit', 'chatgpt', 'claude', 'amazon', 'flipkart']
+            if target in website_targets:
+                url = WEBSITES.get(target, f'https://{target}.com')
+                subprocess.Popen([APP_PATHS['chrome'], url])
+                return jsonify({'status': 'success', 'action': f'Opening {target} for you sir'})
+            
             if target in APP_PATHS:
                 try:
                     subprocess.Popen([APP_PATHS[target]])
@@ -187,16 +202,21 @@ def execute():
 
         # Open Website
         elif action == 'open_website':
-            if target in WEBSITES:
+            # Clean target — remove .com, .in, .org etc
+            target_clean = target.replace('.com', '').replace('.in', '').replace('.org', '').replace('.net', '').strip()
+
+            if target_clean in WEBSITES:
+                url = WEBSITES[target_clean]
+            elif target in WEBSITES:
                 url = WEBSITES[target]
             else:
-                target_clean = target.strip().replace(' ', '')
-                if '.' in target_clean:
-                    url = f'https://{target_clean}'
+                if '.' in target:
+                    url = f'https://{target}'
                 else:
                     url = f'https://{target_clean}.com'
+
             subprocess.Popen([APP_PATHS['chrome'], url])
-            return jsonify({'status': 'success', 'action': f'Opening {target} for you'})
+            return jsonify({'status': 'success', 'action': f'Opening {target_clean} for you sir'})
 
         # YouTube Search
         elif action == 'youtube_search':
@@ -301,16 +321,12 @@ def execute():
         print(f"=== EXECUTE ERROR ===")
         print(str(e))
         return jsonify({'error': str(e)}), 500
-    # Safe modules Groq is allowed to use
-ALLOWED_MODULES = [
-    'pyautogui', 'subprocess', 'os', 'time', 
-    'psutil', 'glob', 'ctypes', 'winreg',
-    'shutil', 'pathlib', 'webbrowser'
-]
 
-# Dangerous keywords never allowed in dynamic code
+# ============================================
+# DYNAMIC CODE EXECUTION
+# ============================================
 BLOCKED_KEYWORDS = [
-    'rmdir', 'remove', 'unlink', 'format', 
+    'rmdir', 'remove', 'unlink', 'format',
     'del ', 'shutil.rmtree', 'os.remove',
     'os.rmdir', 'sys.exit', '__import__',
     'exec(', 'eval(', 'compile('
@@ -325,14 +341,13 @@ def dynamic_execute():
     if not code:
         return jsonify({'error': 'No code provided'}), 400
 
-    # Safety check — block dangerous operations
     code_lower = code.lower()
     for blocked in BLOCKED_KEYWORDS:
         if blocked.lower() in code_lower:
             print(f"=== BLOCKED DANGEROUS CODE: {blocked} ===")
             return jsonify({
                 'status': 'blocked',
-                'action': f'I blocked that command for safety reasons'
+                'action': 'I blocked that command for safety reasons'
             }), 403
 
     print(f"=== EXECUTING DYNAMIC CODE ===")
@@ -341,7 +356,6 @@ def dynamic_execute():
     print("==============================")
 
     try:
-        # Execute in restricted environment
         exec_globals = {
             '__builtins__': {
                 'print': print,

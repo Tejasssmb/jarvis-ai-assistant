@@ -6,6 +6,9 @@ import sys
 import webbrowser
 from PIL import Image, ImageDraw
 import pystray
+import requests
+from datetime import datetime
+import requests
 
 # ============================================
 # CONFIGURATION
@@ -133,8 +136,30 @@ if __name__ == '__main__':
     start_all_services()
 
     # Wait a bit then open browser
-    time.sleep(5)
-    webbrowser.open('http://localhost:5173')
+   # Wait for services to start then greet
+time.sleep(6)
+webbrowser.open('http://localhost:5173')
+
+# Boot greeting
+def boot_greeting():
+    time.sleep(3)  # Wait for voice service to be ready
+    now = datetime.now()
+    hour = now.hour
+    if hour < 12:
+        greeting = "Good morning"
+    elif hour < 17:
+        greeting = "Good afternoon"
+    else:
+        greeting = "Good evening"
+    
+    try:
+        requests.post('http://127.0.0.1:5001/speak', json={
+            'text': f"{greeting} sir. All systems are online and ready. How can I assist you today?"
+        })
+    except:
+        pass
+
+    threading.Thread(target=boot_greeting, daemon=True).start()
 
     print("\n✅ All services starting!")
     print("📌 Jarvis icon added to system tray")

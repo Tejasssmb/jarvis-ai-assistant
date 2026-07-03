@@ -122,14 +122,7 @@ const mediaRecorder = new MediaRecorder(stream, { mimeType })
   }
 
   const toggleAutoMode = () => {
-    const newState = !autoMode
-    setAutoMode(newState)
-    autoModeRef.current = newState
-    if (newState) {
-      startListening()
-    } else {
-      stopListening()
-    }
+   
   }
 
   const stopSpeaking = async () => {
@@ -181,13 +174,7 @@ const mediaRecorder = new MediaRecorder(stream, { mimeType })
       const reply = res.data.reply
       setMessages(prev => [...prev, { role: 'assistant', content: reply }])
 
-      if (autoModeRef.current) {
-        const wordCount = reply.split(' ').length
-        const estimatedTime = Math.max(2000, wordCount * 400)
-        setTimeout(() => {
-          if (autoModeRef.current) startListening()
-        }, estimatedTime)
-      }
+      
     } catch (error) {
       if (axios.isCancel(error) || error.name === 'CanceledError') {
         return
