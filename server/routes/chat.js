@@ -62,10 +62,16 @@ EXAMPLES OF HOW YOU SPEAK:
 YOUR CAPABILITIES:
 You can control the user's laptop by returning a special JSON command block.
 When the user wants to perform a system action, respond with this exact format AND a natural spoken reply:
+When the user asks you to perform an action (open an app, search, set a reminder, etc), respond with natural, brief, confident spoken text as if you have already done it — like Siri or Tony Stark's J.A.R.V.I.S. Never narrate your reasoning, never say things like "let me try that again" or "I'll attempt to," and never mention commands, JSON, or that you are deciding what to do. Just state the result naturally, e.g. "Opening YouTube for you, sir." or "Done, sir."
 
+You must emit EXACTLY ONE JARVIS_CMD block per response, placed at the very end, after your spoken reply. Decide the correct action ONCE — do not second-guess, correct, or emit a second JARVIS_CMD in the same response. If you are unsure which action is correct, pick the most likely one and commit.
+
+Format for simple actions:
+<your short natural spoken reply>
 JARVIS_CMD:{"type":"preset","action":"ACTION","target":"TARGET","query":"QUERY"}
 
-or for complex actions:
+Format for complex actions:
+<your short natural spoken reply>
 JARVIS_CMD:{"type":"dynamic","code":"python code","description":"what it does"}
 
 Preset actions:
@@ -85,6 +91,7 @@ CRITICAL RULES:
 - Always speak naturally as if talking to someone
 - For commands, give a short natural confirmation like "Opening Chrome for you sir"
 - Never pretend to do things you cannot actually do
+IMPORTANT: YouTube, Gmail, Instagram, Netflix, Twitter, LinkedIn, WhatsApp are WEBSITES not apps. Always use open_website action for these, NEVER open_app.
 
 ${memoriesText ? `WHAT YOU KNOW ABOUT SIR:\n${memoriesText}` : ''}`;
 }
@@ -121,19 +128,46 @@ async function callAI(messages) {
 // PARSE COMMAND FROM AI RESPONSE
 // ============================================
 function parseCommand(reply) {
-  const cmdMatch = reply.match(/JARVIS_CMD:(\{[^}]+\})/);
-  if (cmdMatch) {
-    try {
-      const parsed = JSON.parse(cmdMatch[1]);
-      const cleanReply = reply.replace(/JARVIS_CMD:\{[^}]+\}/, '').trim();
-      return { hasCommand: true, parsed, cleanReply };
-    } catch (e) {
-      console.log('Parse error:', e.message);
+  const startIdx = reply.indexOf('JARVIS_CMD:');
+  if (startIdx === -1) {
+    return { hasCommand: false, parsed: null, cleanReply: reply };
+  }
+
+  const braceStart = reply.indexOf('{', startIdx);
+  if (braceStart === -1) {
+    return { hasCommand: false, parsed: null, cleanReply: reply };
+  }
+
+  let depth = 0;
+  let endIdx = -1;
+  for (let i = braceStart; i < reply.length; i++) {
+    if (reply[i] === '{') depth++;
+    if (reply[i] === '}') depth--;
+    if (depth === 0) {
+      endIdx = i;
+      break;
     }
   }
-  return { hasCommand: false, parsed: null, cleanReply: reply };
-}
 
+  if (endIdx === -1) {
+    return { hasCommand: false, parsed: null, cleanReply: reply };
+  }
+
+  let jsonStr = reply.slice(braceStart, endIdx + 1);
+// Fix common Groq JSON errors
+jsonStr = jsonStr.replace(/\)$/, '}').replace(/,$/, '');
+
+  try {
+    const parsed = JSON.parse(jsonStr);
+    const cleanReply = (reply.slice(0, startIdx) + reply.slice(endIdx + 1))
+      .replace(/\s+/g, ' ')
+      .trim();
+    return { hasCommand: true, parsed, cleanReply };
+  } catch (e) {
+    console.log('Parse error:', e.message);
+    return { hasCommand: false, parsed: null, cleanReply: reply };
+  }
+}
 // ============================================
 // WEB SEARCH
 // ============================================
@@ -192,29 +226,42 @@ async function saveReminder(message) {
     const lower = message.toLowerCase();
     if (!lower.includes('remind') && !lower.includes('reminder')) return;
 
+    // Convert word numbers to digits
+    const wordToNum = {
+      'one': '1', 'two': '2', 'three': '3', 'four': '4', 'five': '5',
+      'six': '6', 'seven': '7', 'eight': '8', 'nine': '9', 'ten': '10',
+      'fifteen': '15', 'twenty': '20', 'thirty': '30', 'forty': '40',
+      'forty five': '45', 'sixty': '60'
+    };
+    
+    let normalizedMessage = message;
+    for (const [word, num] of Object.entries(wordToNum)) {
+      normalizedMessage = normalizedMessage.replace(new RegExp(word, 'gi'), num);
+    }
+
     const now = new Date();
     let reminderTime = null;
 
     // "in/after X seconds"
-    const secondMatch = message.match(/(?:in|after)\s+(\d+)\s+second/i);
+    const secondMatch = normalizedMessage.match(/(?:in|after)\s+(\d+)\s+second/i);
     if (secondMatch) {
       reminderTime = new Date(now.getTime() + parseInt(secondMatch[1]) * 1000);
     }
 
     // "in/after X minutes"
-    const minuteMatch = message.match(/(?:in|after)\s+(\d+)\s+minute/i);
+    const minuteMatch = normalizedMessage.match(/(?:in|after)\s+(\d+)\s+minute/i);
     if (minuteMatch) {
       reminderTime = new Date(now.getTime() + parseInt(minuteMatch[1]) * 60000);
     }
 
     // "in/after X hours"
-    const hourMatch = message.match(/(?:in|after)\s+(\d+)\s+hour/i);
+    const hourMatch = normalizedMessage.match(/(?:in|after)\s+(\d+)\s+hour/i);
     if (hourMatch) {
       reminderTime = new Date(now.getTime() + parseInt(hourMatch[1]) * 3600000);
     }
 
     // "at X PM/AM"
-    const timeMatch = message.match(/at\s+(\d+)(?::(\d+))?\s*(am|pm)/i);
+    const timeMatch = normalizedMessage.match(/at\s+(\d+)(?::(\d+))?\s*(am|pm)/i);
     if (timeMatch) {
       let hours = parseInt(timeMatch[1]);
       const minutes = timeMatch[2] ? parseInt(timeMatch[2]) : 0;
@@ -238,7 +285,6 @@ async function saveReminder(message) {
     console.log('Reminder save error:', err.message);
   }
 }
-
 // ============================================
 // MAIN ROUTE
 // ============================================
@@ -267,7 +313,6 @@ router.post('/', async (req, res) => {
 
     // Call AI (Groq → Ollama fallback)
     const rawReply = await callAI(messages);
-
     // Parse if it's a command
     const { hasCommand, parsed, cleanReply } = parseCommand(rawReply);
 
@@ -288,11 +333,17 @@ router.post('/', async (req, res) => {
       execRes = await axios.post('http://127.0.0.1:5001/execute', { parsed });
     }
 
-    const actionResult = execRes.data.action || 'Done sir';
-    finalReply = cleanReply || actionResult;
-    if (!finalReply || finalReply.trim() === '') {
-      finalReply = actionResult;
-    }
+   const actionResult = execRes.data.action || 'Done sir';
+// For informational commands, speak the actual result not just confirmation
+const infoActions = ['battery', 'screenshot', 'volume_up', 'volume_down'];
+if (infoActions.includes(parsed.action) && actionResult) {
+  finalReply = actionResult;
+} else {
+  finalReply = cleanReply || actionResult;
+  if (!finalReply || finalReply.trim() === '') {
+    finalReply = actionResult;
+  }
+}
   } catch {
     finalReply = cleanReply || 'Done sir';
   }
