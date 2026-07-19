@@ -10,164 +10,18 @@ const multer = require('multer');
 const fs = require('fs');
 const upload = multer({ dest: 'uploads/' });
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+const executeCommand = require("../services/commandExecutor");
+const parseCommand = require("../services/parserService");
+const processCommand = require("../services/processCommand");
+const buildSystemPrompt = require("../services/systemPromptService");
 
-// ============================================
-// SYSTEM PROMPT BUILDER
-// ============================================
-async function buildSystemPrompt() {
-  const now = new Date();
-  const currentDate = now.toLocaleDateString('en-IN', {
-    weekday: 'long', year: 'numeric',
-    month: 'long', day: 'numeric',
-    timeZone: 'Asia/Kolkata'
-  });
-  const currentTime = now.toLocaleTimeString('en-IN', {
-    timeZone: 'Asia/Kolkata',
-    hour: '2-digit', minute: '2-digit'
-  });
 
-  // Load memories
-  let memoriesText = '';
-  try {
-    const memories = await Memory.find().sort({ createdAt: -1 }).limit(10);
-    if (memories.length > 0) {
-      memoriesText = memories.map(m => m.content).join('\n');
-    }
-  } catch {}
 
- return `You are Jarvis, the highly sophisticated AI assistant of Tejas, inspired by Tony Stark's Jarvis.
-
-TODAY: ${currentDate}. CURRENT TIME: ${currentTime} IST
-
-PERSONALITY:
-- You are witty, intelligent, and slightly dry in humor
-- Always address the user as "sir" naturally in conversation
-- You are confident, never uncertain or hesitant
-- Occasionally make subtle clever observations
-- You speak like a refined British butler who happens to be a genius
-- Never say "I cannot" — always find a way or suggest an alternative
-- Keep responses SHORT and punchy — real Jarvis never rambles
-- Maximum 2-3 sentences for normal replies
-- Sound like you're genuinely glad to help, not like a robot
-
-EXAMPLES OF HOW YOU SPEAK:
-- "Right away sir." (for commands)
-- "Shall I proceed sir?" (when confirming something big)
-- "Interesting choice sir." (with subtle humor)
-- "Consider it done sir."
-- "I'm on it sir."
-- "Of course sir, though I'd suggest..."
-- "Might I recommend sir..."
-
-YOUR CAPABILITIES:
-You can control the user's laptop by returning a special JSON command block.
-When the user wants to perform a system action, respond with this exact format AND a natural spoken reply:
-When the user asks you to perform an action (open an app, search, set a reminder, etc), respond with natural, brief, confident spoken text as if you have already done it — like Siri or Tony Stark's J.A.R.V.I.S. Never narrate your reasoning, never say things like "let me try that again" or "I'll attempt to," and never mention commands, JSON, or that you are deciding what to do. Just state the result naturally, e.g. "Opening YouTube for you, sir." or "Done, sir."
-
-You must emit EXACTLY ONE JARVIS_CMD block per response, placed at the very end, after your spoken reply. Decide the correct action ONCE — do not second-guess, correct, or emit a second JARVIS_CMD in the same response. If you are unsure which action is correct, pick the most likely one and commit.
-
-Format for simple actions:
-<your short natural spoken reply>
-JARVIS_CMD:{"type":"preset","action":"ACTION","target":"TARGET","query":"QUERY"}
-
-Format for complex actions:
-<your short natural spoken reply>
-JARVIS_CMD:{"type":"dynamic","code":"python code","description":"what it does"}
-
-Preset actions:
-- open_app → target: chrome, vscode, notepad, calculator, spotify, whatsapp, excel, word, powerpoint, vlc, zoom, telegram
-- open_folder → target: desktop, downloads, documents, pictures, music, videos
-- open_website → target: any website name
-- youtube_search → query: search term
-- google_search → query: search term
-- open_file → query: filename
-- screenshot, battery, volume_up, volume_down, mute
-- wallpaper, wifi_settings, bluetooth_settings, display_settings
-- task_manager, shutdown, restart, sleep
-
-CRITICAL RULES:
-- No markdown, no bullet points, no symbols in speech
-- Never say asterisks, hashtags, or brackets out loud
-- Always speak naturally as if talking to someone
-- For commands, give a short natural confirmation like "Opening Chrome for you sir"
-- Never pretend to do things you cannot actually do
-IMPORTANT: YouTube, Gmail, Instagram, Netflix, Twitter, LinkedIn, WhatsApp are WEBSITES not apps. Always use open_website action for these, NEVER open_app.
-
-${memoriesText ? `WHAT YOU KNOW ABOUT SIR:\n${memoriesText}` : ''}`;
-}
 // ============================================
 // AI CALL — GROQ PRIMARY, OLLAMA FALLBACK
 // ============================================
-async function callAI(messages) {
-  // Try Groq first
-  try {
-    const response = await groq.chat.completions.create({
-      model: 'llama-3.3-70b-versatile',
-      messages: messages,
-      max_tokens: 200,
-    });
-    console.log('✅ Groq responded');
-    return response.choices[0].message.content;
-  } catch (groqError) {
-    console.log('⚠️ Groq failed, switching to Ollama:', groqError.message);
-    // Fallback to Ollama
-    try {
-      const response = await ollama.chat({
-        model: 'llama3.1',
-        messages: messages,
-      });
-      console.log('✅ Ollama responded');
-      return response.message.content;
-    } catch (ollamaError) {
-      throw new Error('Both Groq and Ollama failed: ' + ollamaError.message);
-    }
-  }
-}
+const callAI = require("../services/aiService");
 
-// ============================================
-// PARSE COMMAND FROM AI RESPONSE
-// ============================================
-function parseCommand(reply) {
-  const startIdx = reply.indexOf('JARVIS_CMD:');
-  if (startIdx === -1) {
-    return { hasCommand: false, parsed: null, cleanReply: reply };
-  }
-
-  const braceStart = reply.indexOf('{', startIdx);
-  if (braceStart === -1) {
-    return { hasCommand: false, parsed: null, cleanReply: reply };
-  }
-
-  let depth = 0;
-  let endIdx = -1;
-  for (let i = braceStart; i < reply.length; i++) {
-    if (reply[i] === '{') depth++;
-    if (reply[i] === '}') depth--;
-    if (depth === 0) {
-      endIdx = i;
-      break;
-    }
-  }
-
-  if (endIdx === -1) {
-    return { hasCommand: false, parsed: null, cleanReply: reply };
-  }
-
-  let jsonStr = reply.slice(braceStart, endIdx + 1);
-// Fix common Groq JSON errors
-jsonStr = jsonStr.replace(/\)$/, '}').replace(/,$/, '');
-
-  try {
-    const parsed = JSON.parse(jsonStr);
-    const cleanReply = (reply.slice(0, startIdx) + reply.slice(endIdx + 1))
-      .replace(/\s+/g, ' ')
-      .trim();
-    return { hasCommand: true, parsed, cleanReply };
-  } catch (e) {
-    console.log('Parse error:', e.message);
-    return { hasCommand: false, parsed: null, cleanReply: reply };
-  }
-}
 // ============================================
 // WEB SEARCH
 // ============================================
@@ -311,43 +165,9 @@ router.post('/', async (req, res) => {
       { role: 'user', content: message }
     ];
 
-    // Call AI (Groq → Ollama fallback)
-    const rawReply = await callAI(messages);
-    // Parse if it's a command
-    const { hasCommand, parsed, cleanReply } = parseCommand(rawReply);
+   const result = await processCommand(messages);
 
-    let finalReply = cleanReply || rawReply;
-
-    if (hasCommand && parsed) {
-  try {
-    let execRes;
-    
-    if (parsed.type === 'dynamic') {
-      // Dynamic execution path
-      execRes = await axios.post('http://127.0.0.1:5001/dynamic', {
-        code: parsed.code,
-        description: parsed.description
-      });
-    } else {
-      // Preset execution path
-      execRes = await axios.post('http://127.0.0.1:5001/execute', { parsed });
-    }
-
-   const actionResult = execRes.data.action || 'Done sir';
-// For informational commands, speak the actual result not just confirmation
-const infoActions = ['battery', 'screenshot', 'volume_up', 'volume_down'];
-if (infoActions.includes(parsed.action) && actionResult) {
-  finalReply = actionResult;
-} else {
-  finalReply = cleanReply || actionResult;
-  if (!finalReply || finalReply.trim() === '') {
-    finalReply = actionResult;
-  }
-}
-  } catch {
-    finalReply = cleanReply || 'Done sir';
-  }
-}
+const finalReply = result.reply;
 
     // Save memory if needed
     if (shouldSaveMemory(message)) {
