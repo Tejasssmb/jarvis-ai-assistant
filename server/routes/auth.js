@@ -40,19 +40,29 @@ router.post("/pair/verify", async (req, res) => {
       });
     }
 
-    const device = new Device({
-      deviceId: uuidv4(),
-      deviceName,
-      deviceType,
-      platform,
-      trusted: true,
-    });
+    const existingDevice = await Device.findOne({
+  deviceId: req.body.deviceId,
+});
 
-    const token = generateToken(device);
+    let device;
 
-    device.jwtToken = token;
+if (existingDevice) {
+  device = existingDevice;
+} else {
+  device = new Device({
+    deviceId:  req.body.deviceId || uuidv4(),
+    deviceName,
+    deviceType,
+    platform,
+    trusted: true,
+  });
+}
 
-    await device.save();
+const token = generateToken(device);
+
+device.jwtToken = token;
+
+await device.save();
 
     currentPairCode = null;
     expiresAt = null;
@@ -60,6 +70,7 @@ router.post("/pair/verify", async (req, res) => {
     res.json({
       message: "Device Paired Successfully",
       token,
+      deviceId: device.deviceId,
     });
   } catch (err) {
     
@@ -100,6 +111,64 @@ router.get("/validate", async (req, res) => {
   } catch (err) {
     res.status(401).json({
       valid: false,
+    });
+  }
+});
+
+router.post("/refresh", async (req, res) => {
+  const { deviceId } = req.body;
+  const device = await Device.findOne({
+  deviceId,
+  trusted: true,
+});
+if (!device) {
+  return res.status(401).json({
+    message: "Device not trusted",
+  });
+}
+const token = generateToken(device);
+
+device.jwtToken = token;
+
+await device.save();
+res.json({
+  token,
+});
+
+});
+
+router.get("/devices", async (req, res) => {
+  try {
+    const devices = await Device.find({ trusted: true });
+    res.json(devices);
+  } catch (err) {
+    res.status(500).json({
+      message: err.message,
+    });
+  }
+});
+
+router.delete("/device/:deviceId", async (req, res) => {
+  try {
+    const { deviceId } = req.params;
+
+    const device = await Device.findOne({ deviceId });
+
+    if (!device) {
+      return res.status(404).json({
+        message: "Device not found",
+      });
+    }
+
+    await Device.deleteOne({ deviceId });
+
+    res.json({
+      message: "Device removed successfully",
+    });
+
+  } catch (err) {
+    res.status(500).json({
+      message: err.message,
     });
   }
 });

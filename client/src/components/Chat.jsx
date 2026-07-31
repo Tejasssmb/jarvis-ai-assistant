@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import axios from 'axios'
 import './Chat.css'
-import { io } from 'socket.io-client'
+import socket from "../services/socket";
 function Chat() {
   const [messages, setMessages] = useState([
     { role: 'assistant', content: 'Hello! I am Jarvis. How can I assist you today?' }
@@ -20,7 +20,8 @@ function Chat() {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
   useEffect(() => {
-  const socket = io('http://localhost:5000')
+  socket.connect();
+ 
 
   socket.on('jarvis_wake', (data) => {
     console.log('Wake event:', data)
@@ -50,7 +51,9 @@ function Chat() {
     }
   })
 
-  return () => socket.disconnect()
+  return () => {
+  socket.off("jarvis_wake");
+};
 }, [])
   const startListening = async () => {
     try {
@@ -197,13 +200,124 @@ const mediaRecorder = new MediaRecorder(stream, { mimeType })
   }
 
   return (
-    <div className="chat-container">
+     <div className="chat-container">
+
+<nav className="sidebar-nav">
+
+    <div className="sidebar-logo">
+        JARVIS
+    </div>
+
+    <div className="system-title">
+        SYSTEM
+    </div>
+
+   <button className="nav-item active">
+        🏠 Dashboard
+    </button>
+
+    <button className="nav-item">
+        💬 Chat
+    </button>
+
+    <button className="nav-item">
+        🖥 Devices
+    </button>
+
+    <button className="nav-item">
+        🧠 Memory
+    </button>
+
+    
+
+    <button className="nav-item">
+        ⚙ Settings
+    </button>
+
+
+    <div className="version">
+        VERSION 7
+    </div>
+
+</nav>
+
+<div className="main-content">
       <div className="chat-header">
-        <div className="header-dot"></div>
-        <h1>J.A.R.V.I.S</h1>
-        <p>Just A Rather Very Intelligent System</p>
-      </div>
+
+    <div className="top-bar">
+
+        <div className="top-left">
+
+            <div className="header-dot"></div>
+
+            <div>
+                <h1>J.A.R.V.I.S</h1>
+                <p>Just A Rather Very Intelligent System</p>
+            </div>
+
+        </div>
+
+        <div className="top-right">
+
+            <div className="status-chip">
+                🟢 ONLINE
+            </div>
+
+            <div className="status-chip">
+                Desktop
+            </div>
+
+            <div className="status-chip">
+                Phone
+            </div>
+
+            <div className="status-chip clock">
+                {new Date().toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit"
+                })}
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<div className="content-scroll">
+ <div className="welcome-panel">
+
+    <div className="ai-orb"></div>
+
+    <h2>Good Morning, Tejas</h2>
+
+    <p>All systems are operational.</p>
+
+    <div className="quick-actions">
+
+      <div className="action-card">
+    <span className="action-icon">💻</span>
+    <span>VS Code</span>
+</div>
+
+<div className="action-card">
+    <span className="action-icon">🌐</span>
+    <span>Chrome</span>
+</div>
+
+<div className="action-card">
+    <span className="action-icon">📁</span>
+    <span>Files</span>
+</div>
+
+<div className="action-card">
+    <span className="action-icon">🎤</span>
+    <span>Listen</span>
+</div>
+    </div>
+
+</div>
       <div className="chat-messages">
+       
         {messages.map((m, i) => (
           <div key={i} className={`message ${m.role}`}>
             <span className="label">{m.role === 'assistant' ? 'JARVIS' : 'YOU'}</span>
@@ -213,26 +327,25 @@ const mediaRecorder = new MediaRecorder(stream, { mimeType })
         {loading && (
           <div className="message assistant">
             <span className="label">JARVIS</span>
-            <p className="typing">Thinking...
-              <button
-                onClick={cancelThinking}
-                style={{
-                  marginLeft: '10px',
-                  background: '#ff444422',
-                  border: '1px solid #ff4444',
-                  borderRadius: '4px',
-                  color: '#ff4444',
-                  cursor: 'pointer',
-                  padding: '2px 8px',
-                  fontSize: '11px'
-                }}
-              >
-                ✕ Cancel
-              </button>
-            </p>
+            <div className="thinking-box">
+
+    <span className="thinking-label">JARVIS</span>
+
+    <div className="thinking-dots">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <button className="cancel-btn" onClick={cancelThinking}>
+        ✕ Cancel
+    </button>
+
+</div>
           </div>
         )}
         <div ref={bottomRef} />
+      </div>
       </div>
       <div className="chat-input">
         <button
@@ -264,6 +377,7 @@ const mediaRecorder = new MediaRecorder(stream, { mimeType })
           placeholder={listening ? '🔴 Recording... click ⏹️ to stop' : 'Talk to Jarvis...'}
         />
         <button onClick={sendMessage}>SEND</button>
+      </div>
       </div>
     </div>
   )

@@ -18,7 +18,7 @@ async function processCommand(userMessage, history = []) {
       content: userMessage,
     },
   ];
-
+ 
   const rawReply = await callAI(messages);
 
   const { hasCommand, parsed, cleanReply } = parseCommand(rawReply);

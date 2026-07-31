@@ -165,7 +165,7 @@ router.post('/', async (req, res) => {
       { role: 'user', content: message }
     ];
 
-   const result = await processCommand(messages);
+   const result = await processCommand(message, history);
 
 const finalReply = result.reply;
 
