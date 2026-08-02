@@ -174,7 +174,11 @@ const mediaRecorder = new MediaRecorder(stream, { mimeType })
         signal: abortControllerRef.current.signal
       })
 
-      const reply = res.data.reply
+      const reply = res.data.reply;
+      await axios.post("http://localhost:5000/api/memory/save", {
+    type: "conversation",
+    content: `User: ${text}\nJarvis: ${reply}`
+});
       setMessages(prev => [...prev, { role: 'assistant', content: reply }])
 
       
@@ -199,126 +203,11 @@ const mediaRecorder = new MediaRecorder(stream, { mimeType })
     if (e.key === 'Enter') sendMessage()
   }
 
-  return (
-     <div className="chat-container">
+return (
+  <div className="chat-container">
 
-<nav className="sidebar-nav">
-
-    <div className="sidebar-logo">
-        JARVIS
-    </div>
-
-    <div className="system-title">
-        SYSTEM
-    </div>
-
-   <button className="nav-item active">
-        🏠 Dashboard
-    </button>
-
-    <button className="nav-item">
-        💬 Chat
-    </button>
-
-    <button className="nav-item">
-        🖥 Devices
-    </button>
-
-    <button className="nav-item">
-        🧠 Memory
-    </button>
-
-    
-
-    <button className="nav-item">
-        ⚙ Settings
-    </button>
-
-
-    <div className="version">
-        VERSION 7
-    </div>
-
-</nav>
-
-<div className="main-content">
-      <div className="chat-header">
-
-    <div className="top-bar">
-
-        <div className="top-left">
-
-            <div className="header-dot"></div>
-
-            <div>
-                <h1>J.A.R.V.I.S</h1>
-                <p>Just A Rather Very Intelligent System</p>
-            </div>
-
-        </div>
-
-        <div className="top-right">
-
-            <div className="status-chip">
-                🟢 ONLINE
-            </div>
-
-            <div className="status-chip">
-                Desktop
-            </div>
-
-            <div className="status-chip">
-                Phone
-            </div>
-
-            <div className="status-chip clock">
-                {new Date().toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit"
-                })}
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-<div className="content-scroll">
- <div className="welcome-panel">
-
-    <div className="ai-orb"></div>
-
-    <h2>Good Morning, Tejas</h2>
-
-    <p>All systems are operational.</p>
-
-    <div className="quick-actions">
-
-      <div className="action-card">
-    <span className="action-icon">💻</span>
-    <span>VS Code</span>
-</div>
-
-<div className="action-card">
-    <span className="action-icon">🌐</span>
-    <span>Chrome</span>
-</div>
-
-<div className="action-card">
-    <span className="action-icon">📁</span>
-    <span>Files</span>
-</div>
-
-<div className="action-card">
-    <span className="action-icon">🎤</span>
-    <span>Listen</span>
-</div>
-    </div>
-
-</div>
-      <div className="chat-messages">
-       
-        {messages.map((m, i) => (
+    <div className="chat-messages">
+      {messages.map((m, i) => (
           <div key={i} className={`message ${m.role}`}>
             <span className="label">{m.role === 'assistant' ? 'JARVIS' : 'YOU'}</span>
             <p>{m.content}</p>
@@ -345,9 +234,9 @@ const mediaRecorder = new MediaRecorder(stream, { mimeType })
           </div>
         )}
         <div ref={bottomRef} />
-      </div>
-      </div>
-      <div className="chat-input">
+    </div>
+
+    <div className="chat-input">
         <button
           className={`mode-button ${autoMode ? 'active' : ''}`}
           onClick={toggleAutoMode}
@@ -377,10 +266,10 @@ const mediaRecorder = new MediaRecorder(stream, { mimeType })
           placeholder={listening ? '🔴 Recording... click ⏹️ to stop' : 'Talk to Jarvis...'}
         />
         <button onClick={sendMessage}>SEND</button>
-      </div>
-      </div>
-    </div>
-  )
-}
 
-export default Chat
+    </div>
+
+  </div>
+);}
+
+export default Chat;

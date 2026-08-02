@@ -1,0 +1,39 @@
+.desktop-layout{
+
+    display:flex;
+
+    width:100vw;
+
+    height:100vh;
+
+    overflow:hidden;
+
+    background:#070b11;
+
+}
+
+.desktop-main{
+
+    flex:1;
+
+    display:flex;
+
+    flex-direction:column;
+
+    overflow:hidden;
+
+}
+
+.page-content{
+
+    flex:1;
+
+    display:flex;
+
+    flex-direction:column;
+
+    overflow:hidden;
+
+    padding:25px;
+
+}

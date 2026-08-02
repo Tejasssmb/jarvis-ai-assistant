@@ -1,11 +1,15 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
-import Chat from "./components/Chat";
+import Dashboard from "./pages/Dashboard";
 import PairDevice from "./pages/PairDevice";
-
-import useAuth from "./hooks/useAuth";
 import MobileHome from "./pages/MobileHome";
 import TrustedDevices from "./pages/TrustedDevices";
+import DesktopLayout from "./components/DesktopLayout";
+import Memory from "./pages/Memory";
+import Settings from "./pages/Settings";
+import Chat from "./pages/Chat";
+
+import useAuth from "./hooks/useAuth";
 
 function App() {
   const { loading, authenticated } = useAuth();
@@ -14,53 +18,54 @@ function App() {
     return <h2>Starting JARVIS...</h2>;
   }
 
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            authenticated ? (
-              <Chat />
-            ) : (
-              <Navigate to="/pair" replace />
-            )
-          }
-        />
+ return (
+  <BrowserRouter>
+    <Routes>
 
-        <Route
-          path="/pair"
-          element={
-            authenticated ? (
-              <Navigate to="/" replace />
-            ) : (
-              <PairDevice />
-            )
-          }
-        />
-        <Route
-    path="/mobile"
-    element={
-        authenticated ? (
-            <MobileHome />
-        ) : (
+      {/* Desktop Layout */}
+      <Route
+        element={
+          authenticated ? (
+            <DesktopLayout />
+          ) : (
             <Navigate to="/pair" replace />
-        )
-    }
-/>
-<Route
-  path="/devices"
-  element={
-    authenticated ? (
-      <TrustedDevices />
-    ) : (
-      <Navigate to="/pair" replace />
-    )
-  }
-/>
-      </Routes>
-    </BrowserRouter>
-  );
+          )
+        }
+      >
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/chat" element={<Chat />} />
+        <Route path="/devices" element={<TrustedDevices />} />
+        <Route path="/memory" element={<Memory />} />
+        <Route path="/settings" element={<Settings />} />
+      </Route>
+
+      {/* Pair Device */}
+      <Route
+        path="/pair"
+        element={
+          authenticated ? (
+            <Navigate to="/" replace />
+          ) : (
+            <PairDevice />
+          )
+        }
+      />
+
+      {/* Mobile */}
+      <Route
+        path="/mobile"
+        element={
+          authenticated ? (
+            <MobileHome />
+          ) : (
+            <Navigate to="/pair" replace />
+          )
+        }
+      />
+
+    </Routes>
+  </BrowserRouter>
+);
 }
 
 export default App;

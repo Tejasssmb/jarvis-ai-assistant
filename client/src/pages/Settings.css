@@ -1,0 +1,42 @@
+.settings-subtitle{
+
+    color:#8fa3b8;
+
+    margin-bottom:28px;
+
+}
+
+.settings-grid{
+
+    display:grid;
+
+    gap:22px;
+
+    max-width:900px;
+
+}
+.settings-subtitle{
+    color:#8fa3b8;
+    margin-bottom:24px;
+}
+
+.settings-grid{
+    display:grid;
+    gap:20px;
+    max-width:900px;
+}
+
+.settings-grid .device-card{
+    margin:0;
+}
+.setting-value{
+
+    margin-top:10px;
+
+}
+
+.logout-btn{
+
+    margin-top:20px;
+
+}
