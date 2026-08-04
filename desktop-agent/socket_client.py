@@ -1,6 +1,5 @@
 import socketio
 import os
-import platform
 from command_router import execute
 
 sio = socketio.Client()
@@ -8,25 +7,30 @@ sio = socketio.Client()
 
 @sio.event
 def connect():
+
     print("Connected to JARVIS Server")
 
-    sio.emit("register_desktop", {
-        "deviceName": platform.node(),
-        "platform": platform.system(),
-        "version": "8.0.0"
-    })
+    token = os.getenv("JWT")
 
+    sio.emit("authenticate", token)
 
 @sio.event
 def disconnect():
     print("Disconnected from Server")
 
-@sio.on("desktop_command")
+@sio.on("execute_command")
 def desktop_command(data):
 
-    print(f"Received Command: {data}")
+    command = data.get("command")
 
-    execute(data.get("command"))
+    print(f"\nReceived: {command}")
+
+    execute(command)
+
+@sio.on("authenticated")
+def authenticated(data):
+
+    print("✅ Desktop Agent Authenticated")
 
 
 def connect_to_server():
