@@ -10,7 +10,7 @@ let currentPairCode = null;
 let expiresAt = null;
 
 // Generate Pair Code
-router.post("/pair/init", (req, res) => {
+router.post("/login/init", (req, res) => {
   currentPairCode = crypto.randomInt(100000, 999999).toString();
   expiresAt = Date.now() + 5 * 60 * 1000;
 
@@ -27,7 +27,7 @@ router.post("/pair/init", (req, res) => {
 });
 
 // Verify Pair Code
-router.post("/pair/verify", async (req, res) => {
+router.post("/login/verify", async (req, res) => {
   try {
     const { pairCode, deviceName, deviceType, platform } = req.body;
    
@@ -84,7 +84,9 @@ router.get("/validate", async (req, res) => {
     const authHeader = req.headers.authorization;
 
     if (!authHeader) {
-      return res.status(401).json({ valid: false });
+      return res.status(401).json({
+        valid: false,
+      });
     }
 
     const token = authHeader.split(" ")[1];
@@ -100,18 +102,23 @@ router.get("/validate", async (req, res) => {
     });
 
     if (!device) {
-      return res.status(401).json({ valid: false });
+      return res.status(401).json({
+        valid: false,
+      });
     }
 
     res.json({
       valid: true,
       deviceName: device.deviceName,
+      deviceType: device.deviceType,
     });
 
   } catch (err) {
+
     res.status(401).json({
       valid: false,
     });
+
   }
 });
 

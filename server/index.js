@@ -15,6 +15,7 @@ const { verifyToken } = require("./utils/jwt");
 const Device = require("./models/Device");
 const app = express();
 const processCommand = require("./services/processCommand");
+const userAuthRoute = require("./routes/userAuth");
 
 
 // Middleware FIRST
@@ -25,6 +26,7 @@ app.use("/api/auth", authRoutes);
 app.use('/api/chat', chatRoute);
 app.use('/api/memory', memoryRoute);
 app.use('/api/reminder', reminderRoute);
+app.use("/api/user", userAuthRoute);
 
 // MongoDB
 mongoose.connect(process.env.MONGO_URI)
@@ -45,9 +47,14 @@ io.on("connection", (socket) => {
 
   console.log("Socket Connected:", socket.id);
 
-  socket.on("authenticate", async (token) => {
+ socket.on("authenticate", async (token) => {
+
   try {
+
+    console.log("Desktop JWT:", token);
+
     const decoded = verifyToken(token);
+    console.log("Decoded:", decoded);
 
     const device = await Device.findOne({
       deviceId: decoded.deviceId,
@@ -55,7 +62,10 @@ io.on("connection", (socket) => {
       jwtToken: token,
     });
 
+    console.log("Device:", device);
+
     if (!device) {
+      console.log("❌ Device not found");
       socket.disconnect();
       return;
     }
@@ -71,8 +81,12 @@ io.on("connection", (socket) => {
     console.log(
       `🟢 ${device.deviceName} (${device.deviceType}) Connected`
     );
+    socket.emit("authenticated", {
+    success: true
+});
 
   } catch (err) {
+    console.log(err);
     socket.disconnect();
   }
 });
