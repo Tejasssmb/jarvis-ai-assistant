@@ -12,7 +12,7 @@ export default function Settings() {
 
         localStorage.removeItem("jarvisDeviceId");
 
-         window.location.href = "/pair";
+         window.location.href = "/login";
 
     }
 

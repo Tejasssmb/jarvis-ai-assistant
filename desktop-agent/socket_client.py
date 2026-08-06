@@ -11,7 +11,6 @@ from device_identity import (
 
 sio = socketio.Client()
 
-
 @sio.event
 def connect():
 
@@ -21,7 +20,12 @@ def connect():
 
     if device["registered"]:
 
-        sio.emit("authenticate", device["deviceToken"])
+        print("Authenticating Desktop...")
+
+        sio.emit(
+            "authenticate",
+            device["deviceToken"]
+        )
 
     else:
 

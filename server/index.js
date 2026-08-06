@@ -16,6 +16,14 @@ const Device = require("./models/Device");
 const app = express();
 const processCommand = require("./services/processCommand");
 const userAuthRoute = require("./routes/userAuth");
+const { v4: uuidv4 } = require("uuid");
+const DesktopRegistration = require("./models/DesktopRegistration");
+const pairDesktopRoute = require("./routes/pairDesktop");
+const {
+  setIO,
+  connectedClients,
+  pendingDesktopConnections,
+} = require("./socket/socketManager");
 
 
 // Middleware FIRST
@@ -27,22 +35,27 @@ app.use('/api/chat', chatRoute);
 app.use('/api/memory', memoryRoute);
 app.use('/api/reminder', reminderRoute);
 app.use("/api/user", userAuthRoute);
+app.use("/api/pair-desktop", pairDesktopRoute);
 
 // MongoDB
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log('MongoDB connected!'))
-  .catch(err => console.log('MongoDB error:', err));
+mongoose.connect(process.env.MONGO_URI, {
+  dbName: "jarvis",
+})
+  .then(() => {
+    console.log("MongoDB connected!");
+    
+  })
+  .catch(err => console.log("MongoDB error:", err));
 
 // Socket.io
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: { origin: 'http://localhost:5173' }
 });
-
+setIO(io);
 global.wakeCallback = (data) => {
   io.emit('jarvis_wake', data);
 };
-const connectedClients = new Map();
 io.on("connection", (socket) => {
 
   console.log("Socket Connected:", socket.id);
@@ -51,18 +64,16 @@ io.on("connection", (socket) => {
 
   try {
 
-    console.log("Desktop JWT:", token);
+   
 
     const decoded = verifyToken(token);
-    console.log("Decoded:", decoded);
+    
 
     const device = await Device.findOne({
       deviceId: decoded.deviceId,
       trusted: true,
       jwtToken: token,
     });
-
-    console.log("Device:", device);
 
     if (!device) {
       console.log("❌ Device not found");
@@ -81,6 +92,11 @@ io.on("connection", (socket) => {
     console.log(
       `🟢 ${device.deviceName} (${device.deviceType}) Connected`
     );
+    device.socketId = socket.id;
+device.online = true;
+device.lastSeen = new Date();
+
+await device.save();
     socket.emit("authenticated", {
     success: true
 });
@@ -131,23 +147,61 @@ socket.on("mobile_command", async (data) => {
   }
 
 });
+  socket.on("register_desktop", async (data) => {
 
+  try {
 
-  socket.on("disconnect", () => {
+    const registrationId = uuidv4();
 
-    if (socket.device) {
-      if (socket.device) {
-  connectedClients.delete(socket.device.deviceId);
-}
-      console.log(
-        `🔴 ${socket.device.deviceName} Disconnected`
-      );
-    } else {
-      console.log("Socket Disconnected");
-    }
+    await DesktopRegistration.create({
+      registrationId,
+      deviceId: data.deviceId,
+      expiresAt: new Date(Date.now() + 5 * 60 * 1000),
+    });
+    pendingDesktopConnections.set(
+  registrationId,
+  socket.id
+);
 
-  });
+    socket.emit("desktop_registration", {
+      registrationId,
+    });
 
+    console.log(
+      `Desktop waiting for pairing: ${registrationId}`
+    );
+
+  } catch (err) {
+
+    console.error(err);
+
+  }
+
+});
+
+  socket.on("disconnect", async () => {
+
+  if (socket.device) {
+
+    connectedClients.delete(socket.device.deviceId);
+
+    socket.device.online = false;
+    socket.device.socketId = null;
+    socket.device.lastSeen = new Date();
+
+    await socket.device.save();
+
+    console.log(
+      `🔴 ${socket.device.deviceName} Disconnected`
+    );
+
+  } else {
+
+    console.log("Socket Disconnected");
+
+  }
+
+});
 });
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => console.log(`Jarvis server running on port ${PORT}`));

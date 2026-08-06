@@ -8,8 +8,8 @@ import DesktopLayout from "./components/DesktopLayout";
 import Memory from "./pages/Memory";
 import Settings from "./pages/Settings";
 import Chat from "./pages/Chat";
-
-import useAuth from "./hooks/useAuth";
+import Login from "./pages/Login";
+import { useAuth } from "./context/AuthContext";
 
 function App() {
   const { loading, authenticated } = useAuth();
@@ -28,7 +28,7 @@ function App() {
           authenticated ? (
             <DesktopLayout />
           ) : (
-            <Navigate to="/pair" replace />
+            <Navigate to="/login" replace />
           )
         }
       >
@@ -39,14 +39,14 @@ function App() {
         <Route path="/settings" element={<Settings />} />
       </Route>
 
-      {/* Pair Device */}
+      {/* Login */}
       <Route
-        path="/pair"
+        path="/login"
         element={
           authenticated ? (
             <Navigate to="/" replace />
           ) : (
-            <PairDevice />
+            <Login />
           )
         }
       />
@@ -58,7 +58,7 @@ function App() {
           authenticated ? (
             <MobileHome />
           ) : (
-            <Navigate to="/pair" replace />
+            <Navigate to="/login" replace />
           )
         }
       />

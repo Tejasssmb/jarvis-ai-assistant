@@ -10,7 +10,7 @@ function PairDevice() {
 
   const pairDevice = async () => {
     try {
-      const res = await api.post("/auth/pair/verify", {
+      const res = await api.post("/auth/login/verify", {
        
         pairCode,
         deviceId: localStorage.getItem("jarvisDeviceId"),

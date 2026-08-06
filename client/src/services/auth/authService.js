@@ -1,59 +1,62 @@
 import api from "../api";
 
-const TOKEN_KEY = "jarvisToken";
+const USER_TOKEN_KEY = "jarvisUserToken";
 
 export const saveToken = (token) => {
-  localStorage.setItem(TOKEN_KEY, token);
+  localStorage.setItem(USER_TOKEN_KEY, token);
 };
 
 export const getToken = () => {
-  return localStorage.getItem(TOKEN_KEY);
+  return localStorage.getItem(USER_TOKEN_KEY);
 };
 
 export const removeToken = () => {
-  localStorage.removeItem(TOKEN_KEY);
+  localStorage.removeItem(USER_TOKEN_KEY);
 };
 
-export const refreshToken = async () => {
-  try {
-    const deviceId = localStorage.getItem("jarvisDeviceId");
+// export const refreshToken = async () => {
+//   try {
+//     const deviceId = localStorage.getItem("jarvisDeviceId");
 
-    if (!deviceId) {
-      return false;
-    }
+//     if (!deviceId) {
+//       return false;
+//     }
 
-    const res = await api.post("/auth/refresh", {
-      deviceId,
-    });
+//     const res = await api.post("/auth/refresh", {
+//       deviceId,
+//     });
 
-    saveToken(res.data.token);
+//     saveToken(res.data.token);
 
-    return true;
+//     return true;
 
-  } catch {
-    removeToken();
-    localStorage.removeItem("jarvisDeviceId");
-    return false;
-  }
-};
+//   } catch {
+//     removeToken();
+//     localStorage.removeItem("jarvisDeviceId");
+//     return false;
+//   }
+// };
 
 export const validateToken = async () => {
   try {
     const token = getToken();
 
-   if (!token) {
-  return await refreshToken();
-}
+    if (!token) {
+      return false;
+    }
 
-    await api.get("/auth/validate", {
+    await api.get("/user/validate", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
 
     return true;
-  } catch {
+
+  } catch (err) {
+
     removeToken();
-    return await refreshToken();
+    return false;
+
   }
 };
