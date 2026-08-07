@@ -24,7 +24,10 @@ const {
   connectedClients,
   pendingDesktopConnections,
 } = require("./socket/socketManager");
-
+const testScreenshotRoute =
+require("./routes/testScreenshot");
+const uploadScreenshotRoute =
+require("./routes/uploadScreenshot");
 
 // Middleware FIRST
 app.use(cors({ origin: 'http://localhost:5173' }));
@@ -36,7 +39,18 @@ app.use('/api/memory', memoryRoute);
 app.use('/api/reminder', reminderRoute);
 app.use("/api/user", userAuthRoute);
 app.use("/api/pair-desktop", pairDesktopRoute);
-
+app.use(
+  "/api/test-screenshot",
+  (req, res, next) => {
+    req.io = io;
+    next();
+  },
+  testScreenshotRoute
+);
+app.use(
+  "/api/upload-screenshot",
+  uploadScreenshotRoute
+);
 // MongoDB
 mongoose.connect(process.env.MONGO_URI, {
   dbName: "jarvis",
