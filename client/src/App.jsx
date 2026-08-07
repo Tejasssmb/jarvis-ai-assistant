@@ -10,7 +10,7 @@ import Settings from "./pages/Settings";
 import Chat from "./pages/Chat";
 import Login from "./pages/Login";
 import { useAuth } from "./context/AuthContext";
-
+import DesktopView from "./pages/DesktopView";
 function App() {
   const { loading, authenticated } = useAuth();
 
@@ -34,6 +34,10 @@ function App() {
       >
         <Route path="/" element={<Dashboard />} />
         <Route path="/chat" element={<Chat />} />
+        <Route
+  path="/desktop"
+  element={<DesktopView />}
+/>
         <Route path="/devices" element={<TrustedDevices />} />
         <Route path="/memory" element={<Memory />} />
         <Route path="/settings" element={<Settings />} />
