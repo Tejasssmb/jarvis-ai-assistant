@@ -28,10 +28,15 @@ const testScreenshotRoute =
 require("./routes/testScreenshot");
 const uploadScreenshotRoute =
 require("./routes/uploadScreenshot");
-
+const latestScreenshotRoute =
+require("./routes/latestScreenshot");
 // Middleware FIRST
 app.use(cors({ origin: 'http://localhost:5173' }));
 app.use(express.json());
+app.use(
+  "/uploads",
+  express.static("uploads")
+);
 app.use("/api/auth", authRoutes);
 // Routes AFTER middleware
 app.use('/api/chat', chatRoute);
@@ -50,6 +55,10 @@ app.use(
 app.use(
   "/api/upload-screenshot",
   uploadScreenshotRoute
+);
+app.use(
+  "/api/latest-screenshot",
+  latestScreenshotRoute
 );
 // MongoDB
 mongoose.connect(process.env.MONGO_URI, {
@@ -125,7 +134,10 @@ socket.on("execute_command", (command) => {
 
     for (const client of connectedClients.values()) {
 
-        if (client.device.deviceType === "laptop") {
+        if (
+    client.device.deviceType === "desktop" ||
+    client.device.deviceType === "laptop"
+) {
 
             io.to(client.socketId).emit(
                 "execute_command",

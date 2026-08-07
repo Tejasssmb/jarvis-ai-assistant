@@ -178,7 +178,10 @@ await saveReminder(message);
     // Speak the reply
     axios.post('http://127.0.0.1:5001/speak', { text: finalReply }).catch(() => {});
 
-    res.json({ reply: finalReply });
+    res.json({
+  reply: finalReply,
+  imageUrl: result.imageUrl || null,
+});
 
   } catch (error) {
     console.error('Chat error:', error.message);

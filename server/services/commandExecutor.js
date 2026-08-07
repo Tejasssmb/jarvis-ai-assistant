@@ -18,6 +18,7 @@ async function executeCommand(parsed) {
     return {
       success: true,
       action: execRes.data.action || "Done sir",
+      imageUrl: execRes.data.imageUrl || null,
     };
   } catch (err) {
     return {

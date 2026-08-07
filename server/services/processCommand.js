@@ -22,12 +22,13 @@ async function processCommand(userMessage, history = []) {
   const rawReply = await callAI(messages);
 
   const { hasCommand, parsed, cleanReply } = parseCommand(rawReply);
-
+  console.log("PARSED:", parsed);
   let finalReply = cleanReply || rawReply;
+  let imageUrl = null;
 
   if (hasCommand && parsed) {
     const result = await executeCommand(parsed);
-
+    imageUrl = result.imageUrl || null;
     const actionResult = result.action;
 
     const infoActions = [
@@ -48,6 +49,7 @@ async function processCommand(userMessage, history = []) {
     reply: finalReply,
     rawReply,
     parsed,
+    imageUrl,
   };
 }
 

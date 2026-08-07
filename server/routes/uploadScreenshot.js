@@ -31,6 +31,7 @@ router.post(
     res.json({
       success: true,
       file: req.file.filename,
+      imageUrl: `/uploads/${req.file.filename}`,
     });
 
   }
