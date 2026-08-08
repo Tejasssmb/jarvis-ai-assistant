@@ -94,10 +94,6 @@ def connect_to_server():
     except KeyboardInterrupt:
         print("\nStopping Desktop Agent...")
         sio.disconnect()
-@sio.on("*")
-def catch_all(event, data):
-    print("EVENT:", event)
-    print("DATA:", data)
 
 
 

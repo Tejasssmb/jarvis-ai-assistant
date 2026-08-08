@@ -12,6 +12,13 @@ import glob
 from ddgs import DDGS
 import sys
 import traceback
+from tools.screenshot_tools import take_screenshot
+from tools.system_tools import get_battery
+from tools.media_tools import (
+    volume_up,
+    volume_down,
+    mute
+)
 
 app = Flask(__name__)
 VOICE = "en-US-GuyNeural"
@@ -241,42 +248,21 @@ def execute():
 
         # Screenshot
         elif action == 'screenshot':
-            import requests
-            requests.post(
-        "http://localhost:5000/api/test-screenshot"
-    )
-            return jsonify({
-        'status': 'success',
-        'action': 'Taking screenshot...'
-    })
-
-        # Battery
+            return jsonify(take_screenshot())
+        
+        #Battery
         elif action == 'battery':
-            battery = psutil.sensors_battery()
-            if battery:
-                percent = battery.percent
-                plugged = "plugged in" if battery.power_plugged else "running on battery"
-                return jsonify({'status': 'success', 'action': f'Battery is at {percent}% and {plugged}'})
-            return jsonify({'status': 'failed', 'action': 'Could not read battery status'})
+            return jsonify(get_battery())
 
         # Volume
         elif action == 'volume_up':
-            for _ in range(5):
-                subprocess.run(['powershell', '-c',
-                                '(New-Object -com WScript.Shell).SendKeys([char]175)'])
-            return jsonify({'status': 'success', 'action': 'Volume increased'})
+          return jsonify(volume_up())
 
         elif action == 'volume_down':
-            for _ in range(5):
-                subprocess.run(['powershell', '-c',
-                                '(New-Object -com WScript.Shell).SendKeys([char]174)'])
-            return jsonify({'status': 'success', 'action': 'Volume decreased'})
+          return jsonify(volume_down())
 
         elif action == 'mute':
-            subprocess.run(['powershell', '-c',
-                            '(New-Object -com WScript.Shell).SendKeys([char]173)'])
-            return jsonify({'status': 'success', 'action': 'Muted'})
-
+            return jsonify(mute())
         # Wallpaper
         elif action == 'wallpaper':
             pictures_path = rf'C:\Users\{USERNAME}\Pictures'
