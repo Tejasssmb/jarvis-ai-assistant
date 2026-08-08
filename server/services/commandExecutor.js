@@ -21,11 +21,15 @@ async function executeCommand(parsed) {
       imageUrl: execRes.data.imageUrl || null,
     };
   } catch (err) {
-    return {
-      success: false,
-      action: "Done sir",
-    };
-  }
+
+  console.log("COMMAND EXECUTOR ERROR:");
+  console.log(err.message);
+
+  return {
+    success: false,
+    action: err.message,
+  };
+}
 }
 
 module.exports = executeCommand;

@@ -241,10 +241,14 @@ def execute():
 
         # Screenshot
         elif action == 'screenshot':
-            import pyautogui
-            path = rf'C:\Users\{USERNAME}\Desktop\jarvis_screenshot_{int(time.time())}.png'
-            pyautogui.screenshot(path)
-            return jsonify({'status': 'success', 'action': 'Screenshot saved to your Desktop'})
+            import requests
+            requests.post(
+        "http://localhost:5000/api/test-screenshot"
+    )
+            return jsonify({
+        'status': 'success',
+        'action': 'Taking screenshot...'
+    })
 
         # Battery
         elif action == 'battery':

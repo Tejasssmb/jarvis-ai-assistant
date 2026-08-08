@@ -1,3 +1,5 @@
+from screenshot_service import take_screenshot
+from screenshot_uploader import upload_screenshot
 def execute(command):
 
     print(f"\nExecuting command: {command}")
@@ -13,6 +15,13 @@ def execute(command):
     elif command == "take_screenshot":
 
         print("Taking Screenshot...")
+
+        file_path = take_screenshot()
+        upload_result = upload_screenshot(file_path)
+        print("UPLOAD RESULT:")
+        print(upload_result)
+
+        print(f"Screenshot saved: {file_path}")
 
     else:
 

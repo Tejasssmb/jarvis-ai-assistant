@@ -27,7 +27,7 @@ router.post(
   "/",
   upload.single("screenshot"),
   async (req, res) => {
-
+    console.log("UPLOADED:", `/uploads/${req.file.filename}`);
     res.json({
       success: true,
       file: req.file.filename,

@@ -55,13 +55,14 @@ def disconnect():
 
 @sio.on("execute_command")
 def desktop_command(data):
+    print("🔥 EXECUTE_COMMAND EVENT RECEIVED")
+    print(data)
 
     command = data.get("command")
 
     print(f"\nReceived: {command}")
 
     execute(command)
-
 @sio.on("authenticated")
 def authenticated(data):
 
@@ -86,3 +87,7 @@ def connect_to_server():
     server_url = os.getenv("SERVER_URL")
     sio.connect(server_url)
     sio.wait()
+@sio.on("*")
+def catch_all(event, data):
+    print("EVENT:", event)
+    print("DATA:", data)

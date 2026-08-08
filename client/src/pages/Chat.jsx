@@ -175,11 +175,12 @@ const mediaRecorder = new MediaRecorder(stream, { mimeType })
       })
 
       const reply = res.data.reply;
+      const imageUrl = res.data.imageUrl;
       await axios.post("http://localhost:5000/api/memory/save", {
     type: "conversation",
     content: `User: ${text}\nJarvis: ${reply}`
 });
-      setMessages(prev => [...prev, { role: 'assistant', content: reply }])
+      setMessages(prev => [...prev, { role: 'assistant', content: reply, imageUrl: imageUrl }])
 
       
     } catch (error) {
@@ -207,12 +208,27 @@ return (
   <div className="chat-container">
 
     <div className="chat-messages">
-      {messages.map((m, i) => (
-          <div key={i} className={`message ${m.role}`}>
-            <span className="label">{m.role === 'assistant' ? 'JARVIS' : 'YOU'}</span>
-            <p>{m.content}</p>
-          </div>
-        ))}
+  {messages.map((m, i) => (
+    <div key={i} className={`message ${m.role}`}>
+      <span className="label">
+        {m.role === 'assistant' ? 'JARVIS' : 'YOU'}
+      </span>
+
+      <p>{m.content}</p>
+
+      {m.imageUrl && (
+        <img
+          src={`http://localhost:5000${m.imageUrl}`}
+          alt="Screenshot"
+          style={{
+            maxWidth: "100%",
+            marginTop: "10px",
+            borderRadius: "10px"
+          }}
+        />
+      )}
+    </div>
+  ))}
         {loading && (
           <div className="message assistant">
             <span className="label">JARVIS</span>
