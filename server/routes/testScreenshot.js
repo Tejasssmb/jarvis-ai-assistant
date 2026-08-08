@@ -17,13 +17,6 @@ router.post("/", async (req, res) => {
         message: "Desktop not online",
       });
     }
-    console.log("SCREENSHOT ROUTE HIT");
-console.log("Desktop:", desktop?.deviceName);
-console.log("Socket:", desktop?.socketId);
-
-console.log("Desktop found:", desktop);
-      console.log("Socket ID:", desktop.socketId);
-      console.log("Sending execute_command...");
 
     req.io
       .to(desktop.socketId)

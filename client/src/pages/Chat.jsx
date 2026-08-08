@@ -180,7 +180,7 @@ const mediaRecorder = new MediaRecorder(stream, { mimeType })
     type: "conversation",
     content: `User: ${text}\nJarvis: ${reply}`
 });
-      setMessages(prev => [...prev, { role: 'assistant', content: reply, imageUrl: imageUrl }])
+      setMessages(prev => [...prev, { role: 'assistant', content: reply, imageUrl }])
 
       
     } catch (error) {

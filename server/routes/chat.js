@@ -166,6 +166,17 @@ router.post('/', async (req, res) => {
     ];
 
    const result = await processCommand(message, history);
+   if (
+  result.parsed &&
+  result.parsed.action === "screenshot"
+) {
+  await new Promise(resolve =>
+    setTimeout(resolve, 3000)
+  );
+
+  result.imageUrl =
+    global.latestScreenshot || null;
+}
 
 const finalReply = result.reply;
 

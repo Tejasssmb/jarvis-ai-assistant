@@ -22,9 +22,6 @@ async function executeCommand(parsed) {
     };
   } catch (err) {
 
-  console.log("COMMAND EXECUTOR ERROR:");
-  console.log(err.message);
-
   return {
     success: false,
     action: err.message,

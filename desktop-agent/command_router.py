@@ -18,8 +18,6 @@ def execute(command):
 
         file_path = take_screenshot()
         upload_result = upload_screenshot(file_path)
-        print("UPLOAD RESULT:")
-        print(upload_result)
 
         print(f"Screenshot saved: {file_path}")
 

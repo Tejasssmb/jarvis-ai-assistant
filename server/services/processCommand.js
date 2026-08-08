@@ -27,9 +27,7 @@ async function processCommand(userMessage, history = []) {
   let imageUrl = null;
 
   if (hasCommand && parsed) {
-    console.log("ENTERED executeCommand");
     const result = await executeCommand(parsed);
-    console.log("RESULT:", result);
     imageUrl = result.imageUrl || null;
     const actionResult = result.action;
 

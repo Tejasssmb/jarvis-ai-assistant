@@ -55,8 +55,6 @@ def disconnect():
 
 @sio.on("execute_command")
 def desktop_command(data):
-    print("🔥 EXECUTE_COMMAND EVENT RECEIVED")
-    print(data)
 
     command = data.get("command")
 
