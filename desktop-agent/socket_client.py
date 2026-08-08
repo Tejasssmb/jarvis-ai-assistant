@@ -4,6 +4,7 @@ import os
 from command_router import execute
 from qr_generator import generate_qr
 import json
+import time
 from device_identity import (
     get_device,
     save_device,
@@ -83,9 +84,20 @@ def desktop_registered(data):
     sio.disconnect()
 def connect_to_server():
     server_url = os.getenv("SERVER_URL")
-    sio.connect(server_url)
-    sio.wait()
+
+    try:
+        sio.connect(server_url)
+
+        while sio.connected:
+            time.sleep(1)
+
+    except KeyboardInterrupt:
+        print("\nStopping Desktop Agent...")
+        sio.disconnect()
 @sio.on("*")
 def catch_all(event, data):
     print("EVENT:", event)
     print("DATA:", data)
+
+
+
