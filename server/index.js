@@ -209,27 +209,15 @@ socket.on("mobile_command", async (data) => {
 });
 
   socket.on("disconnect", async () => {
-
-  if (socket.device) {
-
-    connectedClients.delete(socket.device.deviceId);
-
-    socket.device.online = false;
-    socket.device.socketId = null;
-    socket.device.lastSeen = new Date();
-
-    await socket.device.save();
-
-    console.log(
-      `🔴 ${socket.device.deviceName} Disconnected`
-    );
-
-  } else {
-
-    console.log("Socket Disconnected");
-
-  }
-
+   try {
+      if (socket.device) {
+         socket.device.online = false;
+         socket.device.lastSeen = new Date();
+         await socket.device.save();
+      }
+   } catch (err) {
+      console.error("Disconnect save failed:", err.message);
+   }
 });
 });
 const PORT = process.env.PORT || 5000;
