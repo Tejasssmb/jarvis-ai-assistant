@@ -161,13 +161,15 @@ else {
   finalReply = cleanReply || actionResult;
 }
   }
- if (
-  parsed &&
-  finalReply &&
-  typeof finalReply === "string"
-) {
-  finalReply = await beautifyReply(finalReply);
-}
+//  if (
+//   parsed &&
+//   finalReply &&
+//   typeof finalReply === "string"
+// ) {
+//   console.log("BEFORE BEAUTIFY:", finalReply);
+//   finalReply = await beautifyReply(finalReply);
+//   console.log("AFTER BEAUTIFY:", finalReply);
+// }
 console.log("FINAL REPLY:", finalReply);
 console.log("RETURNING:", {
   reply: finalReply,

@@ -40,7 +40,9 @@ console.log(
 }
 async function beautifyReply(text) {
   try {
+    console.log("BEAUTIFY REQUEST SENT");
     const response = await groq.chat.completions.create({
+      
       model: "openai/gpt-oss-120b",
       messages: [
         {
@@ -78,9 +80,20 @@ Opening chrome for you sir. Searching Google for Jarvis AI
       ],
       max_tokens: 20
     });
+    console.log(
+  "RAW BEAUTIFY RESPONSE:",
+  JSON.stringify(response, null, 2)
+);
+ const result =
+      response?.choices?.[0]?.message?.content?.trim();
 
-    return response.choices[0].message.content.trim();
-  } catch {
+    console.log("BEAUTIFY INPUT:", text);
+    console.log("BEAUTIFY OUTPUT:", result);
+
+    return result || text;
+
+  } catch (error) {
+    console.log("BEAUTIFY ERROR:", error);
     return text;
   }
 }
