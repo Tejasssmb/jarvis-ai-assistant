@@ -1,4 +1,7 @@
-const { callAI, beautifyReply } = require("./aiService");
+const {
+  callAI,
+  generateAcknowledgement
+} = require("./aiService");
 const buildSystemPrompt = require("./systemPromptService");
 const parseCommand = require("./parserService");
 const executeCommand = require("./commandExecutor");
@@ -21,13 +24,18 @@ if (
   clearPendingAction();
 
   const result = await executeCommand(pending);
+  const acknowledgement =
+  await generateAcknowledgement(
+    "confirmation",
+    result.action
+  );
 
-  return {
-    reply: result.action,
-    rawReply: "CONFIRMED",
-    parsed: pending,
-    imageUrl: result.imageUrl || null
-  };
+return {
+  reply: acknowledgement,
+  rawReply: "CONFIRMED",
+  parsed: pending,
+  imageUrl: result.imageUrl || null
+};
 }
 if (
   pending &&
@@ -74,34 +82,24 @@ console.log("================================");
   };
 }
   let finalReply = cleanReply || rawReply;
-  console.log("CLEAN REPLY:", cleanReply);
-console.log("RAW REPLY:", rawReply);
-console.log("INITIAL FINAL REPLY:", finalReply);
+
   let imageUrl = null;
 
   if (hasCommand && parsed) {
     if (parsed.type === "plan") {
-      console.log("PLAN BEFORE VALIDATION:", parsed);
-
-  const validation = validatePlan(parsed);
-  if (!validation.approved) {
-    setPendingAction(parsed);
-    console.log("PENDING SAVED:", getPendingAction());
-    return {
-      reply: validation.needsConfirmation
-        ? `This action may be risky, sir. Shall I proceed?`
-        : `Plan rejected, sir. ${validation.reason}`,
-      rawReply,
-      parsed,
-      imageUrl: null
-    };
-  }
+      
 }
+
 const validation = validatePlan(parsed);
+
 if (!validation.approved) {
 
   if (validation.needsConfirmation) {
+    
+    
+
     setPendingAction(parsed);
+
 
     return {
       reply: "This action may be risky, sir. Shall I proceed?",
@@ -119,11 +117,14 @@ if (!validation.approved) {
   };
 }
 
-console.log("EXECUTING:", parsed);
-    const result = await executeCommand(parsed);
-   console.log("EXECUTION RESULT:", result);
-    imageUrl = result.imageUrl || null;
-    const actionResult = result.action;
+
+
+const result = await executeCommand(parsed);
+
+
+
+imageUrl = result.imageUrl || null;
+const actionResult = result.action;
     const infoActions = [
   "battery",
   "cpu",
@@ -150,9 +151,14 @@ console.log("EXECUTING:", parsed);
 "gpu_memory",
 "public_ip",
 ];
+ if (parsed.type === "plan" ||
+    parsed.type === "preset") {
 
-    if (parsed.type === "plan") {
-  finalReply = actionResult;
+  finalReply = await generateAcknowledgement(
+    userMessage,
+    actionResult
+  );
+
 }
 else if (infoActions.includes(parsed.action)) {
   finalReply = actionResult;
@@ -170,11 +176,7 @@ else {
 //   finalReply = await beautifyReply(finalReply);
 //   console.log("AFTER BEAUTIFY:", finalReply);
 // }
-console.log("FINAL REPLY:", finalReply);
-console.log("RETURNING:", {
-  reply: finalReply,
-  imageUrl
-});
+
   return {
     reply: finalReply,
     rawReply,

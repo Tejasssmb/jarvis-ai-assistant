@@ -160,7 +160,7 @@ socket.on("mobile_command", async (data) => {
   try {
 
     const result = await processCommand(data.command);
-
+    
     socket.emit("jarvis_reply", {
       reply: result.reply,
     });

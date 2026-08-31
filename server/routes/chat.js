@@ -166,6 +166,7 @@ router.post('/', async (req, res) => {
     ];
 
    const result = await processCommand(message, history);
+   
    if (
   result.parsed &&
   result.parsed.action === "screenshot"

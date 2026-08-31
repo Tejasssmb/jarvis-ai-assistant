@@ -38,67 +38,99 @@ console.log(
     return response.message.content;
   }
 }
-async function beautifyReply(text) {
-  try {
-    console.log("BEAUTIFY REQUEST SENT");
-    const response = await groq.chat.completions.create({
-      
-      model: "openai/gpt-oss-120b",
-      messages: [
-        {
-          role: "system",
-         content: `
+
+async function generateAcknowledgement(userMessage, executionResult) {
+  const messages = [
+    {
+      role: "system",
+      content: `
 You are Jarvis.
 
-Rewrite the text as a natural, professional Jarvis response.
+The task has already been executed successfully.
+
+Generate a short natural acknowledgement.
 
 Rules:
-- Maximum 8 words.
-- Sound intelligent and confident.
-- Never mention paths.
-- Never mention filenames unless necessary.
-- Never describe internal operations.
-- Never explain what happened.
-- Return only the spoken response.
-
-Examples:
-
-Folder Backup created successfully. Opened folder Backup
--> Folder ready, sir.
-
-C:\\Users\\tejas\\Desktop\\a.txt. Opening a.txt
--> Found it, sir.
-
-Opening chrome for you sir. Searching Google for Jarvis AI
--> Right away, sir.
+- Maximum 6 words.
+- Do not describe actions.
+- Do not repeat the user request.
+- Do not mention applications, files, folders, websites, paths.
+- Sound like Tony Stark's Jarvis.
 `
-        },
-        {
-          role: "user",
-          content: text
-        }
-      ],
-      max_tokens: 20
-    });
-    console.log(
-  "RAW BEAUTIFY RESPONSE:",
-  JSON.stringify(response, null, 2)
-);
- const result =
-      response?.choices?.[0]?.message?.content?.trim();
+    },
+    {
+      role: "user",
+      content: `
+Request: ${userMessage}
 
-    console.log("BEAUTIFY INPUT:", text);
-    console.log("BEAUTIFY OUTPUT:", result);
+Result: ${executionResult}
+`
+    }
+  ];
 
-    return result || text;
-
-  } catch (error) {
-    console.log("BEAUTIFY ERROR:", error);
-    return text;
-  }
+  return await callAI(messages);
 }
+// async function beautifyReply(text) {
+//   try {
+//     console.log("BEAUTIFY REQUEST SENT");
+//     const response = await groq.chat.completions.create({
+      
+//       model: "openai/gpt-oss-120b",
+//       messages: [
+//         {
+//           role: "system",
+//          content: `
+// You are Jarvis.
+
+// Rewrite the text as a natural, professional Jarvis response.
+
+// Rules:
+// - Maximum 8 words.
+// - Sound intelligent and confident.
+// - Never mention paths.
+// - Never mention filenames unless necessary.
+// - Never describe internal operations.
+// - Never explain what happened.
+// - Return only the spoken response.
+
+// Examples:
+
+// Folder Backup created successfully. Opened folder Backup
+// -> Folder ready, sir.
+
+// C:\\Users\\tejas\\Desktop\\a.txt. Opening a.txt
+// -> Found it, sir.
+
+// Opening chrome for you sir. Searching Google for Jarvis AI
+// -> Right away, sir.
+// `
+//         },
+//         {
+//           role: "user",
+//           content: text
+//         }
+//       ],
+//       max_tokens: 20
+//     });
+//     console.log(
+//   "RAW BEAUTIFY RESPONSE:",
+//   JSON.stringify(response, null, 2)
+// );
+//  const result =
+//       response?.choices?.[0]?.message?.content?.trim();
+
+//     console.log("BEAUTIFY INPUT:", text);
+//     console.log("BEAUTIFY OUTPUT:", result);
+
+//     return result || text;
+
+//   } catch (error) {
+//     console.log("BEAUTIFY ERROR:", error);
+//     return text;
+//   }
+// }
 
 module.exports = {
   callAI,
-  beautifyReply
+  generateAcknowledgement
 };

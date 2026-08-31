@@ -1,0 +1,10 @@
+TODO:
+open_folder should support arbitrary folder paths
+instead of only system folders
+[ ] open_folder should support arbitrary folders
+[ ] cpu_temperature fallback on Windows
+[ ] gpu_usage detection improvement
+[ ] gpu_memory detection improvement
+[ ] improve folder opening feedback message
+[ ] improve internet speed formatting
+[ ] handle file manager focus issue
