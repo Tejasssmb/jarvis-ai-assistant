@@ -44,8 +44,21 @@ const { setAuthenticated } = useAuth();
     );
 
     saveToken(res.data.token);
-    setAuthenticated(true);
-    navigate("/");
+
+console.log("1. BEFORE setAuthenticated");
+
+setAuthenticated(true);
+
+console.log("2. AFTER setAuthenticated");
+console.log("3. jarvisToken =", localStorage.getItem("jarvisToken"));
+
+if (!localStorage.getItem("jarvisToken")) {
+  console.log("4. GOING TO PAIR DEVICE");
+  navigate("/pair-device");
+} else {
+  console.log("5. GOING TO DASHBOARD");
+  navigate("/");
+}
 
   } catch (err) {
 

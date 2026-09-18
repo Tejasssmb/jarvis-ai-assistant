@@ -14,6 +14,13 @@ export const removeToken = () => {
   localStorage.removeItem(USER_TOKEN_KEY);
 };
 
+export const saveDeviceToken = (token) => {
+  localStorage.setItem("jarvisToken", token);
+};
+
+export const getDeviceToken = () => {
+  return localStorage.getItem("jarvisToken");
+};
 // export const refreshToken = async () => {
 //   try {
 //     const deviceId = localStorage.getItem("jarvisDeviceId");

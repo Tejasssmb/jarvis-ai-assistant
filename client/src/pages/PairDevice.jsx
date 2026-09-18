@@ -1,10 +1,12 @@
 import { useState } from "react";
 import api from "../services/api";
-import { saveToken } from "../services/auth/authService";
-
+import { saveDeviceToken } from "../services/auth/authService";
+import { useEffect } from "react";
 
 function PairDevice() {
- 
+   useEffect(() => {
+    console.log("PAIR DEVICE PAGE LOADED");
+  }, []);
   const [pairCode, setPairCode] = useState("");
   const [message, setMessage] = useState("");
 
@@ -19,9 +21,9 @@ function PairDevice() {
         platform: navigator.userAgent,
       });
      
-
+      console.log("PAIR RESPONSE:", res.data);
       
-      saveToken(res.data.token);
+      saveDeviceToken(res.data.token);
 
 localStorage.setItem(
   "jarvisDeviceId",

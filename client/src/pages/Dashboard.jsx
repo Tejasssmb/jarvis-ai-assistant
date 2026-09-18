@@ -1,8 +1,10 @@
 
 import "../styles/Page.css";
-
+import { useEffect } from "react";
 export default function Dashboard() {
-
+    useEffect(() => {
+  console.log("DASHBOARD PAGE LOADED");
+}, []);
     const hour = new Date().getHours();
 
     let greeting = "Good Evening";
@@ -60,3 +62,4 @@ export default function Dashboard() {
 );
 
 }
+

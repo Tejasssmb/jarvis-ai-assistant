@@ -12,7 +12,7 @@ const {
   clearPendingAction
 } = require("./confirmationState");
 
-async function processCommand(userMessage, history = []) {
+async function processCommand(userMessage, history = [], mobileSocket = null) {
   const pending = getPendingAction();
 
 if (
@@ -121,8 +121,6 @@ if (!validation.approved) {
 
 const result = await executeCommand(parsed);
 
-
-
 imageUrl = result.imageUrl || null;
 const actionResult = result.action;
     const infoActions = [
@@ -151,17 +149,17 @@ const actionResult = result.action;
 "gpu_memory",
 "public_ip",
 ];
- if (parsed.type === "plan" ||
-    parsed.type === "preset") {
-
+ if (infoActions.includes(parsed.action)) {
+  finalReply = actionResult;
+}
+else if (
+  parsed.type === "plan" ||
+  parsed.type === "preset"
+) {
   finalReply = await generateAcknowledgement(
     userMessage,
     actionResult
   );
-
-}
-else if (infoActions.includes(parsed.action)) {
-  finalReply = actionResult;
 }
 else {
   finalReply = cleanReply || actionResult;

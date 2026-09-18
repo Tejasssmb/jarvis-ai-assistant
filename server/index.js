@@ -19,6 +19,7 @@ const userAuthRoute = require("./routes/userAuth");
 const { v4: uuidv4 } = require("uuid");
 const DesktopRegistration = require("./models/DesktopRegistration");
 const pairDesktopRoute = require("./routes/pairDesktop");
+const jwt = require("jsonwebtoken");
 const {
   setIO,
   connectedClients,
@@ -87,14 +88,20 @@ io.on("connection", (socket) => {
   console.log("Socket Connected:", socket.id);
 
  socket.on("authenticate", async (token) => {
-
+  console.log("RAW TOKEN:", token);
+  const decodedWithoutVerify = jwt.decode(token);
+console.log("DECODED WITHOUT VERIFY:", decodedWithoutVerify);
   try {
-
-   
-
+    console.log("AUTH TOKEN RECEIVED");
+    console.log("SERVER TIME:", new Date());
+    console.log("JWT_SECRET:", process.env.JWT_SECRET);
     const decoded = verifyToken(token);
-    
-
+    console.log("DECODED:", decoded);
+    console.log("LOOKING FOR DEVICE:", {
+  deviceId: decoded.deviceId,
+  trusted: true,
+  jwtToken: token
+});
     const device = await Device.findOne({
       deviceId: decoded.deviceId,
       trusted: true,
@@ -159,10 +166,11 @@ socket.on("mobile_command", async (data) => {
 
   try {
 
-    const result = await processCommand(data.command);
+    const result = await processCommand(data.command, [], socket);
     
     socket.emit("jarvis_reply", {
       reply: result.reply,
+      imageUrl: result.imageUrl || null,
     });
 
   } catch (err) {
@@ -218,6 +226,17 @@ socket.on("mobile_command", async (data) => {
    } catch (err) {
       console.error("Disconnect save failed:", err.message);
    }
+});
+socket.on("system_alert", (data) => {
+
+  console.log("SYSTEM ALERT:", data);
+  io.emit("jarvis_notification", {
+    title: "Jarvis Alert",
+    message: data.message,
+    type: data.type
+  });
+
+
 });
 });
 const PORT = process.env.PORT || 5000;

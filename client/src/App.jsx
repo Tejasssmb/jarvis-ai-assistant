@@ -11,14 +11,20 @@ import Chat from "./pages/Chat";
 import Login from "./pages/Login";
 import { useAuth } from "./context/AuthContext";
 import DesktopView from "./pages/DesktopView";
+
 function App() {
   const { loading, authenticated } = useAuth();
-
+  console.log("APP RENDER");
+console.log("authenticated =", authenticated);
+console.log("pathname =", window.location.pathname);
   if (loading) {
+    console.log("CURRENT PATH:", window.location.pathname);
     return <h2>Starting JARVIS...</h2>;
+    
   }
 
  return (
+  
   <BrowserRouter>
     <Routes>
 
@@ -55,17 +61,30 @@ function App() {
         }
       />
 
+      <Route
+  path="/pair-device"
+  element={
+    authenticated ? (
+      <PairDevice />
+    ) : (
+      <Navigate to="/login" replace />
+    )
+  }
+/>
+
       {/* Mobile */}
       <Route
-        path="/mobile"
-        element={
-          authenticated ? (
-            <MobileHome />
-          ) : (
-            <Navigate to="/login" replace />
-          )
-        }
-      />
+  path="/mobile"
+  element={
+    authenticated ? (
+      localStorage.getItem("jarvisToken")
+        ? <MobileHome />
+        : <PairDevice />
+    ) : (
+      <Navigate to="/login" replace />
+    )
+  }
+/>
 
     </Routes>
   </BrowserRouter>

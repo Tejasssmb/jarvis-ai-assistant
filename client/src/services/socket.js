@@ -6,8 +6,8 @@ const socket = io("http://localhost:5000", {
 });
 
 socket.on("connect", () => {
-  const token = getToken();
-
+  const token = localStorage.getItem("jarvisToken");
+  console.log("SOCKET TOKEN:", token);
   if (token) {
     socket.emit("authenticate", token);
   }

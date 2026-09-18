@@ -1,13 +1,11 @@
 import pyperclip
-
-
 def read_clipboard():
     try:
         text = pyperclip.paste()
 
         return {
             "status": "success",
-            "action": f"Clipboard contains: {text}"
+            "action": text
         }
 
     except Exception as e:
@@ -23,7 +21,7 @@ def write_clipboard(text):
 
         return {
             "status": "success",
-            "action": "Copied to clipboard"
+            "action": "copied_to_clipboard"
         }
 
     except Exception as e:

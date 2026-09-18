@@ -9,6 +9,8 @@ from device_identity import (
     get_device,
     save_device,
 )
+from battery_monitor import monitor_battery
+import threading
 
 sio = socketio.Client()
 
@@ -95,5 +97,30 @@ def connect_to_server():
         print("\nStopping Desktop Agent...")
         sio.disconnect()
 
+def send_system_alert(alert_type, message):
 
+    sio.emit(
+        "system_alert",
+        {
+            "type": alert_type,
+            "message": message
+        }
+    )
+def connect_to_server():
+    server_url = os.getenv("SERVER_URL")
 
+    try:
+        sio.connect(server_url)
+
+        threading.Thread(
+            target=monitor_battery,
+            args=(send_system_alert,),
+            daemon=True
+        ).start()
+
+        while sio.connected:
+            time.sleep(1)
+
+    except KeyboardInterrupt:
+        print("\nStopping Desktop Agent...")
+        sio.disconnect()
