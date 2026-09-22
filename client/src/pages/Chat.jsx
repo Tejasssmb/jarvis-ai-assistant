@@ -2,10 +2,9 @@ import { useState, useRef, useEffect } from 'react'
 import axios from 'axios'
 import './Chat.css'
 import socket from "../services/socket";
+import ConversationSidebar from "../components/ConversationSidebar";
 function Chat() {
-  const [messages, setMessages] = useState([
-    { role: 'assistant', content: 'Hello! I am Jarvis. How can I assist you today?' }
-  ])
+  const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
   const [listening, setListening] = useState(false)
@@ -15,13 +14,15 @@ function Chat() {
   const audioChunksRef = useRef([])
   const autoModeRef = useRef(false)
   const abortControllerRef = useRef(null)
+  const [conversationId, setConversationId] = useState(null);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
+
+ 
   useEffect(() => {
   socket.connect();
- 
 
   socket.on('jarvis_wake', (data) => {
     console.log('Wake event:', data)
@@ -149,7 +150,25 @@ const mediaRecorder = new MediaRecorder(stream, { mimeType })
       setTimeout(() => startListening(), 500)
     }
   }
+  const loadConversation = async (id) => {
+  try {
+    console.log("CLICKED ID:", id);
 
+    const res = await axios.get(
+      `http://localhost:5000/api/conversations/${id}`
+    );
+
+    console.log("FULL RESPONSE:", res.data);
+    console.log("MESSAGES:", res.data.messages);
+
+    setConversationId(id);
+    setMessages(res.data.messages || []);
+
+  } catch (err) {
+    console.error(err);
+  }
+};
+ 
   const sendMessageWithText = async (text) => {
     if (!text.trim()) return
 
@@ -167,6 +186,14 @@ const mediaRecorder = new MediaRecorder(stream, { mimeType })
     abortControllerRef.current = new AbortController()
 
     try {
+      if (conversationId) {
+      await axios.post(
+  `http://localhost:5000/api/conversations/${conversationId}/message`,
+  {
+    role: "user",
+    content: text
+  }
+);}
       const res = await axios.post('http://localhost:5000/api/chat', {
         message: text,
         history
@@ -180,6 +207,15 @@ const mediaRecorder = new MediaRecorder(stream, { mimeType })
     type: "conversation",
     content: `User: ${text}\nJarvis: ${reply}`
 });
+if (conversationId) {
+await axios.post(
+  `http://localhost:5000/api/conversations/${conversationId}/message`,
+  {
+    role: "assistant",
+    content: reply,
+    imageUrl
+  }
+);}
       setMessages(prev => [...prev, { role: 'assistant', content: reply, imageUrl }])
 
       
@@ -206,6 +242,13 @@ const mediaRecorder = new MediaRecorder(stream, { mimeType })
 
 return (
   <div className="chat-container">
+    <div className="chat-body">
+    {/* LEFT SIDE */}
+    <ConversationSidebar
+      onSelectConversation={loadConversation}
+    />
+     {/* RIGHT SIDE */}
+    
 
     <div className="chat-messages">
   {messages.map((m, i) => (
@@ -252,6 +295,8 @@ return (
         <div ref={bottomRef} />
     </div>
 
+  </div>
+
     <div className="chat-input">
         <button
           className={`mode-button ${autoMode ? 'active' : ''}`}
@@ -284,8 +329,8 @@ return (
         <button onClick={sendMessage}>SEND</button>
 
     </div>
-
-  </div>
+        </div>
+  
 );}
 
 export default Chat;

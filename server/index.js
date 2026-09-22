@@ -31,6 +31,8 @@ const uploadScreenshotRoute =
 require("./routes/uploadScreenshot");
 const latestScreenshotRoute =
 require("./routes/latestScreenshot");
+const conversationRoute =
+require("./routes/conversations");
 const path = require("path");
 // Middleware FIRST
 app.use(cors({ origin: 'http://localhost:5173' }));
@@ -63,6 +65,11 @@ app.use(
 app.use(
   "/api/latest-screenshot",
   latestScreenshotRoute
+);
+
+app.use(
+  "/api/conversations",
+  conversationRoute
 );
 // MongoDB
 mongoose.connect(process.env.MONGO_URI, {
