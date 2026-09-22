@@ -57,14 +57,25 @@ async function getSearchResults(query) {
 // ============================================
 function shouldSaveMemory(message) {
   const lower = message.toLowerCase();
-  return lower.includes('remember') ||
-    lower.includes('my name is') ||
-    lower.includes('i like') ||
-    lower.includes('i hate') ||
-    lower.includes('i prefer') ||
-    lower.includes('my favorite') ||
-    lower.includes('never forget') ||
-    lower.includes('keep in mind');
+
+  const memoryPatterns = [
+    "my name is",
+    "i am",
+    "i'm",
+    "my project is",
+    "my college is",
+    "my favorite",
+    "i like",
+    "i love",
+    "my dog",
+    "my cat",
+    "my birthday",
+    "remember that"
+  ];
+
+  return memoryPatterns.some(p =>
+    lower.includes(p)
+  );
 }
 
 async function saveMemory(content) {

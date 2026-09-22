@@ -11,7 +11,7 @@ const {
   getPendingAction,
   clearPendingAction
 } = require("./confirmationState");
-
+const Memory = require("../models/Memory");
 async function processCommand(userMessage, history = [], mobileSocket = null) {
   const pending = getPendingAction();
 
@@ -65,7 +65,21 @@ if (
       content: userMessage,
     },
   ];
- 
+  
+  const memories = await Memory
+  .find()
+  .sort({ createdAt: -1 })
+  .limit(10);
+
+const memoryContext = memories
+  .map(m => m.content)
+  .join("\n");
+
+messages.splice(1, 0, {
+  role: "system",
+  content: `USER MEMORIES:\n${memoryContext}`
+});
+
   const rawReply = await callAI(messages);
   console.log("RAW AI RESPONSE:\n", rawReply);
 console.log("================================");
