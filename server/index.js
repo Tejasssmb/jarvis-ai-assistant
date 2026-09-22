@@ -6,7 +6,6 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const http = require('http');
 const { Server } = require('socket.io');
-
 const chatRoute = require('./routes/chat');
 const memoryRoute = require('./routes/memory');
 const reminderRoute = require('./routes/reminder');
@@ -34,6 +33,7 @@ require("./routes/latestScreenshot");
 const conversationRoute =
 require("./routes/conversations");
 const path = require("path");
+const startupRoute = require("./routes/startup");
 // Middleware FIRST
 app.use(cors({ origin: 'http://localhost:5173' }));
 app.use(express.json());
@@ -71,6 +71,7 @@ app.use(
   "/api/conversations",
   conversationRoute
 );
+app.use("/api/startup", startupRoute);
 // MongoDB
 mongoose.connect(process.env.MONGO_URI, {
   dbName: "jarvis",

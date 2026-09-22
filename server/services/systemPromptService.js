@@ -1,5 +1,6 @@
 const Memory = require("../models/Memory");
 const capabilities = require("./capabilities");
+
 async function buildSystemPrompt() {
   const now = new Date();
   const currentDate = now.toLocaleDateString('en-IN', {
@@ -11,7 +12,16 @@ async function buildSystemPrompt() {
     timeZone: 'Asia/Kolkata',
     hour: '2-digit', minute: '2-digit'
   });
+  const profileMemories = await Memory
+  .find({
+    type: { $in: ["profile", "project", "goal"] }
+  })
+  .sort({ createdAt: -1 })
+  .limit(20);
 
+const userContext = profileMemories
+  .map(m => m.content)
+  .join("\n");
   // Load memories
   let memoriesText = '';
   try {
@@ -33,6 +43,16 @@ async function buildSystemPrompt() {
  return `You are Jarvis, the highly sophisticated AI assistant of Tejas, inspired by Tony Stark's Jarvis.
 
 TODAY: ${currentDate}. CURRENT TIME: ${currentTime} IST
+KNOWN INFORMATION:
+
+${userContext}
+
+Rules:
+- Remember the user's projects.
+- Remember the user's goals.
+- Speak naturally.
+- Be proactive when relevant.
+
 
 PERSONALITY:
 - You are witty, intelligent, and slightly dry in humor

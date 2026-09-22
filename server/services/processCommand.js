@@ -66,10 +66,30 @@ if (
     },
   ];
   
-  const memories = await Memory
-   .find({
-    type: { $ne: "conversation" }
-  })
+  let query = {
+  type: { $ne: "conversation" }
+};
+
+const lowerMessage = userMessage.toLowerCase();
+
+if (lowerMessage.includes("project")) {
+  query.type = "project";
+}
+else if (
+  lowerMessage.includes("favorite") ||
+  lowerMessage.includes("like")
+) {
+  query.type = "preference";
+}
+else if (
+  lowerMessage.includes("name") ||
+  lowerMessage.includes("who am i")
+) {
+  query.type = "profile";
+}
+
+const memories = await Memory
+  .find(query)
   .sort({ createdAt: -1 })
   .limit(10);
 
