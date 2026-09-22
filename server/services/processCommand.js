@@ -67,7 +67,9 @@ if (
   ];
   
   const memories = await Memory
-  .find()
+   .find({
+    type: { $ne: "conversation" }
+  })
   .sort({ createdAt: -1 })
   .limit(10);
 

@@ -78,12 +78,19 @@ function shouldSaveMemory(message) {
   );
 }
 
-async function saveMemory(content) {
+async function saveMemory(content, type = "conversation") {
   try {
-    const Memory = require('../models/Memory');
-    const memory = new Memory({ content, type: 'fact' });
+    const Memory = require("../models/Memory");
+
+    const memory = new Memory({
+      content,
+      type
+    });
+
     await memory.save();
-  } catch {}
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 async function saveReminder(message) {
@@ -194,8 +201,39 @@ const finalReply = result.reply;
 
     // Save memory if needed
     if (shouldSaveMemory(message)) {
-      await saveMemory(`User said: ${message}`);
-    }
+
+  let memoryType = "conversation";
+
+  const lower = message.toLowerCase();
+
+  if (lower.includes("project")) {
+    memoryType = "project";
+  }
+  else if (
+    lower.includes("favorite") ||
+    lower.includes("i like") ||
+    lower.includes("i love")
+  ) {
+    memoryType = "preference";
+  }
+  else if (
+    lower.includes("my name") ||
+    lower.includes("i am")
+  ) {
+    memoryType = "profile";
+  }
+  else if (
+    lower.includes("want to") ||
+    lower.includes("goal")
+  ) {
+    memoryType = "goal";
+  }
+
+  await saveMemory(
+    `User said: ${message}`,
+    memoryType
+  );
+}
     // Save reminder if needed
 await saveReminder(message);
     // Speak the reply
