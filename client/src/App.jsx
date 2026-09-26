@@ -18,7 +18,7 @@ function App() {
 console.log("authenticated =", authenticated);
 console.log("pathname =", window.location.pathname);
   if (loading) {
-    console.log("CURRENT PATH:", window.location.pathname);
+    
     return <h2>Starting JARVIS...</h2>;
     
   }

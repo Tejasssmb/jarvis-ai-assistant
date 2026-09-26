@@ -12,7 +12,54 @@ const {
   clearPendingAction
 } = require("./confirmationState");
 const Memory = require("../models/Memory");
+const detectMemoryIntent =
+require("./memoryIntentDetector");
+const searchRelevantMemories =
+require("./memorySearch");
 async function processCommand(userMessage, history = [], mobileSocket = null) {
+  const intent =
+  await detectMemoryIntent(userMessage);
+  if (intent === "memory_search") {
+
+  const memories =
+  await searchRelevantMemories(
+    userMessage
+  );
+  // .sort({ createdAt: -1 })
+  // .limit(30);
+
+  const memoryContext =
+    memories
+      .map(m => `[${m.type}] ${m.content}`)
+      .join("\n");
+
+  const reply = await callAI([
+    {
+      role: "system",
+      content: `
+Answer ONLY using the user's memories.
+
+If the answer is not present,
+say you do not remember that yet.
+
+USER MEMORIES:
+
+${memoryContext}
+`
+    },
+    {
+      role: "user",
+      content: userMessage
+    }
+  ]);
+
+  return {
+    reply,
+    rawReply: reply,
+    parsed: { type: "chat" },
+    imageUrl: null
+  };
+}
   const pending = getPendingAction();
 
 if (
@@ -49,6 +96,50 @@ if (
     reply: "Cancelled, sir.",
     rawReply: "CANCELLED",
     parsed: null,
+    imageUrl: null
+  };
+}
+
+  const lower = userMessage.toLowerCase();
+
+if (
+  lower.includes("what do you remember about me") ||
+  lower.includes("what do you know about me")
+) {
+  const memories = await Memory.find({
+    type: { $ne: "conversation" }
+  });
+
+  return {
+    reply: memories.map(m => m.content).join("\n"),
+    rawReply: "MEMORY_RECALL",
+    parsed: { type: "chat" },
+    imageUrl: null
+  };
+}
+
+if (lower.includes("my goals")) {
+  const goals = await Memory.find({
+    type: "goal"
+  });
+
+  return {
+    reply: goals.map(g => g.content).join("\n"),
+    rawReply: "GOAL_RECALL",
+    parsed: { type: "chat" },
+    imageUrl: null
+  };
+}
+
+if (lower.includes("my projects")) {
+  const projects = await Memory.find({
+    type: "project"
+  });
+
+  return {
+    reply: projects.map(p => p.content).join("\n"),
+    rawReply: "PROJECT_RECALL",
+    parsed: { type: "chat" },
     imageUrl: null
   };
 }

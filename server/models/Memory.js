@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 
 const memorySchema = new mongoose.Schema({
+  
   type: {
-    type: String,
-    enum: ['fact', 'preference', 'conversation'],
-    default: 'fact'
-  },
+  type: String,
+  default: "general"
+    },
   content: {
     type: String,
     required: true

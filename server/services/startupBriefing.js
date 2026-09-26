@@ -1,5 +1,4 @@
 const Memory = require("../models/Memory");
-console.log(module.exports);
 async function getStartupBriefing() {
   const projects = await Memory.find({
     type: "project"

@@ -14,7 +14,10 @@ const executeCommand = require("../services/commandExecutor");
 const parseCommand = require("../services/parserService");
 const processCommand = require("../services/processCommand");
 const buildSystemPrompt = require("../services/systemPromptService");
-
+const classifyMemory = require(
+  "../services/memoryClassifier"
+);
+console.log(require.resolve("../services/memoryClassifier"));
 
 
 // ============================================
@@ -82,12 +85,21 @@ async function saveMemory(content, type = "conversation") {
   try {
     const Memory = require("../models/Memory");
 
-    const memory = new Memory({
+    const existing = await Memory.findOne({
       content,
       type
     });
 
-    await memory.save();
+    if (existing) {
+      console.log("Memory already exists");
+      return;
+    }
+
+    await Memory.create({
+      content,
+      type
+    });
+
   } catch (err) {
     console.error(err);
   }
@@ -200,35 +212,15 @@ router.post('/', async (req, res) => {
 const finalReply = result.reply;
 
     // Save memory if needed
-    if (shouldSaveMemory(message)) {
-
-  let memoryType = "conversation";
-
-  const lower = message.toLowerCase();
-
-  if (lower.includes("project")) {
-    memoryType = "project";
-  }
-  else if (
-    lower.includes("favorite") ||
-    lower.includes("i like") ||
-    lower.includes("i love")
-  ) {
-    memoryType = "preference";
-  }
-  else if (
-    lower.includes("my name") ||
-    lower.includes("i am")
-  ) {
-    memoryType = "profile";
-  }
-  else if (
-    lower.includes("want to") ||
-    lower.includes("goal")
-  ) {
-    memoryType = "goal";
-  }
-
+   const memoryType =
+  await classifyMemory(message);
+  console.log("MEMORY TYPE:", memoryType);
+  if (memoryType !== "none") {
+  await saveMemory(
+    `User said: ${message}`,
+    memoryType
+  );
+} {
   await saveMemory(
     `User said: ${message}`,
     memoryType
