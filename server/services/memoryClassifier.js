@@ -1,4 +1,3 @@
-
 const { callAI } = require("./aiService");
 
 async function classifyMemory(message) {
@@ -6,20 +5,22 @@ async function classifyMemory(message) {
     {
       role: "system",
       content: `
-Analyze the memory.
+Analyze the user message.
 
-Return ONLY:
-
-- a short category name
-or
-- none
+Return ONLY a short category name.
 
 Examples:
 
-"My dad is Prakash"
+"My father is Prakash"
 family
 
-"I like RCB"
+"My sister is Nayana"
+family
+
+"I like Python"
+preference
+
+"I support RCB"
 sports
 
 "I like biryani"
@@ -38,10 +39,11 @@ education
 none
 
 Rules:
-- One word if possible
 - lowercase only
+- one word if possible
 - no explanation
-- no JSON `
+- no JSON
+`
     },
     {
       role: "user",
@@ -51,7 +53,74 @@ Rules:
 
   const result = await callAI(prompt);
 
+  console.log("CLASSIFIER RAW:", result);
+
   return result.trim().toLowerCase();
 }
 
-module.exports = classifyMemory;
+async function shouldStoreMemory(message) {
+  const prompt = [
+    {
+      role: "system",
+      content: `
+Decide whether this message should be stored as memory.
+
+Return ONLY:
+
+store
+
+or
+
+ignore
+
+Store only if the message teaches a new fact about the user.
+
+Examples:
+
+"I like Python"
+store
+
+"My project is Jarvis"
+store
+
+"My father is Prakash"
+store
+
+"What do you know about my family?"
+ignore
+
+"What project am I working on?"
+ignore
+
+"Hi"
+ignore
+
+"Hello Jarvis"
+ignore
+
+"Thank you"
+ignore
+
+Rules:
+- Return ONLY store or ignore
+- No explanation
+- No JSON
+`
+    },
+    {
+      role: "user",
+      content: message
+    }
+  ];
+
+  const result = await callAI(prompt);
+
+  console.log("STORE RAW:", result);
+
+  return result.trim().toLowerCase();
+}
+
+module.exports = {
+  classifyMemory,
+  shouldStoreMemory
+};

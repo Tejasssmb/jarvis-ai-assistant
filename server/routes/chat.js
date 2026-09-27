@@ -14,10 +14,10 @@ const executeCommand = require("../services/commandExecutor");
 const parseCommand = require("../services/parserService");
 const processCommand = require("../services/processCommand");
 const buildSystemPrompt = require("../services/systemPromptService");
-const classifyMemory = require(
-  "../services/memoryClassifier"
-);
-console.log(require.resolve("../services/memoryClassifier"));
+const {
+  classifyMemory,
+  shouldStoreMemory
+} = require("../services/memoryClassifier");
 
 
 // ============================================
@@ -212,17 +212,27 @@ router.post('/', async (req, res) => {
 const finalReply = result.reply;
 
     // Save memory if needed
-   const memoryType =
-  await classifyMemory(message);
-  console.log("MEMORY TYPE:", memoryType);
-  if (memoryType !== "none") {
+  
+const memoryType =await classifyMemory(message);
+const storeDecision =await shouldStoreMemory(message);
+
+console.log(
+  "MEMORY TYPE:",
+  memoryType
+);
+
+console.log(
+  "STORE DECISION:",
+  storeDecision
+);
+
+if (
+  memoryType !== "none" &&
+  storeDecision === "store"
+) {
+
   await saveMemory(
-    `User said: ${message}`,
-    memoryType
-  );
-} {
-  await saveMemory(
-    `User said: ${message}`,
+    message,
     memoryType
   );
 }

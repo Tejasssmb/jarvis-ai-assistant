@@ -1,21 +1,24 @@
 const Memory = require("../models/Memory");
 async function getStartupBriefing() {
-  const projects = await Memory.find({
-    type: "project"
-  })
+  const memories = await Memory
+  .find()
   .sort({ createdAt: -1 })
-  .limit(3);
+  .limit(50);
 
-  const goals = await Memory.find({
-    type: "goal"
-  })
-  .sort({ createdAt: -1 })
-  .limit(3);
+  const grouped = {};
 
-  return {
-    projects,
-    goals
-  };
+memories.forEach(memory => {
+
+  if (!grouped[memory.type]) {
+    grouped[memory.type] = [];
+  }
+
+  grouped[memory.type].push(memory);
+
+});
+
+  return grouped;
+  
 }
 
 module.exports = {
