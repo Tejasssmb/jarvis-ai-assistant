@@ -2,51 +2,52 @@ const Memory = require("../models/Memory");
 const { callAI } = require("./aiService");
 
 async function searchRelevantMemories(userMessage) {
+const memories = await Memory.find()
+  .sort({ createdAt: -1 })
+  .limit(50);
 
-  const category = await callAI([
+const memoryText = memories
+  .map(
+    m => `[${m.type}] ${m.content}`
+  )
+  .join("\n");
+
+const relevantMemories =
+  await callAI([
     {
       role: "system",
       content: `
-Determine what memory category is needed.
+You are a memory retrieval system.
 
-Return ONLY one category name.
+Given:
+1. User question
+2. Available memories
 
-Examples:
+Return ONLY the memories relevant
+to answering the question.
 
-Tell me about my family
-family
+If nothing is relevant return:
 
-What sports do I like
-sports
-
-What am I building
-project
-
-What are my goals
-career
+NONE
 `
     },
     {
       role: "user",
-      content: userMessage
+      content: `
+QUESTION:
+${userMessage}
+
+MEMORIES:
+${memoryText}
+`
     }
   ]);
-  console.log(
-  "MEMORY SEARCH CATEGORY:",
-  category
+
+console.log(
+  "RELEVANT MEMORIES:",
+  relevantMemories
 );
 
-  const memories = await Memory.find({
-    type: category.trim().toLowerCase()
-  })
-  .sort({ createdAt: -1 })
-  .limit(20);
-   console.log(
-  "FOUND MEMORIES:",
-  memories.length
-);
-  return memories;
-  
+return relevantMemories;
 }
-
 module.exports = searchRelevantMemories;

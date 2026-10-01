@@ -1,24 +1,41 @@
-const Memory = require("../models/Memory");
+const Device = require("../models/Device");
+
 async function getStartupBriefing() {
-  const memories = await Memory
-  .find()
-  .sort({ createdAt: -1 })
-  .limit(50);
 
-  const grouped = {};
+  const desktop = await Device.findOne({
+    deviceType: "desktop",
+    online: true
+  });
 
-memories.forEach(memory => {
+  const mobile = await Device.findOne({
+    deviceType: "mobile",
+    online: true
+  });
 
-  if (!grouped[memory.type]) {
-    grouped[memory.type] = [];
+  let briefing =
+    `Good ${getTimeOfDay()}, sir.\n\n`;
+
+  briefing += "All systems operational.\n";
+
+  if (desktop) {
+    briefing += "Desktop connected.\n";
   }
 
-  grouped[memory.type].push(memory);
+  if (mobile) {
+    briefing += "Phone connected.\n";
+  }
 
-});
+  briefing += "\nHow may I assist you today?";
 
-  return grouped;
-  
+  return { briefing };
+}
+
+function getTimeOfDay() {
+  const hour = new Date().getHours();
+
+  if (hour < 12) return "morning";
+  if (hour < 18) return "afternoon";
+  return "evening";
 }
 
 module.exports = {

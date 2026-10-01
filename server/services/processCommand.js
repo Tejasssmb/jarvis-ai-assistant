@@ -21,18 +21,10 @@ async function processCommand(userMessage, history = [], mobileSocket = null) {
   await detectMemoryIntent(userMessage);
   if (intent === "memory_search") {
 
-  const memories =
+ const memoryContext =
   await searchRelevantMemories(
     userMessage
   );
-  // .sort({ createdAt: -1 })
-  // .limit(30);
-
-  const memoryContext =
-    memories
-      .map(m => `[${m.type}] ${m.content}`)
-      .join("\n");
-
   const reply = await callAI([
     {
       role: "system",

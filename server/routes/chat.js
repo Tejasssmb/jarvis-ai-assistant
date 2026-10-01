@@ -18,7 +18,8 @@ const {
   classifyMemory,
   shouldStoreMemory
 } = require("../services/memoryClassifier");
-
+const extractMemories =
+  require("../services/memoryExtractor");
 
 // ============================================
 // AI CALL — GROQ PRIMARY, OLLAMA FALLBACK
@@ -81,7 +82,7 @@ function shouldSaveMemory(message) {
   );
 }
 
-async function saveMemory(content, type = "conversation") {
+async function saveMemory(content, type ) {
   try {
     const Memory = require("../models/Memory");
 
@@ -213,28 +214,21 @@ const finalReply = result.reply;
 
     // Save memory if needed
   
-const memoryType =await classifyMemory(message);
-const storeDecision =await shouldStoreMemory(message);
+const memories =
+  await extractMemories(message);
 
 console.log(
-  "MEMORY TYPE:",
-  memoryType
+  "EXTRACTED MEMORIES:",
+  memories
 );
 
-console.log(
-  "STORE DECISION:",
-  storeDecision
-);
-
-if (
-  memoryType !== "none" &&
-  storeDecision === "store"
-) {
+for (const memory of memories) {
 
   await saveMemory(
-    message,
-    memoryType
+    memory.content,
+    memory.type
   );
+
 }
     // Save reminder if needed
 await saveReminder(message);

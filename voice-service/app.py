@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import edge_tts
 import asyncio
 import pygame
@@ -47,6 +48,7 @@ from tools.brightness_tools import (
 )
 from contextlib import redirect_stdout
 app = Flask(__name__)
+CORS(app)
 VOICE = "en-US-GuyNeural"
 
 pygame.mixer.init()

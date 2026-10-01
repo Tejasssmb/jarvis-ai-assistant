@@ -15,11 +15,21 @@ function Chat() {
   const autoModeRef = useRef(false)
   const abortControllerRef = useRef(null)
   const [conversationId, setConversationId] = useState(null);
-
+  const startupLoaded = useRef(false);
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
+ useEffect(() => {
 
+  if (startupLoaded.current) {
+    return;
+  }
+
+  startupLoaded.current = true;
+
+  loadStartupBriefing();
+
+}, []);
  
   useEffect(() => {
   socket.connect();
@@ -231,6 +241,48 @@ await axios.post(
     setLoading(false)
     abortControllerRef.current = null
   }
+  const loadStartupBriefing = async () => {
+  try {
+
+    const res = await axios.get(
+      "http://localhost:5000/api/startup"
+    );
+
+    setMessages(prev => [
+  {
+    role: "assistant",
+    content: res.data.briefing
+  },
+  ...prev
+]);
+
+
+  console.log("SPEAKING STARTUP:", res.data.briefing);
+  try {
+  await axios.post(
+    "http://127.0.0.1:5001/speak",
+    {
+      text: res.data.briefing
+    }
+  );
+
+  console.log("STARTUP SPEAK SENT");
+
+} catch (err) {
+  console.error(
+    "STARTUP SPEAK FAILED",
+    err
+  );
+}
+
+
+  } catch (err) {
+    console.error(
+      "Startup briefing failed",
+      err
+    );
+  }
+};
 
   const sendMessage = () => {
     sendMessageWithText(input)
