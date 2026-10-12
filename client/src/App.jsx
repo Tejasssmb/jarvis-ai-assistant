@@ -11,7 +11,7 @@ import Chat from "./pages/Chat";
 import Login from "./pages/Login";
 import { useAuth } from "./context/AuthContext";
 import DesktopView from "./pages/DesktopView";
-
+import Core from "./pages/Core";
 function App() {
   const { loading, authenticated } = useAuth();
   console.log("APP RENDER");
@@ -29,25 +29,29 @@ console.log("pathname =", window.location.pathname);
     <Routes>
 
       {/* Desktop Layout */}
-      <Route
-        element={
-          authenticated ? (
-            <DesktopLayout />
-          ) : (
-            <Navigate to="/login" replace />
-          )
-        }
-      >
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/chat" element={<Chat />} />
-        <Route
-  path="/desktop"
-  element={<DesktopView />}
-/>
-        <Route path="/devices" element={<TrustedDevices />} />
-        <Route path="/memory" element={<Memory />} />
-        <Route path="/settings" element={<Settings />} />
-      </Route>
+       <Route
+    path="/"
+    element={
+      authenticated
+        ? <Core />
+        : <Navigate to="/login" replace />
+    }
+  />
+
+  <Route
+    element={
+      authenticated
+        ? <DesktopLayout />
+        : <Navigate to="/login" replace />
+    }
+  >
+    <Route path="/dashboard" element={<Dashboard />} />
+    <Route path="/chat" element={<Chat />} />
+    <Route path="/desktop" element={<DesktopView />} />
+    <Route path="/devices" element={<TrustedDevices />} />
+    <Route path="/memory" element={<Memory />} />
+    <Route path="/settings" element={<Settings />} />
+  </Route>
 
       {/* Login */}
       <Route

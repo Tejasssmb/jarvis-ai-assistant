@@ -3,6 +3,7 @@ import axios from 'axios'
 import './Chat.css'
 import socket from "../services/socket";
 import ConversationSidebar from "../components/ConversationSidebar";
+import ArcReactor from "../components/ArcReactor";
 function Chat() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('')
@@ -16,6 +17,8 @@ function Chat() {
   const abortControllerRef = useRef(null)
   const [conversationId, setConversationId] = useState(null);
   const startupLoaded = useRef(false);
+  const [jarvisState, setJarvisState] =
+  useState("idle");
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
@@ -91,6 +94,7 @@ const mediaRecorder = new MediaRecorder(stream, { mimeType })
 
       mediaRecorder.start()
       setListening(true)
+      setJarvisState("listening");
     } catch (error) {
       console.error('Mic error:', error)
       alert('Microphone access denied. Please allow mic access!')
@@ -101,6 +105,7 @@ const mediaRecorder = new MediaRecorder(stream, { mimeType })
     if (mediaRecorderRef.current && listening) {
       mediaRecorderRef.current.stop()
       setListening(false)
+      setJarvisState("idle");
     }
   }
 
@@ -187,7 +192,7 @@ const mediaRecorder = new MediaRecorder(stream, { mimeType })
     setMessages(updatedMessages)
     setInput('')
     setLoading(true)
-
+    setJarvisState("thinking");
     const history = updatedMessages.slice(0, -1).map(m => ({
       role: m.role,
       content: m.content
@@ -212,6 +217,7 @@ const mediaRecorder = new MediaRecorder(stream, { mimeType })
       })
 
       const reply = res.data.reply;
+      setJarvisState("speaking");
       const imageUrl = res.data.imageUrl;
       await axios.post("http://localhost:5000/api/memory/save", {
     type: "conversation",
@@ -227,6 +233,9 @@ await axios.post(
   }
 );}
       setMessages(prev => [...prev, { role: 'assistant', content: reply, imageUrl }])
+      setTimeout(() => {
+  setJarvisState("idle");
+}, 5000);
 
       
     } catch (error) {
@@ -291,7 +300,7 @@ await axios.post(
   const handleKey = (e) => {
     if (e.key === 'Enter') sendMessage()
   }
-
+  console.log("CHAT STATE =", jarvisState);
 return (
   <div className="chat-container">
     <div className="chat-body">
@@ -301,7 +310,7 @@ return (
     />
      {/* RIGHT SIDE */}
     
-
+   <ArcReactor state={jarvisState} />
     <div className="chat-messages">
   {messages.map((m, i) => (
     <div key={i} className={`message ${m.role}`}>

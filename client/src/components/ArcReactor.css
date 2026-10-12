@@ -1,0 +1,175 @@
+.arc-reactor {
+  position: relative;
+  /* top: 50%;
+  right: 80px;
+  transform: translateY(-50%); */
+  width: 500px;
+  height: 500px;
+  /* pointer-events: none; */
+}
+/* OUTER */
+.ring {
+  width: 350px;
+  height: 350px;
+}
+
+.outer-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+
+  background:
+    conic-gradient(
+      transparent 0deg,
+      #00e5ff 40deg,
+      transparent 90deg,
+      #00e5ff 140deg,
+      transparent 190deg,
+      #00e5ff 240deg,
+      transparent 290deg,
+      #00e5ff 340deg,
+      transparent 360deg
+    );
+
+  filter: drop-shadow(0 0 10px #00e5ff);
+}
+
+/* MIDDLE */
+
+.middle-ring {
+  position: absolute;
+  inset: 30px;
+  border-radius: 50%;
+
+  background:
+    conic-gradient(
+      #00e5ff,
+      transparent,
+      #00e5ff,
+      transparent,
+      #00e5ff
+    );
+
+  opacity: 0.7;
+}
+
+/* INNER */
+
+.inner-ring {
+  position: absolute;
+  inset: 65px;
+  border-radius: 50%;
+
+  border: 2px solid #00e5ff;
+
+  box-shadow:
+    0 0 15px #00e5ff,
+    inset 0 0 15px #00e5ff;
+}
+
+/* CORE */
+
+.core {
+  position: absolute;
+
+  width: 100px;
+  height: 100px;
+
+   left:50%;
+  top:50%;
+
+  transform:translate(-50%,-50%);
+  border-radius: 50%;
+
+  background: radial-gradient(
+    circle,
+    #7df9ff,
+    #00bfff
+  );
+
+  box-shadow:
+    0 0 20px #00e5ff,
+    0 0 40px #00e5ff,
+    0 0 80px #00e5ff;
+}
+
+
+@keyframes rotateCW {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rotateCCW {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.15);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+
+.arc-reactor.idle .outer-ring {
+  animation: rotateCW 12s linear infinite;
+}
+
+.arc-reactor.idle .middle-ring {
+  animation: rotateCCW 18s linear infinite;
+}
+
+
+.arc-reactor.listening .outer-ring {
+  animation: rotateCW 8s linear infinite;
+}
+
+.arc-reactor.listening .middle-ring {
+  animation: rotateCCW 10s linear infinite;
+}
+
+.arc-reactor.listening .core {
+  animation: pulse 1s infinite;
+}
+
+
+.arc-reactor.thinking .outer-ring {
+  animation: rotateCW 1s linear infinite;
+}
+
+.arc-reactor.thinking .middle-ring {
+  animation: rotateCCW 1.3s linear infinite;
+}
+
+.arc-reactor.thinking .inner-ring {
+  animation: rotateCW 0.8s linear infinite;
+}
+
+
+.arc-reactor.speaking .outer-ring {
+  animation: rotateCW 3s linear infinite;
+}
+
+.arc-reactor.speaking .middle-ring {
+  animation: rotateCCW 4s linear infinite;
+}
+
+.arc-reactor.speaking .core {
+  animation: pulse 0.35s infinite;
+}
