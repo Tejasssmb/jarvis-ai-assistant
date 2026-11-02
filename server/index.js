@@ -13,6 +13,13 @@ const authRoutes = require("./routes/auth");
 const { verifyToken } = require("./utils/jwt");
 const Device = require("./models/Device");
 const app = express();
+app.get("/", (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "JARVIS Backend is running",
+    version: "V8",
+  });
+});
 const processCommand = require("./services/processCommand");
 const userAuthRoute = require("./routes/userAuth");
 const { v4: uuidv4 } = require("uuid");
