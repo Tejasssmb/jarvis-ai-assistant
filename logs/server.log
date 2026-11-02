@@ -1,0 +1,1464 @@
+🔥 startup route loaded
+Jarvis server running on port 5000
+MongoDB connected!
+Socket Connected: BMiKJ8ANt8O5Il7LAAAB
+Socket Connected: bw70nQ8fyFV9WySXAAAD
+Socket Connected: pLfsU308HxGc7smwAAAF
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ Good day, sir. How may I be of service?  
+JARVIS_CMD:{"type":"chat"}
+================================
+PARSED: {
+  "type": "chat"
+}
+✅ Groq responded
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ Certainly, sir. Here’s a concise Python script that reads two numbers from the user and prints their sum:
+
+```python
+def add_two_numbers():
+    a = float(input("Enter first number: "))
+    b = float(input("Enter second number: "))
+    print(f"The sum is: {a + b}")
+
+if __name__ == "__main__":
+    add_two_numbers()
+```
+
+JARVIS_CMD:{"type":"chat"}
+================================
+PARSED: {
+  "type": "chat"
+}
+✅ Groq responded
+🔥 startup route loaded
+Jarvis server running on port 5000
+MongoDB connected!
+Socket Connected: vrp0Qvuqtbbpzj2dAAAB
+🔥 startup route loaded
+Jarvis server running on port 5000
+MongoDB connected!
+Socket Connected: pFahacY5CTHVG4AGAAAB
+🔥 startup route loaded
+Jarvis server running on port 5000
+MongoDB connected!
+Socket Connected: dW9KbykR3pYH1iE0AAAB
+🔥 startup route loaded
+Jarvis server running on port 5000
+MongoDB connected!
+Socket Connected: 58Qg36Rk9KHuyLKEAAAB
+🔥 startup route loaded
+Jarvis server running on port 5000
+MongoDB connected!
+Socket Connected: mCX3mDPFiE1HyGeeAAAB
+🔥 startup route loaded
+Jarvis server running on port 5000
+Socket Connected: h8hKwPWYtwDIy2rQAAAB
+MongoDB connected!
+Socket Connected: J_Bu9CFs3ykZhdr8AAAD
+🔥 startup route loaded
+Jarvis server running on port 5000
+MongoDB connected!
+Socket Connected: mDeAVHA2vbB-R0CuAAAB
+🟢 Jarvis: state / listening
+🟢 Jarvis: wake / listening
+🟢 Jarvis: state / speaking
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "Give a code to sum of two numbers. Java code."
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ Certainly, sir. Here’s a concise Java program that reads two numbers and prints their sum:
+
+```java
+import java.util.Scanner;
+
+public class SumTwoNumbers {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter first number: ");
+        double a = sc.nextDouble();
+        System.out.print("Enter second number: ");
+        double b = sc.nextDouble();
+        System.out.println("Sum = " + (a + b));
+        sc.close();
+    }
+}
+```
+JARVIS_CMD:{"type":"chat"}
+================================
+PARSED: {
+  "type": "chat"
+}
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / idle
+🟢 Jarvis: end / idle
+🟢 Jarvis: state / listening
+🟢 Jarvis: wake / listening
+🟢 Jarvis: state / speaking
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "Open YouTube."
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ Opening YouTube for you, sir.  
+JARVIS_CMD:{"type":"preset","action":"open_website","target":"youtube","query":""}
+================================
+PARSED: {
+  "type": "preset",
+  "action": "open_website",
+  "target": "youtube",
+  "query": ""
+}
+✅ Groq responded
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / idle
+🟢 Jarvis: end / idle
+🟢 Jarvis: state / listening
+🟢 Jarvis: wake / listening
+🟢 Jarvis: state / speaking
+🟢 Jarvis: state / listening
+🔥 startup route loaded
+Jarvis server running on port 5000
+MongoDB connected!
+Socket Connected: yovOe_x452G_TduaAAAB
+🟢 Jarvis: state / listening
+🟢 Jarvis: wake / listening
+🟢 Jarvis: state / speaking
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "What do you know about me?"
+🟢 Jarvis: message / thinking
+✅ Groq responded
+✅ Groq responded
+RELEVANT MEMORIES: [goal] My goal is to complete Jarvis
+[preference] I love Python
+[project] i love python and my goal is to complete jarvis, which is a personal assistant
+[family] my father is prakash
+[family] User said: my sister name is nayana
+✅ Groq responded
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / idle
+🟢 Jarvis: end / idle
+🔥 startup route loaded
+Jarvis server running on port 5000
+MongoDB connected!
+Socket Connected: 5_JOmmqR95ztMiOzAAAB
+🟢 Jarvis: state / listening
+🟢 Jarvis: wake / listening
+🟢 Jarvis: state / speaking
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "Open YouTube."
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ Opening YouTube for you, sir.  
+JARVIS_CMD:{"type":"preset","action":"open_website","target":"YouTube","query":""}
+================================
+PARSED: {
+  "type": "preset",
+  "action": "open_website",
+  "target": "YouTube",
+  "query": ""
+}
+✅ Groq responded
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "No, I'll take a screenshot."
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ Taking a screenshot for you, sir.  
+JARVIS_CMD:{"type":"preset","action":"screenshot","target":"","query":""}
+================================
+PARSED: {
+  "type": "preset",
+  "action": "screenshot",
+  "target": "",
+  "query": ""
+}
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: ""
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "Put your sound on the road with just a sign that holds you."
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ A clever road‑sign slogan could be: “Turn up the volume, follow the sign.” It hints at music guiding your journey, sir. 
+
+JARVIS_CMD:{"type":"chat"}
+================================
+PARSED: {
+  "type": "chat"
+}
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "That's us for love."
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ A touching sentiment, sir. JARVIS_CMD:{"type":"chat"}
+================================
+PARSED: {
+  "type": "chat"
+}
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "Better than open Chrome, read your."
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ Would you like me to open Chrome, or perhaps read a specific file or webpage for you, sir?  
+JARVIS_CMD:{"type":"chat"}
+================================
+PARSED: {
+  "type": "chat"
+}
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "Open YouTube and play some songs."
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ Opening YouTube for you, sir.  
+JARVIS_CMD:{"type":"preset","action":"open_website","target":"youtube","query":""}
+================================
+PARSED: {
+  "type": "preset",
+  "action": "open_website",
+  "target": "youtube",
+  "query": ""
+}
+✅ Groq responded
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "Open YouTube and search for some songs."
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "Open YouTube and search for Telco songs."
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ Opening YouTube and searching for Telco songs, sir.  
+JARVIS_CMD:{
+"type":"plan",
+"steps":[
+{
+"action":"open_website",
+"target":"youtube.com",
+"query":""
+},
+{
+"action":"youtube_search",
+"target":"",
+"query":"Telco songs"
+}
+]
+}
+================================
+PARSED: {
+  "type": "plan",
+  "steps": [
+    {
+      "action": "open_website",
+      "target": "youtube.com",
+      "query": ""
+    },
+    {
+      "action": "youtube_search",
+      "target": "",
+      "query": "Telco songs"
+    }
+  ]
+}
+✅ Groq responded
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "The plan of 10 years."
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ A decade‑long roadmap, sir, could start with mastering Python, then iterating your Jarvis project, followed by scaling it into a full‑blown AI assistant, all while balancing personal growth and milestones. Might I outline a concise 10‑year plan for you?  
+
+JARVIS_CMD:{"type":"chat"}
+================================
+PARSED: {
+  "type": "chat"
+}
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🔥 startup route loaded
+Jarvis server running on port 5000
+MongoDB connected!
+Socket Connected: Fp1O9kd2suXIjK-gAAAB
+📱 WhatsApp needs linking. Open http://localhost:5000/api/integrations/whatsapp/qr and scan the code with your phone.
+📱 WhatsApp needs linking. Open http://localhost:5000/api/integrations/whatsapp/qr and scan the code with your phone.
+📱 WhatsApp needs linking. Open http://localhost:5000/api/integrations/whatsapp/qr and scan the code with your phone.
+📱 WhatsApp needs linking. Open http://localhost:5000/api/integrations/whatsapp/qr and scan the code with your phone.
+✅ WhatsApp connected
+🟢 Jarvis: state / listening
+🟢 Jarvis: wake / listening
+🟢 Jarvis: state / speaking
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "Any whatsapp messages?"
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ Fetching unread WhatsApp chats for you, sir.  
+JARVIS_CMD:{"type":"preset","action":"read_whatsapp","target":"","query":""}
+================================
+PARSED: {
+  "type": "preset",
+  "action": "read_whatsapp",
+  "target": "",
+  "query": ""
+}
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / idle
+🟢 Jarvis: end / idle
+✅ WhatsApp connected
+🟢 Jarvis: state / speaking
+🟢 Jarvis: state / idle
+🟢 Jarvis: state / listening
+🟢 Jarvis: wake / listening
+🟢 Jarvis: state / speaking
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "Give a quote for sum of two numbers in Java."
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ Here’s a tidy Java snippet, sir:
+
+```java
+int a = 5, b = 7;
+int sum = a + b;
+System.out.println("Sum: " + sum);
+```
+
+Might serve your needs nicely.  
+JARVIS_CMD:{"type":"chat"}
+================================
+PARSED: {
+  "type": "chat"
+}
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / idle
+🟢 Jarvis: end / idle
+🟢 Jarvis: state / listening
+🟢 Jarvis: wake / listening
+🟢 Jarvis: state / speaking
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "Today's date."
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ Today is 14 October 2026, sir.  
+JARVIS_CMD:{"type":"preset","action":"current_date","target":"","query":""}
+================================
+PARSED: {
+  "type": "preset",
+  "action": "current_date",
+  "target": "",
+  "query": ""
+}
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / idle
+🟢 Jarvis: end / idle
+🟢 Jarvis: state / listening
+🟢 Jarvis: wake / listening
+🟢 Jarvis: state / speaking
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "Hey Jarvis!"
+🟢 Jarvis: state / speaking
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "Good morning Jarvis."
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ Good morning, sir.  
+JARVIS_CMD:{"type":"chat"}
+================================
+PARSED: {
+  "type": "chat"
+}
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "It's not good morning Jarvis, it's good afternoon now. What's the time?"
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ The time is 1:00 pm, sir.  
+JARVIS_CMD:{"type":"preset","action":"current_time","target":"","query":""}
+================================
+PARSED: {
+  "type": "preset",
+  "action": "current_time",
+  "target": "",
+  "query": ""
+}
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "Then why are you saying good morning sir? You should have said good afternoon sir."
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ Apologies, sir—good afternoon. JARVIS_CMD:{"type":"chat"}
+================================
+PARSED: {
+  "type": "chat"
+}
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "You have to correct me whenever I say good morning instead of good afternoon. You have to correct me what is right and what is wrong. You have that right."
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ Understood, sir—I'll be sure to set you straight whenever a morning greeting slips in during the afternoon. JARVIS_CMD:{"type":"chat"}
+================================
+PARSED: {
+  "type": "chat"
+}
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "Not only for morning greetings, afternoon greetings, evening greetings, Javis. I am telling for everything. If I say anything wrong any day, you have a right to correct me at that moment."
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "You have a right to correct me at any moment and you should do it."
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ Consider it done, sir—I’ll gently set you straight whenever a greeting veers off course.JARVIS_CMD:{"type":"chat"}
+================================
+PARSED: {
+  "type": "chat"
+}
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "Not only for greetings I am telling, for everything, not only for greetings, for in every moment you should have correct me."
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ Understood, sir—I'll politely correct any inaccuracies you make, greetings included. JARVIS_CMD:{"type":"chat"}
+================================
+PARSED: {
+  "type": "chat"
+}
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🟢 Jarvis: state / listening
+🔥 startup route loaded
+Jarvis server running on port 5000
+MongoDB connected!
+Socket Connected: ycQCh_vvmw7E27weAAAB
+🟢 Jarvis: state / listening
+🟢 Jarvis: wake / listening
+🟢 Jarvis: state / speaking
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "What is the time now?"
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ The current time is displayed, sir.  
+JARVIS_CMD:{"type":"preset","action":"current_time","target":"","query":""}
+================================
+PARSED: {
+  "type": "preset",
+  "action": "current_time",
+  "target": "",
+  "query": ""
+}
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / idle
+🟢 Jarvis: end / idle
+✅ WhatsApp connected
+🟢 Jarvis: state / listening
+🟢 Jarvis: wake / listening
+🟢 Jarvis: state / speaking
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "Open my WhatsApp and text Hi to Amma."
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ Opening WhatsApp and sending your message, sir.  
+JARVIS_CMD:{
+"type":"plan",
+"steps":[
+{
+"action":"open_app",
+"target":"whatsapp",
+"query":""
+},
+{
+"action":"send_whatsapp",
+"target":"Amma",
+"query":"Hi"
+}
+]
+}
+================================
+PARSED: {
+  "type": "plan",
+  "steps": [
+    {
+      "action": "open_app",
+      "target": "whatsapp",
+      "query": ""
+    },
+    {
+      "action": "send_whatsapp",
+      "target": "Amma",
+      "query": "Hi"
+    }
+  ]
+}
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "Yes, proceed."
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ Done, sir.
+JARVIS_CMD:{
+"type":"plan",
+"steps":[
+{
+"action":"open_app",
+"target":"whatsapp",
+"query":""
+},
+{
+"action":"send_whatsapp",
+"target":"Amma",
+"query":"Hi"
+}
+]
+}
+================================
+PARSED: {
+  "type": "plan",
+  "steps": [
+    {
+      "action": "open_app",
+      "target": "whatsapp",
+      "query": ""
+    },
+    {
+      "action": "send_whatsapp",
+      "target": "Amma",
+      "query": "Hi"
+    }
+  ]
+}
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "Yes, proceed."
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ Message sent, sir.
+JARVIS_CMD:{"type":"preset","action":"send_whatsapp","target":"Amma","query":"Hi"}
+================================
+PARSED: {
+  "type": "preset",
+  "action": "send_whatsapp",
+  "target": "Amma",
+  "query": "Hi"
+}
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "Yes."
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ Message sent, sir.
+JARVIS_CMD:{"type":"preset","action":"send_whatsapp","target":"Amma","query":"Hi"}
+================================
+PARSED: {
+  "type": "preset",
+  "action": "send_whatsapp",
+  "target": "Amma",
+  "query": "Hi"
+}
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / idle
+🟢 Jarvis: end / idle
+🟢 Jarvis: state / listening
+🟢 Jarvis: wake / listening
+🟢 Jarvis: state / speaking
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "Just give me a Java code of adding two numbers."
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ Here’s a simple Java program that adds two numbers:
+
+```java
+public class AddNumbers {
+    public static void main(String[] args) {
+        int a = 5;
+        int b = 7;
+        int sum = a + b;
+        System.out.println("Sum: " + sum);
+    }
+}
+```
+JARVIS_CMD:{"type":"chat"}
+================================
+PARSED: {
+  "type": "chat"
+}
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "Okay, bye Jarvis."
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ Goodbye, sir. Take care.  
+JARVIS_CMD:{"type":"chat"}
+================================
+PARSED: {
+  "type": "chat"
+}
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "JARVIS, open YouTube and search for Telugu songs."
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ Opening YouTube and searching for Telugu songs, sir.  
+JARVIS_CMD:{
+"type":"plan",
+"steps":[
+{
+"action":"open_website",
+"target":"youtube",
+"query":""
+},
+{
+"action":"youtube_search",
+"target":"",
+"query":"Telugu songs"
+}
+]
+}
+================================
+PARSED: {
+  "type": "plan",
+  "steps": [
+    {
+      "action": "open_website",
+      "target": "youtube",
+      "query": ""
+    },
+    {
+      "action": "youtube_search",
+      "target": "",
+      "query": "Telugu songs"
+    }
+  ]
+}
+✅ Groq responded
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "Jarvis, uh..."
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "Can you read any gmail? Can you read my mails?"
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ Certainly, sir. Fetching your unread emails.  
+JARVIS_CMD:{"type":"preset","action":"read_emails","target":"unread","query":""}
+================================
+PARSED: {
+  "type": "preset",
+  "action": "read_emails",
+  "target": "unread",
+  "query": ""
+}
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+Socket Connected: Caxeq1CSEKwaIUSCAAAD
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "Create a file called ABC."
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ Creating file ABC for you, sir.  
+JARVIS_CMD:{"type":"preset","action":"create_file","target":"","query":"ABC"}
+================================
+PARSED: {
+  "type": "preset",
+  "action": "create_file",
+  "target": "",
+  "query": "ABC"
+}
+✅ Groq responded
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "Open it Jarvis."
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ Opening ABC for you, sir.  
+JARVIS_CMD:{"type":"preset","action":"open_file","target":"","query":"ABC"}
+================================
+PARSED: {
+  "type": "preset",
+  "action": "open_file",
+  "target": "",
+  "query": "ABC"
+}
+✅ Groq responded
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / idle
+🟢 Jarvis: end / idle
+🟢 Jarvis: state / listening
+🟢 Jarvis: wake / listening
+🟢 Jarvis: state / speaking
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "Send hi to Nayana in WhatsApp."
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ Consider it done, sir.  
+JARVIS_CMD:{"type":"preset","action":"send_whatsapp","target":"Nayana","query":"hi"}
+================================
+PARSED: {
+  "type": "preset",
+  "action": "send_whatsapp",
+  "target": "Nayana",
+  "query": "hi"
+}
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "Yes, send."
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ Consider it done, sir.  
+JARVIS_CMD:{"type":"preset","action":"send_whatsapp","target":"Nayana","query":"hi"}
+================================
+PARSED: {
+  "type": "preset",
+  "action": "send_whatsapp",
+  "target": "Nayana",
+  "query": "hi"
+}
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "Yes, send."
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ Consider it done, sir.  
+JARVIS_CMD:{"type":"preset","action":"send_whatsapp","target":"Nayana","query":"hi"}
+================================
+PARSED: {
+  "type": "preset",
+  "action": "send_whatsapp",
+  "target": "Nayana",
+  "query": "hi"
+}
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+Memory already exists
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "Yes, send."
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ Consider it done, sir.  
+JARVIS_CMD:{"type":"preset","action":"send_whatsapp","target":"Nayana","query":"hi"}
+================================
+PARSED: {
+  "type": "preset",
+  "action": "send_whatsapp",
+  "target": "Nayana",
+  "query": "hi"
+}
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+Memory already exists
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / idle
+🟢 Jarvis: end / idle
+🟢 Jarvis: state / listening
+🟢 Jarvis: wake / listening
+🟢 Jarvis: state / speaking
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "Can you just read the last message from Rachana in WhatsApp?"
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ Reading the last message from Rachana on WhatsApp, sir.  
+JARVIS_CMD:{"type":"preset","action":"read_whatsapp","target":"Rachana","query":""}
+================================
+PARSED: {
+  "type": "preset",
+  "action": "read_whatsapp",
+  "target": "Rachana",
+  "query": ""
+}
+⚠️ WhatsApp getChats() failed: r: r
+    at #evaluate (C:\Users\tejas\Desktop\Jarvis\server\node_modules\puppeteer-core\lib\cjs\puppeteer\cdp\ExecutionContext.js:391:56)
+    at async ExecutionContext.evaluate (C:\Users\tejas\Desktop\Jarvis\server\node_modules\puppeteer-core\lib\cjs\puppeteer\cdp\ExecutionContext.js:277:16)
+    at async IsolatedWorld.evaluate (C:\Users\tejas\Desktop\Jarvis\server\node_modules\puppeteer-core\lib\cjs\puppeteer\cdp\IsolatedWorld.js:100:16)
+    at async CdpFrame.evaluate (C:\Users\tejas\Desktop\Jarvis\server\node_modules\puppeteer-core\lib\cjs\puppeteer\api\Frame.js:362:20)
+    at async CdpPage.evaluate (C:\Users\tejas\Desktop\Jarvis\server\node_modules\puppeteer-core\lib\cjs\puppeteer\api\Page.js:830:20)
+    at async Client.getChats (C:\Users\tejas\Desktop\Jarvis\server\node_modules\whatsapp-web.js\src\Client.js:1669:23)
+    at async withRetry (C:\Users\tejas\Desktop\Jarvis\server\services\whatsappService.js:194:14)
+    at async loadChats (C:\Users\tejas\Desktop\Jarvis\server\services\whatsappService.js:254:21)
+    at async Object.readChat (C:\Users\tejas\Desktop\Jarvis\server\services\whatsappService.js:324:23)
+    at async Object.run (C:\Users\tejas\Desktop\Jarvis\server\services\integrationActions.js:28:16)
+    at async executeCommand (C:\Users\tejas\Desktop\Jarvis\server\services\commandExecutor.js:9:17)
+    at async processCommand (C:\Users\tejas\Desktop\Jarvis\server\services\processCommand.js:269:16)
+    at async C:\Users\tejas\Desktop\Jarvis\server\routes\chat.js:216:20
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "Can you..."
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ Reading the latest message from Rachana, sir.  
+JARVIS_CMD:{"type":"preset","action":"read_whatsapp","target":"Rachana","query":""}
+================================
+PARSED: {
+  "type": "preset",
+  "action": "read_whatsapp",
+  "target": "Rachana",
+  "query": ""
+}
+⚠️ WhatsApp getChats() failed: r: r
+    at #evaluate (C:\Users\tejas\Desktop\Jarvis\server\node_modules\puppeteer-core\lib\cjs\puppeteer\cdp\ExecutionContext.js:391:56)
+    at async ExecutionContext.evaluate (C:\Users\tejas\Desktop\Jarvis\server\node_modules\puppeteer-core\lib\cjs\puppeteer\cdp\ExecutionContext.js:277:16)
+    at async IsolatedWorld.evaluate (C:\Users\tejas\Desktop\Jarvis\server\node_modules\puppeteer-core\lib\cjs\puppeteer\cdp\IsolatedWorld.js:100:16)
+    at async CdpFrame.evaluate (C:\Users\tejas\Desktop\Jarvis\server\node_modules\puppeteer-core\lib\cjs\puppeteer\api\Frame.js:362:20)
+    at async CdpPage.evaluate (C:\Users\tejas\Desktop\Jarvis\server\node_modules\puppeteer-core\lib\cjs\puppeteer\api\Page.js:830:20)
+    at async Client.getChats (C:\Users\tejas\Desktop\Jarvis\server\node_modules\whatsapp-web.js\src\Client.js:1669:23)
+    at async withRetry (C:\Users\tejas\Desktop\Jarvis\server\services\whatsappService.js:194:14)
+    at async loadChats (C:\Users\tejas\Desktop\Jarvis\server\services\whatsappService.js:254:21)
+    at async Object.readChat (C:\Users\tejas\Desktop\Jarvis\server\services\whatsappService.js:324:23)
+    at async Object.run (C:\Users\tejas\Desktop\Jarvis\server\services\integrationActions.js:28:16)
+    at async executeCommand (C:\Users\tejas\Desktop\Jarvis\server\services\commandExecutor.js:9:17)
+    at async processCommand (C:\Users\tejas\Desktop\Jarvis\server\services\processCommand.js:269:16)
+    at async C:\Users\tejas\Desktop\Jarvis\server\routes\chat.js:216:20
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "Can you read the last message from Naina in WhatsApp?"
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ Here is the latest message from Naina, sir.  
+JARVIS_CMD:{"type":"preset","action":"read_whatsapp","target":"Naina","query":""}
+================================
+PARSED: {
+  "type": "preset",
+  "action": "read_whatsapp",
+  "target": "Naina",
+  "query": ""
+}
+⚠️ WhatsApp getChats() failed: r: r
+    at #evaluate (C:\Users\tejas\Desktop\Jarvis\server\node_modules\puppeteer-core\lib\cjs\puppeteer\cdp\ExecutionContext.js:391:56)
+    at async ExecutionContext.evaluate (C:\Users\tejas\Desktop\Jarvis\server\node_modules\puppeteer-core\lib\cjs\puppeteer\cdp\ExecutionContext.js:277:16)
+    at async IsolatedWorld.evaluate (C:\Users\tejas\Desktop\Jarvis\server\node_modules\puppeteer-core\lib\cjs\puppeteer\cdp\IsolatedWorld.js:100:16)
+    at async CdpFrame.evaluate (C:\Users\tejas\Desktop\Jarvis\server\node_modules\puppeteer-core\lib\cjs\puppeteer\api\Frame.js:362:20)
+    at async CdpPage.evaluate (C:\Users\tejas\Desktop\Jarvis\server\node_modules\puppeteer-core\lib\cjs\puppeteer\api\Page.js:830:20)
+    at async Client.getChats (C:\Users\tejas\Desktop\Jarvis\server\node_modules\whatsapp-web.js\src\Client.js:1669:23)
+    at async withRetry (C:\Users\tejas\Desktop\Jarvis\server\services\whatsappService.js:194:14)
+    at async loadChats (C:\Users\tejas\Desktop\Jarvis\server\services\whatsappService.js:254:21)
+    at async Object.readChat (C:\Users\tejas\Desktop\Jarvis\server\services\whatsappService.js:324:23)
+    at async Object.run (C:\Users\tejas\Desktop\Jarvis\server\services\integrationActions.js:28:16)
+    at async executeCommand (C:\Users\tejas\Desktop\Jarvis\server\services\commandExecutor.js:9:17)
+    at async processCommand (C:\Users\tejas\Desktop\Jarvis\server\services\processCommand.js:269:16)
+    at async C:\Users\tejas\Desktop\Jarvis\server\routes\chat.js:216:20
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "Or at least last chat from my daddy in WhatsApp."
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ Here is the latest message from your father, sir.  
+JARVIS_CMD:{"type":"preset","action":"read_whatsapp","target":"Prakash","query":""}
+================================
+PARSED: {
+  "type": "preset",
+  "action": "read_whatsapp",
+  "target": "Prakash",
+  "query": ""
+}
+⚠️ WhatsApp getChats() failed: r: r
+    at #evaluate (C:\Users\tejas\Desktop\Jarvis\server\node_modules\puppeteer-core\lib\cjs\puppeteer\cdp\ExecutionContext.js:391:56)
+    at async ExecutionContext.evaluate (C:\Users\tejas\Desktop\Jarvis\server\node_modules\puppeteer-core\lib\cjs\puppeteer\cdp\ExecutionContext.js:277:16)
+    at async IsolatedWorld.evaluate (C:\Users\tejas\Desktop\Jarvis\server\node_modules\puppeteer-core\lib\cjs\puppeteer\cdp\IsolatedWorld.js:100:16)
+    at async CdpFrame.evaluate (C:\Users\tejas\Desktop\Jarvis\server\node_modules\puppeteer-core\lib\cjs\puppeteer\api\Frame.js:362:20)
+    at async CdpPage.evaluate (C:\Users\tejas\Desktop\Jarvis\server\node_modules\puppeteer-core\lib\cjs\puppeteer\api\Page.js:830:20)
+    at async Client.getChats (C:\Users\tejas\Desktop\Jarvis\server\node_modules\whatsapp-web.js\src\Client.js:1669:23)
+    at async withRetry (C:\Users\tejas\Desktop\Jarvis\server\services\whatsappService.js:194:14)
+    at async loadChats (C:\Users\tejas\Desktop\Jarvis\server\services\whatsappService.js:254:21)
+    at async Object.readChat (C:\Users\tejas\Desktop\Jarvis\server\services\whatsappService.js:324:23)
+    at async Object.run (C:\Users\tejas\Desktop\Jarvis\server\services\integrationActions.js:28:16)
+    at async executeCommand (C:\Users\tejas\Desktop\Jarvis\server\services\commandExecutor.js:9:17)
+    at async processCommand (C:\Users\tejas\Desktop\Jarvis\server\services\processCommand.js:269:16)
+    at async C:\Users\tejas\Desktop\Jarvis\server\routes\chat.js:216:20
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "No, no, no. Don't look for Prakash. Look for Daddy. I saved as Daddy. Look for that and give me the last message."
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ Fetching the last message from Daddy on WhatsApp, sir.  
+JARVIS_CMD:{"type":"preset","action":"read_whatsapp","target":"Daddy","query":""}
+================================
+PARSED: {
+  "type": "preset",
+  "action": "read_whatsapp",
+  "target": "Daddy",
+  "query": ""
+}
+⚠️ WhatsApp getChats() failed: r: r
+    at #evaluate (C:\Users\tejas\Desktop\Jarvis\server\node_modules\puppeteer-core\lib\cjs\puppeteer\cdp\ExecutionContext.js:391:56)
+    at async ExecutionContext.evaluate (C:\Users\tejas\Desktop\Jarvis\server\node_modules\puppeteer-core\lib\cjs\puppeteer\cdp\ExecutionContext.js:277:16)
+    at async IsolatedWorld.evaluate (C:\Users\tejas\Desktop\Jarvis\server\node_modules\puppeteer-core\lib\cjs\puppeteer\cdp\IsolatedWorld.js:100:16)
+    at async CdpFrame.evaluate (C:\Users\tejas\Desktop\Jarvis\server\node_modules\puppeteer-core\lib\cjs\puppeteer\api\Frame.js:362:20)
+    at async CdpPage.evaluate (C:\Users\tejas\Desktop\Jarvis\server\node_modules\puppeteer-core\lib\cjs\puppeteer\api\Page.js:830:20)
+    at async Client.getChats (C:\Users\tejas\Desktop\Jarvis\server\node_modules\whatsapp-web.js\src\Client.js:1669:23)
+    at async withRetry (C:\Users\tejas\Desktop\Jarvis\server\services\whatsappService.js:194:14)
+    at async loadChats (C:\Users\tejas\Desktop\Jarvis\server\services\whatsappService.js:254:21)
+    at async Object.readChat (C:\Users\tejas\Desktop\Jarvis\server\services\whatsappService.js:324:23)
+    at async Object.run (C:\Users\tejas\Desktop\Jarvis\server\services\integrationActions.js:28:16)
+    at async executeCommand (C:\Users\tejas\Desktop\Jarvis\server\services\commandExecutor.js:9:17)
+    at async processCommand (C:\Users\tejas\Desktop\Jarvis\server\services\processCommand.js:269:16)
+    at async C:\Users\tejas\Desktop\Jarvis\server\routes\chat.js:216:20
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / idle
+🟢 Jarvis: end / idle
+🟢 Jarvis: state / listening
+🟢 Jarvis: wake / listening
+🟢 Jarvis: state / speaking
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / idle
+🟢 Jarvis: end / idle
+🟢 Jarvis: state / listening
+🟢 Jarvis: wake / listening
+🟢 Jarvis: state / speaking
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "Create a file called"
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ Sure thing, sir—what would you like to name the file?  
+JARVIS_CMD:{"type":"chat"}
+================================
+PARSED: {
+  "type": "chat"
+}
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "Name it as Tejas Jarvis and open it through file explorer or something. Just open it, open the file."
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ Consider it done, sir.  
+JARVIS_CMD:{
+"type":"plan",
+"steps":[
+{
+"action":"create_file",
+"target":"",
+"query":"Tejas Jarvis"
+},
+{
+"action":"open_file",
+"target":"",
+"query":"Tejas Jarvis"
+}
+]
+}
+================================
+PARSED: {
+  "type": "plan",
+  "steps": [
+    {
+      "action": "create_file",
+      "target": "",
+      "query": "Tejas Jarvis"
+    },
+    {
+      "action": "open_file",
+      "target": "",
+      "query": "Tejas Jarvis"
+    }
+  ]
+}
+✅ Groq responded
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "Open it Jarvis, open it."
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "Open that file."
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ Opening the file “Tejas Jarvis” for you, sir.  
+JARVIS_CMD:{"type":"preset","action":"open_file","target":"","query":"Tejas Jarvis"}
+================================
+PARSED: {
+  "type": "preset",
+  "action": "open_file",
+  "target": "",
+  "query": "Tejas Jarvis"
+}
+✅ Groq responded
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / idle
+🟢 Jarvis: end / idle
+🟢 Jarvis: state / listening
+🟢 Jarvis: wake / listening
+🟢 Jarvis: state / speaking
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "I saved something in that file, something text related to something. Just summarize it and give me the summary of"
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ Opening the file for you, sir.  
+JARVIS_CMD:{"type":"preset","action":"open_file","target":"","query":"Tejas Jarvis"}
+================================
+PARSED: {
+  "type": "preset",
+  "action": "open_file",
+  "target": "",
+  "query": "Tejas Jarvis"
+}
+✅ Groq responded
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / idle
+🟢 Jarvis: end / idle
+🔥 startup route loaded
+Jarvis server running on port 5000
+MongoDB connected!
+Socket Connected: nlwLeyP9WYGeFUjrAAAB
+✅ WhatsApp connected
+Reminder check failed: write ECONNRESET
+Socket Connected: tsAwSK6-P8n5QILNAAAD
+Socket Connected: --evvaxtMsb1fyeBAAAF
+🔥 startup route loaded
+Jarvis server running on port 5000
+MongoDB connected!
+Socket Connected: wEH7hExyJV-FV9iWAAAB
+🟢 Jarvis: state / listening
+🟢 Jarvis: wake / listening
+🟢 Jarvis: state / speaking
+✅ WhatsApp connected
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "Open YouTube and play some romantic songs."
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ Opening YouTube and searching for romantic songs, sir.  
+JARVIS_CMD:{
+"type":"plan",
+"steps":[
+{
+"action":"open_website",
+"target":"youtube.com",
+"query":""
+},
+{
+"action":"youtube_search",
+"target":"",
+"query":"romantic songs"
+}
+]
+}
+================================
+PARSED: {
+  "type": "plan",
+  "steps": [
+    {
+      "action": "open_website",
+      "target": "youtube.com",
+      "query": ""
+    },
+    {
+      "action": "youtube_search",
+      "target": "",
+      "query": "romantic songs"
+    }
+  ]
+}
+✅ Groq responded
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "Hey Jarvis, can you access my WhatsApp?"
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ Indeed, sir, I can interact with your WhatsApp to read or send messages as you request.  
+
+JARVIS_CMD:{"type":"chat"}
+================================
+PARSED: {
+  "type": "chat"
+}
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "Okay, in WhatsApp, send hi to Nayana."
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ Consider it sent, sir.  
+JARVIS_CMD:{"type":"preset","action":"send_whatsapp","target":"Nayana","query":"hi"}
+================================
+PARSED: {
+  "type": "preset",
+  "action": "send_whatsapp",
+  "target": "Nayana",
+  "query": "hi"
+}
+⚠️ WhatsApp: 505 of 513 chats could not be read and were skipped. First error: Failed to execute 'get' on 'IDBObjectStore': No key or key range specified.
+ DataError: Failed to execute 'get' on 'IDBObjectStore': No key or key range specified.
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "Just check that my WhatsApp is connected or not."
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ Your WhatsApp is active, sir.  
+JARVIS_CMD:{"type":"preset","action":"running_apps","target":"","query":""}
+================================
+PARSED: {
+  "type": "preset",
+  "action": "running_apps",
+  "target": "",
+  "query": ""
+}
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / idle
+🟢 Jarvis: end / idle
+⚠️ WhatsApp: 505 of 513 chats could not be read and were skipped. First error: Failed to execute 'get' on 'IDBObjectStore': No key or key range specified.
+ DataError: Failed to execute 'get' on 'IDBObjectStore': No key or key range specified.
+⚠️ WhatsApp: 505 of 513 chats could not be read and were skipped. First error: Failed to execute 'get' on 'IDBObjectStore': No key or key range specified.
+ DataError: Failed to execute 'get' on 'IDBObjectStore': No key or key range specified.
+🟢 Jarvis: state / listening
+🟢 Jarvis: wake / listening
+🟢 Jarvis: state / speaking
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "Any new messages in WhatsApp?"
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ Here are your unread WhatsApp messages, sir.  
+JARVIS_CMD:{"type":"preset","action":"read_whatsapp","target":"","query":""}
+================================
+PARSED: {
+  "type": "preset",
+  "action": "read_whatsapp",
+  "target": "",
+  "query": ""
+}
+⚠️ WhatsApp: 505 of 513 chats could not be read and were skipped. First error: Failed to execute 'get' on 'IDBObjectStore': No key or key range specified.
+ DataError: Failed to execute 'get' on 'IDBObjectStore': No key or key range specified.
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "Check if there are any new mails."
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ Checking your unread emails, sir. JARVIS_CMD:{"type":"preset","action":"read_emails","target":"unread","query":""}
+================================
+PARSED: {
+  "type": "preset",
+  "action": "read_emails",
+  "target": "unread",
+  "query": ""
+}
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / idle
+🟢 Jarvis: end / idle
+🟢 Jarvis: state / listening
+🟢 Jarvis: wake / listening
+🟢 Jarvis: state / speaking
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "Send Hi to Ashwant HMT."
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ Message sent, sir. JARVIS_CMD:{"type":"preset","action":"send_whatsapp","target":"Ashwant HMT","query":"Hi"}
+================================
+PARSED: {
+  "type": "preset",
+  "action": "send_whatsapp",
+  "target": "Ashwant HMT",
+  "query": "Hi"
+}
+⚠️ WhatsApp: 505 of 513 chats could not be read and were skipped. First error: Failed to execute 'get' on 'IDBObjectStore': No key or key range specified.
+ DataError: Failed to execute 'get' on 'IDBObjectStore': No key or key range specified.
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "Send hi in WhatsApp to daddy."
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "Hey Jarvis!"
+🟢 Jarvis: state / speaking
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "In WhatsApp, send hi to daddy."
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ Consider it done, sir.  
+JARVIS_CMD:{"type":"preset","action":"send_whatsapp","target":"daddy","query":"Hi"}
+================================
+PARSED: {
+  "type": "preset",
+  "action": "send_whatsapp",
+  "target": "daddy",
+  "query": "Hi"
+}
+⚠️ WhatsApp: 505 of 513 chats could not be read and were skipped. First error: Failed to execute 'get' on 'IDBObjectStore': No key or key range specified.
+ DataError: Failed to execute 'get' on 'IDBObjectStore': No key or key range specified.
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🟢 Jarvis: state / listening
+🟢 Jarvis: state / thinking
+Transcription: "Tell me what is the time now."
+🟢 Jarvis: message / thinking
+✅ System Prompt Loaded
+✅ Groq responded
+RAW AI RESPONSE:
+ The current time is 06:59 pm IST, sir.  
+JARVIS_CMD:{"type":"preset","action":"current_time","target":"","query":""}
+================================
+PARSED: {
+  "type": "preset",
+  "action": "current_time",
+  "target": "",
+  "query": ""
+}
+🟢 Jarvis: reply / thinking
+🟢 Jarvis: state / speaking
+✅ Groq responded
+🟢 Jarvis: state / listening

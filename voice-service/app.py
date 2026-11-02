@@ -11,6 +11,9 @@ import subprocess
 import psutil
 import os
 import time
+import json
+import uuid
+import tts_engine
 import glob
 from ddgs import DDGS
 import sys
@@ -48,8 +51,17 @@ from tools.brightness_tools import (
 )
 from contextlib import redirect_stdout
 app = Flask(__name__)
-CORS(app)
-VOICE = "en-US-GuyNeural"
+CORS(app, origins=["http://localhost:5173", "http://127.0.0.1:5173"])  # only the Jarvis UI may call this service from a browser
+# ---- Jarvis's voice. Change it with:  python voice-service\choose_voice.py ----
+VOICE_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "voice_config.json")
+VOICE_STATE = {"voice": "en-GB-SoniaNeural", "rate": "+0%", "pitch": "+0Hz"}   # calm British female
+try:
+    with open(VOICE_FILE, encoding="utf-8") as _f:
+        VOICE_STATE.update(json.load(_f))
+except Exception:
+    pass
+if os.getenv("JARVIS_VOICE"):
+    VOICE_STATE["voice"] = os.getenv("JARVIS_VOICE")
 
 pygame.mixer.init()
 speaking_lock = threading.Lock()
@@ -115,17 +127,27 @@ TOOLS = {
 # HELPER FUNCTIONS
 # ============================================
 def clean_text_for_speech(text):
-    text = re.sub(r'\*\*(.*?)\*\*', r'\1', text)
-    text = re.sub(r'\*(.*?)\*', r'\1', text)
-    text = re.sub(r'#+\s*', '', text)
-    text = re.sub(r'`(.*?)`', r'\1', text)
-    text = re.sub(r'^[-•]\s*', '', text, flags=re.MULTILINE)
+    """Last line of defence: never read code, links, symbols or emoji aloud."""
+    text = re.sub(r'```.*?(```|$)', ' ', text, flags=re.DOTALL)
+    text = re.sub(r'https?://\S+', ' ', text)
+    text = re.sub(r'\[([^\]]+)\]\([^)]+\)', r'\1', text)
+    text = re.sub(r'`([^`\n]{0,25})`', r'\1', text)
+    text = re.sub(r'`[^`]*`', ' ', text)
+    text = re.sub(r'(\*\*|__|\*|_|~~)', '', text)
+    text = re.sub(r'^\s*#{1,6}\s*', '', text, flags=re.MULTILINE)
+    text = re.sub(r'^\s*>\s?', '', text, flags=re.MULTILINE)
+    text = re.sub(r'^\s*([-•*]|\d+[.)])\s+', '', text, flags=re.MULTILINE)
+    text = re.sub(r'[\U00010000-\U0010ffff\u2600-\u27BF\uFE0F\u200D]', '', text)
+    text = text.replace('&', ' and ').replace('%', ' percent').replace('/', ' or ')
+    text = re.sub(r"[^\w\s.,!?'’:;-]", ' ', text)
+    text = re.sub(r'\s-+\s', ' ', text)
     text = re.sub(r'\n+', '. ', text)
-    text = re.sub(r'/', ' or ', text)
-    return text.strip()
+    text = re.sub(r'([.,!?;:])(\s*[.,;:])+', r'\1', text)
+    text = re.sub(r'\s+', ' ', text)
+    return text.strip()[:600]
 
 async def generate_speech(text, audio_file):
-    communicate = edge_tts.Communicate(text, VOICE)
+    communicate = edge_tts.Communicate(text, VOICE_STATE["voice"], rate=VOICE_STATE["rate"], pitch=VOICE_STATE["pitch"])
     await communicate.save(audio_file)
 
 def play_audio(audio_file):
@@ -135,7 +157,7 @@ def play_audio(audio_file):
         pygame.mixer.music.load(audio_file)
         pygame.mixer.music.play()
         while pygame.mixer.music.get_busy():
-            pygame.time.Clock().tick(10)
+            pygame.time.Clock().tick(50)
         pygame.mixer.music.unload()
         try:
             os.remove(audio_file)
@@ -586,27 +608,90 @@ def run_tool(action):
 # ROUTES
 # ============================================
 
+stop_counter = [0]                     # /stop raises this; a speech started before it gives up
+speech_request_lock = threading.Lock() # one spoken answer at a time (sentences of two answers never mix)
+
+
+def _remove_quietly(path):
+    try:
+        os.remove(path)
+    except OSError:
+        pass
+
+
 @app.route('/speak', methods=['POST'])
 def speak():
-    data = request.json
+    data = request.get_json(silent=True) or {}
     text = data.get('text', '')
     if not text:
         return jsonify({'error': 'No text provided'}), 400
+
+    clean_text = clean_text_for_speech(text)
+    if not clean_text:
+        return jsonify({'status': 'nothing to say'})
+
+    token = stop_counter[0]
+    started = time.time()
+    timing = {}
+
+    def should_stop():
+        return stop_counter[0] != token
+
+    def synth(sentence):
+        audio_file = f"response_{uuid.uuid4().hex}.mp3"      # unique name per sentence
+        try:
+            # 20 s limit: a dead connection must not freeze Jarvis
+            asyncio.run(asyncio.wait_for(generate_speech(sentence, audio_file), timeout=20))
+            return audio_file
+        except Exception:
+            _remove_quietly(audio_file)
+            raise
+
+    def first_audio():
+        timing['first'] = round(time.time() - started, 2)
+        print(f"[tts] first audio after {timing['first']}s", flush=True)
+
     try:
-        clean_text = clean_text_for_speech(text)
-        audio_file = f"response_{int(time.time())}.mp3"
-        asyncio.run(generate_speech(clean_text, audio_file))
-        play_audio(audio_file)
-        return jsonify({'status': 'done'})
+        with speech_request_lock:
+            if should_stop():
+                return jsonify({'status': 'stopped'})
+            # sentence by sentence: the first one plays while the next are still being generated;
+            # if the online voice fails, the voice built into Windows takes over
+            engine = tts_engine.speak_pipeline(
+                tts_engine.split_sentences(clean_text), synth, play_audio,
+                should_stop=should_stop, cleanup=_remove_quietly, on_first_audio=first_audio,
+            )
+        return jsonify({'status': 'done', 'engine': engine,
+                        'first_audio_s': timing.get('first'), 'total_s': round(time.time() - started, 2)})
     except Exception as e:
-        print("=== VOICE SERVICE ERROR ===")
-        print(str(e))
+        print("=== VOICE SERVICE ERROR (both voices failed) ===", flush=True)
+        print(repr(e), flush=True)
         return jsonify({'error': str(e)}), 500
+
 
 @app.route('/stop', methods=['POST'])
 def stop():
+    stop_counter[0] += 1
     pygame.mixer.music.stop()
+    tts_engine.stop_windows_speech()
     return jsonify({'status': 'stopped'})
+
+
+@app.route('/voice', methods=['GET', 'POST'])
+def voice():
+    """GET = current voice. POST {voice, rate, pitch, save} = change it (and keep it with save:true)."""
+    if request.method == 'POST':
+        body = request.get_json(silent=True) or {}
+        if body.get('voice'):
+            VOICE_STATE['voice'] = str(body['voice'])
+        if re.fullmatch(r'[+-]\d{1,3}%', str(body.get('rate', ''))):
+            VOICE_STATE['rate'] = body['rate']
+        if re.fullmatch(r'[+-]\d{1,3}Hz', str(body.get('pitch', ''))):
+            VOICE_STATE['pitch'] = body['pitch']
+        if body.get('save'):
+            with open(VOICE_FILE, 'w', encoding='utf-8') as f:
+                json.dump(VOICE_STATE, f, indent=2)
+    return jsonify(VOICE_STATE)
 
 @app.route('/search', methods=['POST'])
 def search():
@@ -909,6 +994,10 @@ BLOCKED_KEYWORDS = [
 
 @app.route('/dynamic', methods=['POST'])
 def dynamic_execute():
+    # SECURITY: running AI-written code is remote code execution waiting to happen.
+    # Disabled unless you deliberately start the service with JARVIS_ALLOW_DYNAMIC=1.
+    if os.getenv("JARVIS_ALLOW_DYNAMIC") != "1":
+        return jsonify({'status': 'blocked', 'action': 'Dynamic code execution is disabled, sir.'}), 403
     data = request.json
     code = data.get('code', '')
     description = data.get('description', '')
@@ -977,4 +1066,4 @@ def dynamic_execute():
         }), 500
 
 if __name__ == '__main__':
-    app.run(port=5001, debug=True)
+    app.run(host='127.0.0.1', port=5001, debug=False)  # localhost only, no debugger console

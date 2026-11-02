@@ -23,3 +23,7 @@ Thumbs.db
 # Build files
 client/dist/
 client/build/
+
+# Whatsapp session
+.wwebjs_auth/ 
+.wwebjs_cache/

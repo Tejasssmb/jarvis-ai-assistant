@@ -1,9 +1,9 @@
 import { useState, useRef, useEffect } from 'react'
 import axios from 'axios'
 import './Chat.css'
-import socket from "../services/socket";
 import ConversationSidebar from "../components/ConversationSidebar";
-import ArcReactor from "../components/ArcReactor";
+import { useVoice } from "../context/VoiceContext";
+import MessageContent, { hasCode } from "../components/MessageContent";
 function Chat() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('')
@@ -19,6 +19,7 @@ function Chat() {
   const startupLoaded = useRef(false);
   const [jarvisState, setJarvisState] =
   useState("idle");
+  const voice = useVoice();
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
@@ -34,41 +35,40 @@ function Chat() {
 
 }, []);
  
+  // Messages coming from the voice loop ("Hey Jarvis" conversations, reminders).
+  // Anything said while this page was closed (e.g. the code you asked for) is
+  // fetched from the server first, then new ones arrive live.
   useEffect(() => {
-  socket.connect();
+    let cancelled = false
+    const seen = Number(localStorage.getItem('voiceFeedSeen') || 0)
 
-  socket.on('jarvis_wake', (data) => {
-    console.log('Wake event:', data)
+    voice.fetchFeed(seen).then(items => {
+      if (cancelled || !items.length) return
+      setMessages(prev => [
+        ...prev,
+        ...items.map(i => ({ role: i.role, content: i.content }))
+      ])
+      localStorage.setItem('voiceFeedSeen', String(Math.max(...items.map(i => i.ts))))
+    })
 
-    if (data.trigger === 'wake_word' || data.trigger === 'double_clap') {
-      // Show activation in chat
-      setMessages(prev => [...prev, {
-        role: 'assistant',
-        content: "Yes sir, I'm listening..."
-      }])
+    const unsubscribe = voice.subscribe((data) => {
+      if (data.message) {
+        setMessages(prev => [...prev, { role: 'user', content: data.message }])
+      }
+      if (data.reply) {
+        setMessages(prev => [...prev, { role: 'assistant', content: data.reply }])
+      }
+      if (data.message || data.reply) {
+        localStorage.setItem('voiceFeedSeen', String(Date.now()))
+      }
+    })
+
+    return () => {
+      cancelled = true
+      unsubscribe()
     }
+  }, [voice.subscribe, voice.fetchFeed])
 
-    if (data.message) {
-      // Show user message from wake service
-      setMessages(prev => [...prev, {
-        role: 'user',
-        content: data.message
-      }])
-    }
-
-    if (data.reply) {
-      // Show Jarvis reply from wake service
-      setMessages(prev => [...prev, {
-        role: 'assistant',
-        content: data.reply
-      }])
-    }
-  })
-
-  return () => {
-  socket.off("jarvis_wake");
-};
-}, [])
   const startListening = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
@@ -141,7 +141,7 @@ const mediaRecorder = new MediaRecorder(stream, { mimeType })
   }
 
   const toggleAutoMode = () => {
-   
+    voice.setLiveMode(!voice.live)
   }
 
   const stopSpeaking = async () => {
@@ -184,6 +184,17 @@ const mediaRecorder = new MediaRecorder(stream, { mimeType })
   }
 };
  
+  // Speaks text through the voice service. /speak blocks until the audio
+  // has FINISHED playing, so awaiting it tells us exactly when Jarvis is done.
+  const speakAloud = async (text) => {
+    if (!text) return
+    try {
+      await axios.post('http://127.0.0.1:5001/speak', { text })
+    } catch (err) {
+      console.error('Speak failed:', err)
+    }
+  }
+
   const sendMessageWithText = async (text) => {
     if (!text.trim()) return
 
@@ -202,42 +213,47 @@ const mediaRecorder = new MediaRecorder(stream, { mimeType })
 
     try {
       if (conversationId) {
-      await axios.post(
-  `http://localhost:5000/api/conversations/${conversationId}/message`,
-  {
-    role: "user",
-    content: text
-  }
-);}
+        axios.post(
+          `http://localhost:5000/api/conversations/${conversationId}/message`,
+          { role: "user", content: text }
+        ).catch(console.error)
+      }
+
+      // speak:false -> the server returns the full reply plus a short "speech"
+      // version; we speak it here so we know exactly when Jarvis stops talking.
       const res = await axios.post('http://localhost:5000/api/chat', {
         message: text,
-        history
+        history,
+        speak: false
       }, {
         signal: abortControllerRef.current.signal
       })
 
       const reply = res.data.reply;
-      setJarvisState("speaking");
       const imageUrl = res.data.imageUrl;
-      await axios.post("http://localhost:5000/api/memory/save", {
-    type: "conversation",
-    content: `User: ${text}\nJarvis: ${reply}`
-});
-if (conversationId) {
-await axios.post(
-  `http://localhost:5000/api/conversations/${conversationId}/message`,
-  {
-    role: "assistant",
-    content: reply,
-    imageUrl
-  }
-);}
-      setMessages(prev => [...prev, { role: 'assistant', content: reply, imageUrl }])
-      setTimeout(() => {
-  setJarvisState("idle");
-}, 5000);
 
-      
+      // show the reply immediately, save to the database in the background
+      setMessages(prev => [...prev, { role: 'assistant', content: reply, imageUrl }])
+      setLoading(false)
+      abortControllerRef.current = null
+
+      Promise.allSettled([
+        axios.post("http://localhost:5000/api/memory/save", {
+          type: "conversation",
+          content: `User: ${text}\nJarvis: ${reply}`
+        }),
+        conversationId
+          ? axios.post(
+              `http://localhost:5000/api/conversations/${conversationId}/message`,
+              { role: "assistant", content: reply, imageUrl }
+            )
+          : null
+      ])
+
+      setJarvisState("speaking");
+      await speakAloud(res.data.speech)
+      setJarvisState("idle");
+
     } catch (error) {
       if (axios.isCancel(error) || error.name === 'CanceledError') {
         return
@@ -246,52 +262,25 @@ await axios.post(
         role: 'assistant',
         content: 'Error connecting to Jarvis server.'
       }])
+      setLoading(false)
+      setJarvisState("idle");
+      abortControllerRef.current = null
     }
-    setLoading(false)
-    abortControllerRef.current = null
   }
+
+  // The greeting is SPOKEN by the voice loop when you say "Hey Jarvis".
+  // Here we only show it as the first chat message.
   const loadStartupBriefing = async () => {
-  try {
-
-    const res = await axios.get(
-      "http://localhost:5000/api/startup"
-    );
-
-    setMessages(prev => [
-  {
-    role: "assistant",
-    content: res.data.briefing
-  },
-  ...prev
-]);
-
-
-  console.log("SPEAKING STARTUP:", res.data.briefing);
-  try {
-  await axios.post(
-    "http://127.0.0.1:5001/speak",
-    {
-      text: res.data.briefing
+    try {
+      const res = await axios.get("http://localhost:5000/api/startup");
+      setMessages(prev => [
+        { role: "assistant", content: res.data.briefing },
+        ...prev
+      ]);
+    } catch (err) {
+      console.error("Startup briefing failed", err);
     }
-  );
-
-  console.log("STARTUP SPEAK SENT");
-
-} catch (err) {
-  console.error(
-    "STARTUP SPEAK FAILED",
-    err
-  );
-}
-
-
-  } catch (err) {
-    console.error(
-      "Startup briefing failed",
-      err
-    );
-  }
-};
+  };
 
   const sendMessage = () => {
     sendMessageWithText(input)
@@ -300,7 +289,6 @@ await axios.post(
   const handleKey = (e) => {
     if (e.key === 'Enter') sendMessage()
   }
-  console.log("CHAT STATE =", jarvisState);
 return (
   <div className="chat-container">
     <div className="chat-body">
@@ -310,15 +298,14 @@ return (
     />
      {/* RIGHT SIDE */}
     
-   <ArcReactor state={jarvisState} />
     <div className="chat-messages">
   {messages.map((m, i) => (
-    <div key={i} className={`message ${m.role}`}>
+    <div key={i} className={`message ${m.role}${hasCode(m.content) ? ' has-code' : ''}`}>
       <span className="label">
         {m.role === 'assistant' ? 'JARVIS' : 'YOU'}
       </span>
 
-      <p>{m.content}</p>
+      <MessageContent text={m.content} role={m.role} />
 
       {m.imageUrl && (
         <img
@@ -360,11 +347,11 @@ return (
 
     <div className="chat-input">
         <button
-          className={`mode-button ${autoMode ? 'active' : ''}`}
+          className={`mode-button ${voice.live ? 'active' : ''}`}
           onClick={toggleAutoMode}
           title="Toggle hands-free mode"
         >
-          {autoMode ? '🔴 LIVE' : '💬 MANUAL'}
+          {voice.live ? '🔴 LIVE' : '💬 MANUAL'}
         </button>
         <button
           className={`mic-button ${listening ? 'listening' : ''}`}

@@ -1,0 +1,13 @@
+# Voice loop - install into the same Python you use for voice-service:
+#     pip install -r voice-service\requirements-voice.txt
+openwakeword==0.4.0      # pinned: the API used in wake.py is the 0.4.x one
+sounddevice
+numpy
+pillow                   # draws the glass-orb corner reactor
+requests
+keyboard
+psutil
+flask
+flask-cors
+sherpa-onnx              # owner-voice lock (ignore TV / other people); optional but recommended
+edge-tts>=7.0            # Jarvis's online voice; old versions stop working when Microsoft changes its service

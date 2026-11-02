@@ -34,6 +34,7 @@ const conversationRoute =
 require("./routes/conversations");
 const path = require("path");
 const startupRoute = require("./routes/startup");
+const integrationsRoute = require("./routes/integrations");
 // Middleware FIRST
 app.use(cors({ origin: 'http://localhost:5173' }));
 app.use(express.json());
@@ -72,6 +73,7 @@ app.use(
   conversationRoute
 );
 app.use("/api/startup", startupRoute);
+app.use("/api/integrations", integrationsRoute);
 // MongoDB
 mongoose.connect(process.env.MONGO_URI, {
   dbName: "jarvis",
@@ -96,13 +98,9 @@ io.on("connection", (socket) => {
   console.log("Socket Connected:", socket.id);
 
  socket.on("authenticate", async (token) => {
-  console.log("RAW TOKEN:", token);
-  const decodedWithoutVerify = jwt.decode(token);
-console.log("DECODED WITHOUT VERIFY:", decodedWithoutVerify);
   try {
     console.log("AUTH TOKEN RECEIVED");
     console.log("SERVER TIME:", new Date());
-    console.log("JWT_SECRET:", process.env.JWT_SECRET);
     const decoded = verifyToken(token);
     console.log("DECODED:", decoded);
     console.log("LOOKING FOR DEVICE:", {
@@ -150,6 +148,8 @@ await device.save();
 
 socket.on("execute_command", (command) => {
 
+    if (!socket.device) return;   // only authenticated devices may send commands
+
     for (const client of connectedClients.values()) {
 
         if (
@@ -169,6 +169,11 @@ socket.on("execute_command", (command) => {
 });
 
 socket.on("mobile_command", async (data) => {
+
+  if (!socket.device) {
+    socket.emit("jarvis_reply", { reply: "Not authenticated, sir." });
+    return;
+  }
 
   console.log("📱 Mobile Command:", data.command);
 
@@ -237,6 +242,8 @@ socket.on("mobile_command", async (data) => {
 });
 socket.on("system_alert", (data) => {
 
+  if (!socket.device) return;
+
   console.log("SYSTEM ALERT:", data);
   io.emit("jarvis_notification", {
     title: "Jarvis Alert",
@@ -248,4 +255,13 @@ socket.on("system_alert", (data) => {
 });
 });
 const PORT = process.env.PORT || 5000;
-server.listen(PORT, () => console.log(`Jarvis server running on port ${PORT}`));
+server.listen(PORT, () => {
+  console.log(`Jarvis server running on port ${PORT}`);
+
+  // WhatsApp (only starts when WHATSAPP_ENABLED=true in .env)
+  try {
+    require("./services/whatsappService").start();
+  } catch (err) {
+    console.error("WhatsApp could not start:", err.message);
+  }
+});

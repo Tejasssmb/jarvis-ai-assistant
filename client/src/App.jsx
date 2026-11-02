@@ -12,11 +12,9 @@ import Login from "./pages/Login";
 import { useAuth } from "./context/AuthContext";
 import DesktopView from "./pages/DesktopView";
 import Core from "./pages/Core";
+import { VoiceProvider } from "./context/VoiceContext";
 function App() {
   const { loading, authenticated } = useAuth();
-  console.log("APP RENDER");
-console.log("authenticated =", authenticated);
-console.log("pathname =", window.location.pathname);
   if (loading) {
     
     return <h2>Starting JARVIS...</h2>;
@@ -26,6 +24,7 @@ console.log("pathname =", window.location.pathname);
  return (
   
   <BrowserRouter>
+    <VoiceProvider>
     <Routes>
 
       {/* Desktop Layout */}
@@ -91,6 +90,7 @@ console.log("pathname =", window.location.pathname);
 />
 
     </Routes>
+    </VoiceProvider>
   </BrowserRouter>
 );
 }

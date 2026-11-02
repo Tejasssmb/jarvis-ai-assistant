@@ -27,7 +27,10 @@ async function getStartupBriefing() {
 
   briefing += "\nHow may I assist you today?";
 
-  return { briefing };
+  // One clean line for the voice (no blank lines / double full stops)
+  const speech = briefing.replace(/\s*\n+\s*/g, " ").trim();
+
+  return { briefing, speech };
 }
 
 function getTimeOfDay() {

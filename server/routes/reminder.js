@@ -16,7 +16,11 @@ router.post('/save', async (req, res) => {
 });
 
 // Check and trigger due reminders
+let checkingReminders = false;
+
 async function checkReminders() {
+  if (checkingReminders) return;            // previous check still speaking
+  checkingReminders = true;
   try {
     const now = new Date();
     const dueReminders = await Reminder.find({
@@ -26,13 +30,10 @@ async function checkReminders() {
 
     for (const reminder of dueReminders) {
       console.log(`⏰ Reminder triggered: ${reminder.text}`);
-      
-      // Speak the reminder
-      try {
-        await axios.post('http://127.0.0.1:5001/speak', {
-          text: `Sir, you asked me to remind you: ${reminder.text}`
-        });
-      } catch {}
+
+      // Mark as triggered FIRST so a slow speech can never fire it twice
+      reminder.triggered = true;
+      await reminder.save();
 
       // Notify browser
       if (global.wakeCallback) {
@@ -43,11 +44,21 @@ async function checkReminders() {
         });
       }
 
-      // Mark as triggered
-      reminder.triggered = true;
-      await reminder.save();
+      const spoken = `Sir, you asked me to remind you: ${reminder.text}`;
+      try {
+        // Preferred: the voice loop mutes the mic and waits for its turn
+        await axios.post('http://127.0.0.1:5002/say', { text: spoken }, { timeout: 120000 });
+      } catch {
+        try {
+          await axios.post('http://127.0.0.1:5001/speak', { text: spoken });
+        } catch {}
+      }
     }
-  } catch {}
+  } catch (err) {
+    console.error('Reminder check failed:', err.message);
+  } finally {
+    checkingReminders = false;
+  }
 }
 
 // Check reminders every 30 seconds

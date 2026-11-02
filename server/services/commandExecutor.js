@@ -1,7 +1,20 @@
 const axios = require("axios");
+const integrations = require("./integrationActions");
 
 async function executeCommand(parsed) {
   try {
+
+    // ===== EMAIL / WHATSAPP (handled here, not by the desktop voice service) =====
+    if (parsed.type === "preset" && integrations.handles(parsed.action)) {
+      const r = await integrations.run(parsed);
+      return {
+        success: true,
+        action: r.display,
+        speech: r.speech,
+        longform: r.longform || false,
+        imageUrl: null,
+      };
+    }
 
     // ===== PLAN EXECUTION =====
     if (parsed.type === "plan") {
@@ -59,7 +72,7 @@ async function executeCommand(parsed) {
 
     return {
       success: false,
-      action: err.message,
+      action: err.response?.data?.action || err.message,
     };
 
   }

@@ -1,0 +1,320 @@
+pygame 2.6.1 (SDL 2.28.4, Python 3.12.5)
+Hello from the pygame community. https://www.pygame.org/contribute.html
+ * Serving Flask app 'app'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5001
+Press CTRL+C to quit
+127.0.0.1 - - [12/Oct/2026 15:42:53] "OPTIONS /speak HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:42:59] "POST /speak HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:43:11] "OPTIONS /speak HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:43:24] "POST /speak HTTP/1.1" 200 -
+pygame 2.6.1 (SDL 2.28.4, Python 3.12.5)
+Hello from the pygame community. https://www.pygame.org/contribute.html
+ * Serving Flask app 'app'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5001
+Press CTRL+C to quit
+pygame 2.6.1 (SDL 2.28.4, Python 3.12.5)
+Hello from the pygame community. https://www.pygame.org/contribute.html
+ * Serving Flask app 'app'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5001
+Press CTRL+C to quit
+pygame 2.6.1 (SDL 2.28.4, Python 3.12.5)
+Hello from the pygame community. https://www.pygame.org/contribute.html
+ * Serving Flask app 'app'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5001
+Press CTRL+C to quit
+pygame 2.6.1 (SDL 2.28.4, Python 3.12.5)
+Hello from the pygame community. https://www.pygame.org/contribute.html
+ * Serving Flask app 'app'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5001
+Press CTRL+C to quit
+pygame 2.6.1 (SDL 2.28.4, Python 3.12.5)
+Hello from the pygame community. https://www.pygame.org/contribute.html
+ * Serving Flask app 'app'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5001
+Press CTRL+C to quit
+pygame 2.6.1 (SDL 2.28.4, Python 3.12.5)
+Hello from the pygame community. https://www.pygame.org/contribute.html
+ * Serving Flask app 'app'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5001
+Press CTRL+C to quit
+pygame 2.6.1 (SDL 2.28.4, Python 3.12.5)
+Hello from the pygame community. https://www.pygame.org/contribute.html
+ * Serving Flask app 'app'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5001
+Press CTRL+C to quit
+127.0.0.1 - - [13/Oct/2026 15:07:38] "POST /speak HTTP/1.1" 200 -
+127.0.0.1 - - [13/Oct/2026 15:08:01] "POST /speak HTTP/1.1" 200 -
+127.0.0.1 - - [13/Oct/2026 15:08:45] "POST /speak HTTP/1.1" 200 -
+127.0.0.1 - - [13/Oct/2026 15:08:56] "POST /execute HTTP/1.1" 200 -
+127.0.0.1 - - [13/Oct/2026 15:09:01] "POST /speak HTTP/1.1" 200 -
+127.0.0.1 - - [13/Oct/2026 15:09:47] "POST /speak HTTP/1.1" 200 -
+pygame 2.6.1 (SDL 2.28.4, Python 3.12.5)
+Hello from the pygame community. https://www.pygame.org/contribute.html
+ * Serving Flask app 'app'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5001
+Press CTRL+C to quit
+127.0.0.1 - - [13/Oct/2026 15:22:32] "POST /speak HTTP/1.1" 200 -
+127.0.0.1 - - [13/Oct/2026 15:23:06] "POST /speak HTTP/1.1" 200 -
+pygame 2.6.1 (SDL 2.28.4, Python 3.12.5)
+Hello from the pygame community. https://www.pygame.org/contribute.html
+ * Serving Flask app 'app'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5001
+Press CTRL+C to quit
+127.0.0.1 - - [13/Oct/2026 18:21:00] "POST /speak HTTP/1.1" 200 -
+127.0.0.1 - - [13/Oct/2026 18:21:08] "POST /execute HTTP/1.1" 200 -
+127.0.0.1 - - [13/Oct/2026 18:21:14] "POST /speak HTTP/1.1" 200 -
+127.0.0.1 - - [13/Oct/2026 18:21:19] "POST /execute HTTP/1.1" 200 -
+127.0.0.1 - - [13/Oct/2026 18:21:26] "POST /speak HTTP/1.1" 200 -
+127.0.0.1 - - [13/Oct/2026 18:21:52] "POST /speak HTTP/1.1" 200 -
+127.0.0.1 - - [13/Oct/2026 18:22:00] "POST /speak HTTP/1.1" 200 -
+127.0.0.1 - - [13/Oct/2026 18:22:16] "POST /speak HTTP/1.1" 200 -
+127.0.0.1 - - [13/Oct/2026 18:22:25] "POST /execute HTTP/1.1" 200 -
+127.0.0.1 - - [13/Oct/2026 18:22:32] "POST /speak HTTP/1.1" 200 -
+127.0.0.1 - - [13/Oct/2026 18:23:02] "POST /execute HTTP/1.1" 200 -
+127.0.0.1 - - [13/Oct/2026 18:23:02] "POST /execute HTTP/1.1" 200 -
+127.0.0.1 - - [13/Oct/2026 18:23:08] "POST /speak HTTP/1.1" 200 -
+pygame 2.6.1 (SDL 2.28.4, Python 3.12.5)
+Hello from the pygame community. https://www.pygame.org/contribute.html
+ * Serving Flask app 'app'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5001
+Press CTRL+C to quit
+=== VOICE SERVICE ERROR ===
+403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=b149bbaeefd7459f801917bb10b63e7c&Sec-MS-GEC=7BA7362EDAA01E07507A328AF53AA9210301A7641151F4D2DA6B586B8E17664A&Sec-MS-GEC-Version=1-143.0.3650.75'
+127.0.0.1 - - [14/Oct/2026 12:51:15] "POST /speak HTTP/1.1" 500 -
+=== VOICE SERVICE ERROR ===
+403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=e2e96d30beca44d58a1bc558a137d007&Sec-MS-GEC=7BA7362EDAA01E07507A328AF53AA9210301A7641151F4D2DA6B586B8E17664A&Sec-MS-GEC-Version=1-143.0.3650.75'
+127.0.0.1 - - [14/Oct/2026 12:51:24] "POST /speak HTTP/1.1" 500 -
+=== VOICE SERVICE ERROR ===
+403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=da8da5bc7aea4cfe951be950be6ce34c&Sec-MS-GEC=3131E0B03BDB24F953D08F8BD0C527F74916AC84A4307858C061C477738C3DBA&Sec-MS-GEC-Version=1-143.0.3650.75'
+127.0.0.1 - - [14/Oct/2026 12:56:37] "POST /speak HTTP/1.1" 500 -
+=== VOICE SERVICE ERROR ===
+403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=1c062ee7b59f4658af104ca3cc8020d0&Sec-MS-GEC=3131E0B03BDB24F953D08F8BD0C527F74916AC84A4307858C061C477738C3DBA&Sec-MS-GEC-Version=1-143.0.3650.75'
+127.0.0.1 - - [14/Oct/2026 12:56:43] "POST /speak HTTP/1.1" 500 -
+=== VOICE SERVICE ERROR ===
+403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=7a2606c655f54a8090fd6e67110b207d&Sec-MS-GEC=3131E0B03BDB24F953D08F8BD0C527F74916AC84A4307858C061C477738C3DBA&Sec-MS-GEC-Version=1-143.0.3650.75'
+127.0.0.1 - - [14/Oct/2026 12:56:52] "POST /speak HTTP/1.1" 500 -
+=== VOICE SERVICE ERROR ===
+403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=326dbc24fce34708849bace4775bfbf0&Sec-MS-GEC=3131E0B03BDB24F953D08F8BD0C527F74916AC84A4307858C061C477738C3DBA&Sec-MS-GEC-Version=1-143.0.3650.75'
+127.0.0.1 - - [14/Oct/2026 12:58:35] "POST /speak HTTP/1.1" 500 -
+127.0.0.1 - - [14/Oct/2026 12:58:45] "POST /execute HTTP/1.1" 200 -
+=== VOICE SERVICE ERROR ===
+403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=1d739b0c86db42778989dfdb959f9281&Sec-MS-GEC=3131E0B03BDB24F953D08F8BD0C527F74916AC84A4307858C061C477738C3DBA&Sec-MS-GEC-Version=1-143.0.3650.75'
+127.0.0.1 - - [14/Oct/2026 12:58:46] "POST /speak HTTP/1.1" 500 -
+=== VOICE SERVICE ERROR ===
+403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=022f0e19252c4e8aa5e80c2616238803&Sec-MS-GEC=3131E0B03BDB24F953D08F8BD0C527F74916AC84A4307858C061C477738C3DBA&Sec-MS-GEC-Version=1-143.0.3650.75'
+127.0.0.1 - - [14/Oct/2026 12:59:30] "POST /speak HTTP/1.1" 500 -
+=== VOICE SERVICE ERROR ===
+403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=15015ed290694dba8d46a9978ec94b10&Sec-MS-GEC=3131E0B03BDB24F953D08F8BD0C527F74916AC84A4307858C061C477738C3DBA&Sec-MS-GEC-Version=1-143.0.3650.75'
+127.0.0.1 - - [14/Oct/2026 12:59:36] "POST /speak HTTP/1.1" 500 -
+=== VOICE SERVICE ERROR ===
+403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=0e715929cc8c4ef0a5b940c9051de1bc&Sec-MS-GEC=3131E0B03BDB24F953D08F8BD0C527F74916AC84A4307858C061C477738C3DBA&Sec-MS-GEC-Version=1-143.0.3650.75'
+127.0.0.1 - - [14/Oct/2026 12:59:55] "POST /speak HTTP/1.1" 500 -
+127.0.0.1 - - [14/Oct/2026 13:00:06] "POST /execute HTTP/1.1" 200 -
+=== VOICE SERVICE ERROR ===
+403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=3f119be49d8540aeb358ef74d46d0ac8&Sec-MS-GEC=782F7F1B4B0D2E1490E3CD3ED2D0973D7E5E55054B6CCD861ED9EBD9EA4F8BE1&Sec-MS-GEC-Version=1-143.0.3650.75'
+127.0.0.1 - - [14/Oct/2026 13:00:08] "POST /speak HTTP/1.1" 500 -
+=== VOICE SERVICE ERROR ===
+403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=ffd0d0ffe44c4de184a9dd55f0ec7aa7&Sec-MS-GEC=782F7F1B4B0D2E1490E3CD3ED2D0973D7E5E55054B6CCD861ED9EBD9EA4F8BE1&Sec-MS-GEC-Version=1-143.0.3650.75'
+127.0.0.1 - - [14/Oct/2026 13:00:19] "POST /speak HTTP/1.1" 500 -
+=== VOICE SERVICE ERROR ===
+403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=8a64cadab8174aef890e9a00ad9a7e28&Sec-MS-GEC=782F7F1B4B0D2E1490E3CD3ED2D0973D7E5E55054B6CCD861ED9EBD9EA4F8BE1&Sec-MS-GEC-Version=1-143.0.3650.75'
+127.0.0.1 - - [14/Oct/2026 13:00:35] "POST /speak HTTP/1.1" 500 -
+=== VOICE SERVICE ERROR ===
+403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=76f9b47e02b54956b0b6bff62002d4e3&Sec-MS-GEC=782F7F1B4B0D2E1490E3CD3ED2D0973D7E5E55054B6CCD861ED9EBD9EA4F8BE1&Sec-MS-GEC-Version=1-143.0.3650.75'
+127.0.0.1 - - [14/Oct/2026 13:01:10] "POST /speak HTTP/1.1" 500 -
+=== VOICE SERVICE ERROR ===
+403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=996d086193c24ab18f60b97fc9fd4e46&Sec-MS-GEC=782F7F1B4B0D2E1490E3CD3ED2D0973D7E5E55054B6CCD861ED9EBD9EA4F8BE1&Sec-MS-GEC-Version=1-143.0.3650.75'
+127.0.0.1 - - [14/Oct/2026 13:01:27] "POST /speak HTTP/1.1" 500 -
+pygame 2.6.1 (SDL 2.28.4, Python 3.12.5)
+Hello from the pygame community. https://www.pygame.org/contribute.html
+ * Serving Flask app 'app'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5001
+Press CTRL+C to quit
+[tts] online voice failed (WSServerHandshakeError: 403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=15bb24798f51406fbdafa3039c802994&Sec-MS-GEC=C07F41AA51D3BDD20B26596ED40CF8201C6AAF706B5D48F7A374A2C0E96BA757&Sec-MS-GEC-Version=1-143.0.3650.75') - using the Windows voice
+127.0.0.1 - - [15/Oct/2026 16:51:43] "POST /speak HTTP/1.1" 200 -
+127.0.0.1 - - [15/Oct/2026 16:51:57] "POST /execute HTTP/1.1" 200 -
+[tts] online voice failed (WSServerHandshakeError: 403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=3ed009fd234b4c8780a40e1fb8cb6d75&Sec-MS-GEC=C07F41AA51D3BDD20B26596ED40CF8201C6AAF706B5D48F7A374A2C0E96BA757&Sec-MS-GEC-Version=1-143.0.3650.75') - using the Windows voice
+127.0.0.1 - - [15/Oct/2026 16:52:17] "POST /speak HTTP/1.1" 200 -
+[tts] online voice failed (WSServerHandshakeError: 403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=19e48afdaab7489ca8b25dc4689f9955&Sec-MS-GEC=C07F41AA51D3BDD20B26596ED40CF8201C6AAF706B5D48F7A374A2C0E96BA757&Sec-MS-GEC-Version=1-143.0.3650.75') - using the Windows voice
+127.0.0.1 - - [15/Oct/2026 16:53:20] "POST /speak HTTP/1.1" 200 -
+[tts] online voice failed (WSServerHandshakeError: 403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=9e0d486c1b874656bd582e7440ac414f&Sec-MS-GEC=59C23539B599E69E2450BD23B75E341B78FCAF2605CCD8BE41A6188959B9C9B9&Sec-MS-GEC-Version=1-143.0.3650.75') - using the Windows voice
+127.0.0.1 - - [15/Oct/2026 16:55:06] "POST /speak HTTP/1.1" 200 -
+[tts] online voice failed (WSServerHandshakeError: 403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=d24c4e27b0dc49169145f4a1b1850950&Sec-MS-GEC=59C23539B599E69E2450BD23B75E341B78FCAF2605CCD8BE41A6188959B9C9B9&Sec-MS-GEC-Version=1-143.0.3650.75') - using the Windows voice
+127.0.0.1 - - [15/Oct/2026 16:55:26] "POST /speak HTTP/1.1" 200 -
+[tts] online voice failed (WSServerHandshakeError: 403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=833b780b02a74493b57622d9587d860d&Sec-MS-GEC=59C23539B599E69E2450BD23B75E341B78FCAF2605CCD8BE41A6188959B9C9B9&Sec-MS-GEC-Version=1-143.0.3650.75') - using the Windows voice
+127.0.0.1 - - [15/Oct/2026 16:55:49] "POST /speak HTTP/1.1" 200 -
+[tts] online voice failed (WSServerHandshakeError: 403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=ff594c76a9db4112960feb7251fa2a45&Sec-MS-GEC=59C23539B599E69E2450BD23B75E341B78FCAF2605CCD8BE41A6188959B9C9B9&Sec-MS-GEC-Version=1-143.0.3650.75') - using the Windows voice
+127.0.0.1 - - [15/Oct/2026 16:56:20] "POST /speak HTTP/1.1" 200 -
+[tts] online voice failed (WSServerHandshakeError: 403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=4fed24b4ac1e44dc9a6dc668338618b7&Sec-MS-GEC=59C23539B599E69E2450BD23B75E341B78FCAF2605CCD8BE41A6188959B9C9B9&Sec-MS-GEC-Version=1-143.0.3650.75') - using the Windows voice
+127.0.0.1 - - [15/Oct/2026 16:56:55] "POST /speak HTTP/1.1" 200 -
+[tts] online voice failed (WSServerHandshakeError: 403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=ab93e010b2ec46d38c669c6484538d45&Sec-MS-GEC=59C23539B599E69E2450BD23B75E341B78FCAF2605CCD8BE41A6188959B9C9B9&Sec-MS-GEC-Version=1-143.0.3650.75') - using the Windows voice
+127.0.0.1 - - [15/Oct/2026 16:58:06] "POST /speak HTTP/1.1" 200 -
+[tts] online voice failed (WSServerHandshakeError: 403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=09eaceb425034020a0d2d9fd8e32efd5&Sec-MS-GEC=59C23539B599E69E2450BD23B75E341B78FCAF2605CCD8BE41A6188959B9C9B9&Sec-MS-GEC-Version=1-143.0.3650.75') - using the Windows voice
+127.0.0.1 - - [15/Oct/2026 16:58:23] "POST /speak HTTP/1.1" 200 -
+[tts] online voice failed (WSServerHandshakeError: 403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=4d34c2ab1fb141a0b761c6770e62a0ce&Sec-MS-GEC=59C23539B599E69E2450BD23B75E341B78FCAF2605CCD8BE41A6188959B9C9B9&Sec-MS-GEC-Version=1-143.0.3650.75') - using the Windows voice
+127.0.0.1 - - [15/Oct/2026 16:58:44] "POST /speak HTTP/1.1" 200 -
+127.0.0.1 - - [15/Oct/2026 16:58:54] "POST /execute HTTP/1.1" 200 -
+127.0.0.1 - - [15/Oct/2026 16:58:54] "POST /execute HTTP/1.1" 200 -
+[tts] online voice failed (WSServerHandshakeError: 403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=9eb63e738c594fcba8945e200d977a5d&Sec-MS-GEC=59C23539B599E69E2450BD23B75E341B78FCAF2605CCD8BE41A6188959B9C9B9&Sec-MS-GEC-Version=1-143.0.3650.75') - using the Windows voice
+127.0.0.1 - - [15/Oct/2026 16:59:02] "POST /speak HTTP/1.1" 200 -
+[tts] online voice failed (WSServerHandshakeError: 403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=f7814692a5ba421bb49457c94e4b9254&Sec-MS-GEC=59C23539B599E69E2450BD23B75E341B78FCAF2605CCD8BE41A6188959B9C9B9&Sec-MS-GEC-Version=1-143.0.3650.75') - using the Windows voice
+127.0.0.1 - - [15/Oct/2026 16:59:50] "POST /speak HTTP/1.1" 200 -
+127.0.0.1 - - [15/Oct/2026 17:00:09] "POST /execute HTTP/1.1" 200 -
+[tts] online voice failed (WSServerHandshakeError: 403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=22ef9601623541b788a83007b0718d1b&Sec-MS-GEC=9113E1594D2ABFD9B8A264AEDA73AB76397D3C91BAE27A3879A0A970751DD180&Sec-MS-GEC-Version=1-143.0.3650.75') - using the Windows voice
+127.0.0.1 - - [15/Oct/2026 17:00:38] "POST /speak HTTP/1.1" 200 -
+127.0.0.1 - - [15/Oct/2026 17:00:45] "POST /execute HTTP/1.1" 200 -
+[tts] online voice failed (WSServerHandshakeError: 403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=92ad192e63504b6386ecff3f7b1a1466&Sec-MS-GEC=9113E1594D2ABFD9B8A264AEDA73AB76397D3C91BAE27A3879A0A970751DD180&Sec-MS-GEC-Version=1-143.0.3650.75') - using the Windows voice
+127.0.0.1 - - [15/Oct/2026 17:00:51] "POST /speak HTTP/1.1" 200 -
+[tts] online voice failed (WSServerHandshakeError: 403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=7db6fe4b12854bc6a69e42ee6d7c8180&Sec-MS-GEC=B6016EFFB40E225ADF798B3ED638814DA06F3AE98418AC077491911F686AD958&Sec-MS-GEC-Version=1-143.0.3650.75') - using the Windows voice
+127.0.0.1 - - [15/Oct/2026 17:05:54] "POST /speak HTTP/1.1" 200 -
+[tts] online voice failed (WSServerHandshakeError: 403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=ff178193fc5c4e35a37cddbe57425171&Sec-MS-GEC=B6016EFFB40E225ADF798B3ED638814DA06F3AE98418AC077491911F686AD958&Sec-MS-GEC-Version=1-143.0.3650.75') - using the Windows voice
+127.0.0.1 - - [15/Oct/2026 17:06:10] "POST /speak HTTP/1.1" 200 -
+[tts] online voice failed (WSServerHandshakeError: 403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=b936d7572f0a46efb495efc936629efe&Sec-MS-GEC=B6016EFFB40E225ADF798B3ED638814DA06F3AE98418AC077491911F686AD958&Sec-MS-GEC-Version=1-143.0.3650.75') - using the Windows voice
+127.0.0.1 - - [15/Oct/2026 17:06:36] "POST /speak HTTP/1.1" 200 -
+[tts] online voice failed (WSServerHandshakeError: 403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=9c0dedb1a3dc4d56a30669da404f35ef&Sec-MS-GEC=B6016EFFB40E225ADF798B3ED638814DA06F3AE98418AC077491911F686AD958&Sec-MS-GEC-Version=1-143.0.3650.75') - using the Windows voice
+127.0.0.1 - - [15/Oct/2026 17:06:59] "POST /speak HTTP/1.1" 200 -
+[tts] online voice failed (WSServerHandshakeError: 403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=7f353b42bcff4a32aae5f0e6bfae4a55&Sec-MS-GEC=B6016EFFB40E225ADF798B3ED638814DA06F3AE98418AC077491911F686AD958&Sec-MS-GEC-Version=1-143.0.3650.75') - using the Windows voice
+127.0.0.1 - - [15/Oct/2026 17:07:24] "POST /speak HTTP/1.1" 200 -
+[tts] online voice failed (WSServerHandshakeError: 403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=fbd574c290754842b1cc8b9f6eef96fa&Sec-MS-GEC=B6016EFFB40E225ADF798B3ED638814DA06F3AE98418AC077491911F686AD958&Sec-MS-GEC-Version=1-143.0.3650.75') - using the Windows voice
+127.0.0.1 - - [15/Oct/2026 17:09:20] "POST /speak HTTP/1.1" 200 -
+[tts] online voice failed (WSServerHandshakeError: 403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=a608eec8927e41caac8d65dacbfa7749&Sec-MS-GEC=B6016EFFB40E225ADF798B3ED638814DA06F3AE98418AC077491911F686AD958&Sec-MS-GEC-Version=1-143.0.3650.75') - using the Windows voice
+127.0.0.1 - - [15/Oct/2026 17:09:44] "POST /speak HTTP/1.1" 200 -
+[tts] online voice failed (WSServerHandshakeError: 403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=caf803976b4646f4bee6d1eca310b945&Sec-MS-GEC=43BC61F7812B09AA11639A8E39CC018DF60E36CDF2F8B74A27257988FD940A41&Sec-MS-GEC-Version=1-143.0.3650.75') - using the Windows voice
+127.0.0.1 - - [15/Oct/2026 17:10:16] "POST /speak HTTP/1.1" 200 -
+[tts] online voice failed (WSServerHandshakeError: 403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=6685250075d14b4db08c7108e3a11bcf&Sec-MS-GEC=43BC61F7812B09AA11639A8E39CC018DF60E36CDF2F8B74A27257988FD940A41&Sec-MS-GEC-Version=1-143.0.3650.75') - using the Windows voice
+127.0.0.1 - - [15/Oct/2026 17:10:50] "POST /speak HTTP/1.1" 200 -
+[tts] online voice failed (WSServerHandshakeError: 403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=feecbbedf3ac4b2ca23759af69d4e9bc&Sec-MS-GEC=43BC61F7812B09AA11639A8E39CC018DF60E36CDF2F8B74A27257988FD940A41&Sec-MS-GEC-Version=1-143.0.3650.75') - using the Windows voice
+127.0.0.1 - - [15/Oct/2026 17:11:23] "POST /speak HTTP/1.1" 200 -
+[tts] online voice failed (WSServerHandshakeError: 403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=0eb256b467b44e0ebd046cef16436653&Sec-MS-GEC=43BC61F7812B09AA11639A8E39CC018DF60E36CDF2F8B74A27257988FD940A41&Sec-MS-GEC-Version=1-143.0.3650.75') - using the Windows voice
+127.0.0.1 - - [15/Oct/2026 17:11:56] "POST /speak HTTP/1.1" 200 -
+[tts] online voice failed (WSServerHandshakeError: 403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=cbfdcd6c922843cf8117a0a16f0ab1cf&Sec-MS-GEC=43BC61F7812B09AA11639A8E39CC018DF60E36CDF2F8B74A27257988FD940A41&Sec-MS-GEC-Version=1-143.0.3650.75') - using the Windows voice
+127.0.0.1 - - [15/Oct/2026 17:14:25] "POST /speak HTTP/1.1" 200 -
+[tts] online voice failed (WSServerHandshakeError: 403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=7d913918c5c444e093018591af6bba30&Sec-MS-GEC=6DF2C9369664B417A4E41C47BB5DE85CA8FEB5E2BC4744E6DE1418A7D4E49937&Sec-MS-GEC-Version=1-143.0.3650.75') - using the Windows voice
+127.0.0.1 - - [15/Oct/2026 17:17:11] "POST /speak HTTP/1.1" 200 -
+[tts] online voice failed (WSServerHandshakeError: 403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=de24e8ba31d34aefa31012cc3b795b97&Sec-MS-GEC=6DF2C9369664B417A4E41C47BB5DE85CA8FEB5E2BC4744E6DE1418A7D4E49937&Sec-MS-GEC-Version=1-143.0.3650.75') - using the Windows voice
+127.0.0.1 - - [15/Oct/2026 17:17:25] "POST /speak HTTP/1.1" 200 -
+127.0.0.1 - - [15/Oct/2026 17:17:42] "POST /execute HTTP/1.1" 200 -
+127.0.0.1 - - [15/Oct/2026 17:17:43] "POST /execute HTTP/1.1" 200 -
+[tts] online voice failed (WSServerHandshakeError: 403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=9cb062364d104cb4abd99a2737813424&Sec-MS-GEC=6DF2C9369664B417A4E41C47BB5DE85CA8FEB5E2BC4744E6DE1418A7D4E49937&Sec-MS-GEC-Version=1-143.0.3650.75') - using the Windows voice
+127.0.0.1 - - [15/Oct/2026 17:17:56] "POST /speak HTTP/1.1" 200 -
+127.0.0.1 - - [15/Oct/2026 17:18:30] "POST /execute HTTP/1.1" 200 -
+[tts] online voice failed (WSServerHandshakeError: 403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=1eb2a6a729ae444cb2a3eea0c691b198&Sec-MS-GEC=6DF2C9369664B417A4E41C47BB5DE85CA8FEB5E2BC4744E6DE1418A7D4E49937&Sec-MS-GEC-Version=1-143.0.3650.75') - using the Windows voice
+127.0.0.1 - - [15/Oct/2026 17:18:36] "POST /speak HTTP/1.1" 200 -
+[tts] online voice failed (WSServerHandshakeError: 403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=e0ed78efa00a44c0a6dc4986d727c9cc&Sec-MS-GEC=6DF2C9369664B417A4E41C47BB5DE85CA8FEB5E2BC4744E6DE1418A7D4E49937&Sec-MS-GEC-Version=1-143.0.3650.75') - using the Windows voice
+127.0.0.1 - - [15/Oct/2026 17:19:04] "POST /speak HTTP/1.1" 200 -
+127.0.0.1 - - [15/Oct/2026 17:19:17] "POST /execute HTTP/1.1" 200 -
+[tts] online voice failed (WSServerHandshakeError: 403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=bff66bcb581b46b6ac12aa72b870faad&Sec-MS-GEC=6DF2C9369664B417A4E41C47BB5DE85CA8FEB5E2BC4744E6DE1418A7D4E49937&Sec-MS-GEC-Version=1-143.0.3650.75') - using the Windows voice
+127.0.0.1 - - [15/Oct/2026 17:19:23] "POST /speak HTTP/1.1" 200 -
+pygame 2.6.1 (SDL 2.28.4, Python 3.12.5)
+Hello from the pygame community. https://www.pygame.org/contribute.html
+ * Serving Flask app 'app'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5001
+Press CTRL+C to quit
+127.0.0.1 - - [02/Nov/2026 18:28:33] "GET /voice HTTP/1.1" 200 -
+127.0.0.1 - - [02/Nov/2026 18:28:34] "POST /voice HTTP/1.1" 200 -
+[tts] first audio after 6.5s
+127.0.0.1 - - [02/Nov/2026 18:28:46] "POST /speak HTTP/1.1" 200 -
+127.0.0.1 - - [02/Nov/2026 18:28:57] "POST /voice HTTP/1.1" 200 -
+[tts] first audio after 6.06s
+127.0.0.1 - - [02/Nov/2026 18:29:11] "POST /speak HTTP/1.1" 200 -
+127.0.0.1 - - [02/Nov/2026 18:29:12] "POST /voice HTTP/1.1" 200 -
+[tts] first audio after 7.22s
+127.0.0.1 - - [02/Nov/2026 18:29:27] "POST /speak HTTP/1.1" 200 -
+127.0.0.1 - - [02/Nov/2026 18:29:28] "POST /voice HTTP/1.1" 200 -
+[tts] first audio after 5.86s
+127.0.0.1 - - [02/Nov/2026 18:29:42] "POST /speak HTTP/1.1" 200 -
+127.0.0.1 - - [02/Nov/2026 18:29:43] "POST /voice HTTP/1.1" 200 -
+[tts] first audio after 1.84s
+127.0.0.1 - - [02/Nov/2026 18:29:50] "POST /speak HTTP/1.1" 200 -
+127.0.0.1 - - [02/Nov/2026 18:29:51] "POST /voice HTTP/1.1" 200 -
+[tts] first audio after 16.99s
+127.0.0.1 - - [02/Nov/2026 18:30:17] "POST /speak HTTP/1.1" 200 -
+127.0.0.1 - - [02/Nov/2026 18:35:35] "POST /voice HTTP/1.1" 200 -
+[tts] first audio after 1.7s
+127.0.0.1 - - [02/Nov/2026 18:35:45] "POST /speak HTTP/1.1" 200 -
+127.0.0.1 - - [02/Nov/2026 18:35:46] "POST /voice HTTP/1.1" 200 -
+[tts] first audio after 3.85s
+127.0.0.1 - - [02/Nov/2026 18:35:58] "POST /speak HTTP/1.1" 200 -
+127.0.0.1 - - [02/Nov/2026 18:35:59] "POST /voice HTTP/1.1" 200 -
+[tts] first audio after 2.74s
+127.0.0.1 - - [02/Nov/2026 18:36:09] "POST /speak HTTP/1.1" 200 -
+127.0.0.1 - - [02/Nov/2026 18:36:11] "POST /voice HTTP/1.1" 200 -
+[tts] first audio after 2.34s
+127.0.0.1 - - [02/Nov/2026 18:36:21] "POST /speak HTTP/1.1" 200 -
+127.0.0.1 - - [02/Nov/2026 18:36:33] "POST /voice HTTP/1.1" 200 -
+[tts] first audio after 1.38s
+127.0.0.1 - - [02/Nov/2026 18:36:41] "POST /speak HTTP/1.1" 200 -
+127.0.0.1 - - [02/Nov/2026 18:36:43] "POST /voice HTTP/1.1" 200 -
+[tts] first audio after 1.17s
+127.0.0.1 - - [02/Nov/2026 18:36:50] "POST /speak HTTP/1.1" 200 -
+127.0.0.1 - - [02/Nov/2026 18:36:52] "POST /voice HTTP/1.1" 200 -
+[tts] first audio after 1.2s
+127.0.0.1 - - [02/Nov/2026 18:37:00] "POST /speak HTTP/1.1" 200 -
+127.0.0.1 - - [02/Nov/2026 18:37:02] "POST /voice HTTP/1.1" 200 -
+[tts] first audio after 1.17s
+127.0.0.1 - - [02/Nov/2026 18:37:09] "POST /speak HTTP/1.1" 200 -
+127.0.0.1 - - [02/Nov/2026 18:37:13] "POST /voice HTTP/1.1" 200 -
+pygame 2.6.1 (SDL 2.28.4, Python 3.12.5)
+Hello from the pygame community. https://www.pygame.org/contribute.html
+ * Serving Flask app 'app'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5001
+Press CTRL+C to quit
+[tts] first audio after 2.01s
+127.0.0.1 - - [02/Nov/2026 18:52:01] "POST /speak HTTP/1.1" 200 -
+127.0.0.1 - - [02/Nov/2026 18:52:10] "POST /execute HTTP/1.1" 200 -
+127.0.0.1 - - [02/Nov/2026 18:52:10] "POST /execute HTTP/1.1" 200 -
+[tts] first audio after 1.81s
+127.0.0.1 - - [02/Nov/2026 18:52:15] "POST /speak HTTP/1.1" 200 -
+[tts] first audio after 2.32s
+127.0.0.1 - - [02/Nov/2026 18:52:38] "POST /speak HTTP/1.1" 200 -
+[tts] first audio after 2.18s
+127.0.0.1 - - [02/Nov/2026 18:52:53] "POST /speak HTTP/1.1" 200 -
+127.0.0.1 - - [02/Nov/2026 18:53:07] "POST /execute HTTP/1.1" 200 -
+[tts] first audio after 2.64s
+127.0.0.1 - - [02/Nov/2026 18:53:42] "POST /stop HTTP/1.1" 200 -
+127.0.0.1 - - [02/Nov/2026 18:53:42] "POST /speak HTTP/1.1" 200 -
+[tts] first audio after 1.22s
+127.0.0.1 - - [02/Nov/2026 18:55:45] "POST /speak HTTP/1.1" 200 -
+[tts] first audio after 1.43s
+127.0.0.1 - - [02/Nov/2026 18:55:55] "POST /speak HTTP/1.1" 200 -
+[tts] first audio after 2.29s
+127.0.0.1 - - [02/Nov/2026 18:56:57] "POST /speak HTTP/1.1" 200 -
+[tts] first audio after 1.1s
+127.0.0.1 - - [02/Nov/2026 18:57:42] "POST /speak HTTP/1.1" 200 -
+[tts] first audio after 2.18s
+127.0.0.1 - - [02/Nov/2026 18:57:59] "POST /speak HTTP/1.1" 200 -
+[tts] first audio after 1.53s
+127.0.0.1 - - [02/Nov/2026 18:58:27] "POST /speak HTTP/1.1" 200 -
+[tts] first audio after 2.69s
+127.0.0.1 - - [02/Nov/2026 18:58:41] "POST /speak HTTP/1.1" 200 -
+127.0.0.1 - - [02/Nov/2026 18:59:18] "POST /execute HTTP/1.1" 200 -
+[tts] first audio after 1.84s
+127.0.0.1 - - [02/Nov/2026 18:59:24] "POST /speak HTTP/1.1" 200 -

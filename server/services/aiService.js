@@ -10,7 +10,7 @@ async function callAI(messages) {
     const response = await groq.chat.completions.create({
   model: "openai/gpt-oss-120b",
   messages,
-  max_tokens: 300
+  max_tokens: 1024
 });
 
     console.log("✅ Groq responded");
@@ -23,18 +23,8 @@ async function callAI(messages) {
       model: "llama3.1",
       messages,
     });
-    
 
     console.log("✅ Ollama responded");
-    console.log(
-  "CONTENT:",
-  response.choices[0].message.content
-);
-
-console.log(
-  "FINISH:",
-  response.choices[0].finish_reason
-);
     return response.message.content;
   }
 }

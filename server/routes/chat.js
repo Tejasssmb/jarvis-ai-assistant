@@ -13,6 +13,7 @@ const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 const executeCommand = require("../services/commandExecutor");
 const parseCommand = require("../services/parserService");
 const processCommand = require("../services/processCommand");
+const { toSpeech } = require("../services/speechFormatter");
 const buildSystemPrompt = require("../services/systemPromptService");
 const {
   classifyMemory,
@@ -32,7 +33,8 @@ const callAI = require("../services/aiService");
 const searchTriggers = [
   'news', 'latest', 'current', 'recently', 'yesterday', 'tomorrow',
   'weather', 'score', 'match', 'price', 'stock', 'update', 'happened',
-  'who won', 'when is', '2025', '2026'
+  'who won', 'when is', '2025', '2026',
+  'who is', 'president', 'prime minister', 'ceo', 'release date', 'trending', 'today'
 ];
 
 const noSearchNeeded = [
@@ -43,8 +45,10 @@ const noSearchNeeded = [
 
 function needsSearch(message) {
   const lower = message.toLowerCase();
-  if (noSearchNeeded.some(skip => lower.includes(skip))) return false;
-  return searchTriggers.some(trigger => lower.includes(trigger));
+  const has = (word) =>
+    new RegExp(`\\b${word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`).test(lower);
+  if (noSearchNeeded.some(has)) return false;
+  return searchTriggers.some(has);
 }
 
 async function getSearchResults(query) {
@@ -119,9 +123,11 @@ async function saveReminder(message) {
       'forty five': '45', 'sixty': '60'
     };
     
+    // whole words only ("phone" must not become "ph1"), longest first ("forty five" before "forty")
     let normalizedMessage = message;
-    for (const [word, num] of Object.entries(wordToNum)) {
-      normalizedMessage = normalizedMessage.replace(new RegExp(word, 'gi'), num);
+    const words = Object.keys(wordToNum).sort((a, b) => b.length - a.length);
+    for (const word of words) {
+      normalizedMessage = normalizedMessage.replace(new RegExp(`\\b${word}\\b`, 'gi'), wordToNum[word]);
     }
 
     const now = new Date();
@@ -155,11 +161,22 @@ async function saveReminder(message) {
       if (ampm === 'am' && hours === 12) hours = 0;
       reminderTime = new Date(now);
       reminderTime.setHours(hours, minutes, 0, 0);
+      // "at 7 am" said at 9 pm means tomorrow, not "already overdue"
+      if (reminderTime <= now) reminderTime.setDate(reminderTime.getDate() + 1);
     }
 
     if (reminderTime) {
+      // "remind me to call mom in 5 minutes" -> "call mom"
+      const taskText = normalizedMessage
+        .replace(/\b(please|jarvis|hey|can you|could you)\b/gi, '')
+        .replace(/\bremind(?:er)?\s+me\s+(?:to\s+|about\s+|that\s+)?/i, '')
+        .replace(/\b(?:in|after)\s+\d+\s+(?:second|minute|hour)s?\b/i, '')
+        .replace(/\bat\s+\d+(?::\d+)?\s*(?:am|pm)\b/i, '')
+        .replace(/\s+/g, ' ')
+        .replace(/^[\s,.-]+|[\s,.-]+$/g, '') || message;
+
       await axios.post('http://localhost:5000/api/reminder/save', {
-        text: message,
+        text: taskText,
         reminderTime
       });
       console.log(`⏰ Reminder saved for: ${reminderTime}`);
@@ -175,76 +192,96 @@ async function saveReminder(message) {
 // ============================================
 router.post('/', async (req, res) => {
   const { message, history } = req.body;
-  try {
-    let systemContent = await buildSystemPrompt();
 
-    // Add web search context if needed
+  if (!message || typeof message !== 'string') {
+    return res.status(400).json({ error: 'message is required' });
+  }
+
+  try {
+    // Live web results are handed to the AI through processCommand
+    // (they used to be fetched and then thrown away)
+    let extraContext = '';
     if (needsSearch(message)) {
       const results = await getSearchResults(message);
       if (results.length > 0) {
-        const searchContext = results
-          .slice(0, 2)
-          .map(r => `${r.title}: ${r.body.slice(0, 150)}`)
-          .join('\n');
-        systemContent += `\n\nLIVE WEB RESULTS:\n${searchContext}`;
+        extraContext =
+          'LIVE WEB RESULTS (use if relevant, answer briefly):\n' +
+          results
+            .slice(0, 2)
+            .map(r => `${r.title}: ${String(r.body || '').slice(0, 150)}`)
+            .join('\n');
       }
     }
 
-    const messages = [
-      { role: 'system', content: systemContent },
-      ...(history || []),
-      { role: 'user', content: message }
-    ];
+    const result = await processCommand(message, history || [], null, extraContext);
 
-   const result = await processCommand(message, history);
-   
-   if (
-  result.parsed &&
-  result.parsed.action === "screenshot"
-) {
-  await new Promise(resolve =>
-    setTimeout(resolve, 3000)
-  );
+    // Wait for screenshot to arrive from the desktop agent
+    if (result.parsed && result.parsed.action === 'screenshot') {
+      await new Promise(resolve => setTimeout(resolve, 3000));
+      result.imageUrl = global.latestScreenshot || null;
+    }
 
-  result.imageUrl =
-    global.latestScreenshot || null;
-}
+    const finalReply = result.reply;
 
-const finalReply = result.reply;
+    // What Jarvis SAYS (short, no code/symbols) vs what the screen SHOWS (full reply).
+    // "longform" = code or long information: it is shown as text on the Chat page.
+    let speech;
+    let longform;
+    if (result.speech) {
+      // email / WhatsApp readers write their own spoken version
+      speech = toSpeech(result.speech, { maxChars: 700 }).speech;
+      longform = Boolean(result.longform) || finalReply.length > 350 || finalReply.split('\n').length > 4;
+    } else {
+      const spoken = toSpeech(finalReply);
+      speech = spoken.speech;
+      longform = spoken.hasCode || spoken.truncated;
+    }
 
-    // Save memory if needed
-  
-const memories =
-  await extractMemories(message);
+    // The voice loop and the chat page send speak:false and play the speech
+    // themselves (so they know when he stops). Anything else -> server speaks.
+    if (req.body.speak !== false && speech) {
+      axios.post('http://127.0.0.1:5001/speak', { text: speech }).catch(() => {});
+    }
 
-console.log(
-  "EXTRACTED MEMORIES:",
-  memories
-);
-
-for (const memory of memories) {
-
-  await saveMemory(
-    memory.content,
-    memory.type
-  );
-
-}
-    // Save reminder if needed
-await saveReminder(message);
-    // Speak the reply
-    axios.post('http://127.0.0.1:5001/speak', { text: finalReply }).catch(() => {});
-
+    // Respond FIRST...
     res.json({
-  reply: finalReply,
-  imageUrl: result.imageUrl || null,
-});
+      reply: finalReply,
+      speech,
+      longform,
+      imageUrl: result.imageUrl || null,
+    });
+
+    // ...then do the slow bookkeeping in the background
+    (async () => {
+      try {
+        if (req.body.persist) {
+          await saveMemory(`User: ${message}\nJarvis: ${finalReply}`, 'conversation');
+        }
+        const memories = await extractMemories(message);
+        if (Array.isArray(memories)) {
+          for (const memory of memories) {
+            if (memory && memory.content && memory.type) {
+              await saveMemory(memory.content, memory.type);
+            }
+          }
+        }
+        await saveReminder(message);
+      } catch (err) {
+        console.error('Background memory/reminder error:', err.message);
+      }
+    })();
 
   } catch (error) {
     console.error('Chat error:', error.message);
     res.status(500).json({ error: error.message });
   }
 });
+
+// Whisper invents text ("Thank you.", "Thanks for watching") on silence/noise.
+const WHISPER_GHOSTS = new Set([
+  'thank you', 'thanks', 'thanks for watching', 'thank you for watching',
+  'bye', 'bye bye', 'subscribe', 'you', 'the end', 'so', 'hmm', 'uh', 'um', 'mm'
+]);
 
 router.post('/transcribe', upload.single('audio'), async (req, res) => {
   try {
@@ -256,35 +293,96 @@ router.post('/transcribe', upload.single('audio'), async (req, res) => {
     const newPath = req.file.path + '.webm';
     fs.renameSync(req.file.path, newPath);
 
-    console.log('Transcribing file:', newPath);
-    console.log('File size:', fs.statSync(newPath).size, 'bytes');
-
     const transcription = await groq.audio.transcriptions.create({
       file: fs.createReadStream(newPath),
       model: 'whisper-large-v3-turbo',
       language: 'en',
-      response_format: 'json',
+      response_format: 'verbose_json',
+      temperature: 0,
+      prompt: 'Conversation with Jarvis, a personal assistant. Commands like open Chrome, play a song, set a reminder, take a screenshot.',
     });
 
     fs.unlinkSync(newPath);
-    console.log('Transcription:', transcription.text);
-    res.json({ text: transcription.text });
+
+    // Keep only segments Whisper is confident are real speech
+    const segments = transcription.segments || [];
+    let text = segments.length
+      ? segments
+          .filter(s =>
+            (s.no_speech_prob ?? 0) < 0.5 &&
+            (s.avg_logprob ?? 0) > -1.0 &&
+            (s.compression_ratio ?? 0) < 2.4
+          )
+          .map(s => s.text)
+          .join(' ')
+          .trim()
+      : (transcription.text || '').trim();
+
+    // Strict mode (continuous conversation): also drop known hallucinations
+    if (req.body.strict === '1') {
+      const norm = text.toLowerCase().replace(/[^a-z' ]/g, '').trim();
+      if (!norm || WHISPER_GHOSTS.has(norm)) text = '';
+    }
+
+    console.log('Transcription:', JSON.stringify(text));
+    res.json({ text });
 
   } catch (error) {
     console.error('Transcription error:', error.message);
     try {
+      if (req.file && fs.existsSync(req.file.path + '.webm')) fs.unlinkSync(req.file.path + '.webm');
       if (req.file && fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path);
     } catch {}
     res.status(500).json({ error: error.message });
   }
 });
+
+// Only the voice loop running on THIS computer may push events to the UI.
+function isLocal(req) {
+  const ip = req.socket.remoteAddress || '';
+  return ip === '127.0.0.1' || ip === '::1' || ip === '::ffff:127.0.0.1';
+}
+
+// Latest voice state, so a freshly opened Jarvis window can sync instantly.
+global.voiceState = { state: 'idle', live: false };
+
+// What was said by voice recently, so the Chat page can show it even if it
+// was opened AFTER the conversation happened (long answers open it on demand).
+global.voiceFeed = [];
+function pushFeed(item) {
+  global.voiceFeed.push({
+    id: `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+    ts: Date.now(),
+    ...item,
+  });
+  if (global.voiceFeed.length > 60) global.voiceFeed.splice(0, global.voiceFeed.length - 60);
+}
+
 router.post('/wake', (req, res) => {
-  const { trigger, message, reply } = req.body;
-  console.log(`🟢 Jarvis: ${trigger}`);
+  if (!isLocal(req)) return res.status(403).json({ error: 'local only' });
+
+  const { trigger, state, live, message, reply, via, speech, longform } = req.body;
+  console.log(`🟢 Jarvis: ${trigger}${state ? ' / ' + state : ''}`);
+
+  if (state) global.voiceState = { state, live: !!live };
+  if (message) pushFeed({ role: 'user', content: String(message) });
+  if (reply) pushFeed({ role: 'assistant', content: String(reply), longform: !!longform });
 
   if (global.wakeCallback) {
-    global.wakeCallback({ trigger, message, reply });
+    global.wakeCallback({ trigger, state, live, message, reply, via, speech, longform });
   }
   res.json({ status: 'ok' });
 });
+
+router.get('/voice-feed', (req, res) => {
+  if (!isLocal(req)) return res.status(403).json({ error: 'local only' });
+  const since = Number(req.query.since) || 0;
+  res.json({ items: global.voiceFeed.filter(i => i.ts > since) });
+});
+
+router.get('/voice-state', (req, res) => {
+  if (!isLocal(req)) return res.status(403).json({ error: 'local only' });
+  res.json(global.voiceState);
+});
+
 module.exports = router;

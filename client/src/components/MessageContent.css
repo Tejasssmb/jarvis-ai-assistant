@@ -1,0 +1,101 @@
+/* keep line breaks in chat text (email lists, WhatsApp chats, ...) */
+.message p {
+  white-space: pre-wrap;
+}
+
+/* wider bubble when a message contains code */
+.message.has-code {
+  max-width: min(88%, 860px);
+  width: 100%;
+}
+
+.inline-code {
+  font-family: "JetBrains Mono", "Cascadia Code", Consolas, "Courier New", monospace;
+  font-size: 0.9em;
+  padding: 2px 7px;
+  border-radius: 6px;
+  background: rgba(0, 217, 255, 0.1);
+  border: 1px solid rgba(0, 217, 255, 0.18);
+  color: #bfefff;
+}
+
+.code-block {
+  margin: 10px 0 4px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #060c14;
+  border: 1px solid rgba(0, 217, 255, 0.22);
+  box-shadow: 0 0 18px rgba(0, 217, 255, 0.07);
+}
+
+.code-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 8px 7px 14px;
+  background: rgba(0, 217, 255, 0.07);
+  border-bottom: 1px solid rgba(0, 217, 255, 0.14);
+}
+
+.code-lang {
+  font-size: 12px;
+  letter-spacing: 0.6px;
+  color: #8fb4c9;
+  text-transform: none;
+}
+
+.code-copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  font-size: 12px;
+  color: #a9c7d8;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.code-copy:hover {
+  background: rgba(0, 217, 255, 0.12);
+  color: #ffffff;
+  border-color: rgba(0, 217, 255, 0.25);
+}
+
+.code-copy.copied {
+  color: #6ee7b7;
+}
+
+.code-pre {
+  margin: 0;
+  padding: 14px 16px;
+  overflow-x: auto;
+  font-family: "JetBrains Mono", "Cascadia Code", Consolas, "Courier New", monospace;
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: #dbe7f3;
+  tab-size: 4;
+  white-space: pre;
+}
+
+.code-pre code {
+  font-family: inherit;
+}
+
+.code-pre::-webkit-scrollbar {
+  height: 8px;
+}
+
+.code-pre::-webkit-scrollbar-thumb {
+  background: rgba(0, 217, 255, 0.25);
+  border-radius: 8px;
+}
+
+.tok-kw   { color: #c3a6ff; }
+.tok-str  { color: #a6e3a1; }
+.tok-num  { color: #f9b88b; }
+.tok-com  { color: #6b7f93; font-style: italic; }
+.tok-fn   { color: #8ecbff; }
+.tok-type { color: #f6d98a; }

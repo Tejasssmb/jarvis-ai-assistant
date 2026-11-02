@@ -1,0 +1,4 @@
+[overlay] click-through + transparency applied to window 591848
+[overlay] ready: 220px at the bottom-right of a 1920x1080 screen; shows only while Jarvis is awake
+[overlay] ready (glass orb, per-pixel transparency): 240px at the bottom-right of a 1920x1080 screen; shows only while Jarvis is awake
+[overlay] ready (glass orb, per-pixel transparency): 240px at the bottom-right of a 1920x1080 screen; shows only while Jarvis is awake

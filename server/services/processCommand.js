@@ -14,11 +14,25 @@ const {
 const Memory = require("../models/Memory");
 const detectMemoryIntent =
 require("./memoryIntentDetector");
+const { classifyConfirmation } = require("./confirmIntent");
+const integrations = require("./integrationActions");
 const searchRelevantMemories =
 require("./memorySearch");
-async function processCommand(userMessage, history = [], mobileSocket = null) {
-  const intent =
-  await detectMemoryIntent(userMessage);
+// Only ask the AI "is this a memory question?" when the message looks like one
+const MEMORY_HINT = /\b(remember|recall|about me|what do you know|my (name|goals?|projects?|favou?rite|birthday|college))\b/i;
+
+// Builds the yes/no question for actions that need confirmation
+function confirmationQuestion(parsed) {
+  if (parsed && parsed.action === "send_whatsapp") {
+    return `Shall I send "${parsed.query}" to ${parsed.target} on WhatsApp, sir? Say yes to confirm.`;
+  }
+  return "This action may be risky, sir. Shall I proceed?";
+}
+
+async function processCommand(userMessage, history = [], mobileSocket = null, extraContext = "") {
+  const intent = MEMORY_HINT.test(userMessage)
+    ? await detectMemoryIntent(userMessage)
+    : "normal_chat";
   if (intent === "memory_search") {
 
  const memoryContext =
@@ -53,16 +67,26 @@ ${memoryContext}
   };
 }
   const pending = getPendingAction();
+  // "Yes." / "Yeah, go ahead." / "No, cancel that." as written by speech-to-text
+  const answer = pending ? classifyConfirmation(userMessage) : null;
 
-if (
-  pending &&
-  ["yes", "y", "proceed", "continue", "ok", "okay"].includes(
-   userMessage.toLowerCase().trim()
-  )
-) {
+if (pending && answer === "yes") {
   clearPendingAction();
 
   const result = await executeCommand(pending);
+
+  // WhatsApp results are reported exactly as they happened (never paraphrased by the AI)
+  if (pending.action === "send_whatsapp") {
+    return {
+      reply: result.action,
+      rawReply: "CONFIRMED",
+      parsed: pending,
+      imageUrl: null,
+      speech: result.speech || null,
+      longform: Boolean(result.longform)
+    };
+  }
+
   const acknowledgement =
   await generateAcknowledgement(
     "confirmation",
@@ -76,12 +100,7 @@ return {
   imageUrl: result.imageUrl || null
 };
 }
-if (
-  pending &&
-  ["no", "cancel", "stop"].includes(
-    userMessage.toLowerCase().trim()
-  )
-) {
+if (pending && answer === "no") {
   clearPendingAction();
 
   return {
@@ -135,7 +154,8 @@ if (lower.includes("my projects")) {
     imageUrl: null
   };
 }
-  const systemPrompt = await buildSystemPrompt();
+  const systemPrompt =
+    (await buildSystemPrompt()) + (extraContext ? `\n\n${extraContext}` : "");
 
   const messages = [
     {
@@ -203,6 +223,8 @@ console.log("================================");
   let finalReply = cleanReply || rawReply;
 
   let imageUrl = null;
+  let speechOverride = null;     // email / WhatsApp readers supply their own spoken version
+  let longformOverride = false;  // ...and can ask for the text to be shown on the Chat page
 
   if (hasCommand && parsed) {
     if (parsed.type === "plan") {
@@ -214,14 +236,29 @@ const validation = validatePlan(parsed);
 if (!validation.approved) {
 
   if (validation.needsConfirmation) {
-    
-    
+
+    // WhatsApp: find the real contact first. Ambiguous / unknown / not connected -> say so
+    // right away instead of asking a yes/no question that cannot succeed.
+    if (parsed.action === "send_whatsapp") {
+      const prep = await integrations.prepareSend(parsed);
+      if (!prep.ok) {
+        return {
+          reply: prep.display,
+          rawReply,
+          parsed,
+          imageUrl: null,
+          speech: prep.speech || null,
+          longform: Boolean(prep.longform)
+        };
+      }
+      parsed.target = prep.name;      // the exact contact name, so "yes" sends to the right chat
+    }
 
     setPendingAction(parsed);
 
 
     return {
-      reply: "This action may be risky, sir. Shall I proceed?",
+      reply: confirmationQuestion(parsed),
       rawReply,
       parsed,
       imageUrl: null
@@ -242,6 +279,8 @@ const result = await executeCommand(parsed);
 
 imageUrl = result.imageUrl || null;
 const actionResult = result.action;
+speechOverride = result.speech || null;
+longformOverride = Boolean(result.longform);
     const infoActions = [
   "battery",
   "cpu",
@@ -267,6 +306,9 @@ const actionResult = result.action;
 "gpu_usage",
 "gpu_memory",
 "public_ip",
+"read_emails",
+"read_whatsapp",
+"send_whatsapp",
 ];
  if (infoActions.includes(parsed.action)) {
   finalReply = actionResult;
@@ -299,6 +341,8 @@ else {
     rawReply,
     parsed,
     imageUrl,
+    speech: speechOverride,
+    longform: longformOverride,
   };
 }
 

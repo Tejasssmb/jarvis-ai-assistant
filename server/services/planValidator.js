@@ -25,6 +25,20 @@ function checkAction(action, target = "") {
     };
   }
 
+  // Sending a WhatsApp message on the user's behalf is read back and confirmed first
+  // (a mis-heard name must not message the wrong person). Set WHATSAPP_AUTO_SEND=true
+  // in server/.env to skip the confirmation.
+  if (
+    action === "send_whatsapp" &&
+    process.env.WHATSAPP_AUTO_SEND !== "true"
+  ) {
+    return {
+      approved: false,
+      needsConfirmation: true,
+      reason: action
+    };
+  }
+
   if (
     DANGEROUS_ACTIONS.includes(action)
   ) {
